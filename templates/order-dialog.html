@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Dialog</title>
+  <style>
+    :root {
+      --primary: #9fe870;
+      --primary-active: #cdffad;
+      --primary-pale: #e2f6d5;
+      --canvas: #ffffff;
+      --canvas-soft: #e8ebe6;
+      --ink: #0e0f0c;
+      --ink-deep: #163300;
+      --body: #454745;
+      --mute: #868685;
+      --r-md: 12px;
+      --r-xl: 24px;
+      --r-pill: 9999px;
+      --font: 'Inter', -apple-system, system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--canvas-soft);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 15, 12, 0.48);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Dialog */
+    .dialog {
+      background: var(--canvas);
+      border-radius: var(--r-xl);
+      padding: 36px 32px 32px;
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      transform: translateY(12px) scale(0.98);
+      transition: transform 0.22s ease, opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .overlay.open .dialog {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .dialog-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--canvas-soft);
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--body);
+      font-size: 18px;
+      line-height: 1;
+      transition: background 0.15s;
+    }
+
+    .dialog-close:hover {
+      background: #d8dbd6;
+    }
+
+    .dialog-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .dialog-sub {
+      font-size: 14px;
+      color: var(--mute);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .form-label .opt {
+      font-weight: 400;
+      color: var(--mute);
+      margin-left: 4px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 15px;
+      border: 1.5px solid rgba(14, 15, 12, 0.22);
+      border-radius: var(--r-md);
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-input::placeholder {
+      color: var(--mute);
+    }
+
+    .form-input:focus {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px var(--primary-pale);
+    }
+
+    .form-input.error {
+      border-color: #d03238;
+      box-shadow: 0 0 0 3px rgba(208, 50, 56, 0.12);
+    }
+
+    .field-error {
+      display: none;
+      margin-top: 5px;
+      font-size: 12px;
+      color: #d03238;
+      font-weight: 500;
+    }
+
+    .field-error.visible {
+      display: block;
+    }
+
+    /* Extra fields — hidden until email blurred with value */
+    .extra-fields {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.3s ease;
+    }
+
+    .extra-fields.visible {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 8px;
+      background: var(--primary);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 20px;
+      border-radius: var(--r-pill);
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--primary-active);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+
+    /* Demo trigger button */
+    .demo-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-trigger {
+      background: var(--primary);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 28px;
+      border-radius: var(--r-pill);
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-trigger:hover {
+      background: var(--primary-active);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="demo-wrap">
+    <button class="btn-trigger" id="openBtn">Get This Template</button>
+  </div>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+    <div class="dialog" id="dialog">
+      <button class="dialog-close" id="closeBtn" aria-label="Close">&times;</button>
+      <h2 class="dialog-title" id="dialogTitle">Get This Template</h2>
+      <p class="dialog-sub">Enter your email and we'll send the Google Drive link within 24 hours.</p>
+
+      <form id="orderForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input class="form-input" id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required />
+          <span class="field-error" id="emailError">Enter a valid email address.</span>
+        </div>
+
+        <div class="extra-fields" id="extraFields">
+          <div class="form-group">
+            <label class="form-label" for="name">Your name</label>
+            <input class="form-input" id="name" type="text" name="name" placeholder="Jane Smith" autocomplete="name" />
+            <span class="field-error" id="nameError">Please enter your name.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone number<span class="opt">(optional)</span></label>
+            <input class="form-input" id="phone" type="tel" name="phone" placeholder="+1 555 000 0000" autocomplete="tel" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn" disabled>Create Order</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    var overlay = document.getElementById('overlay');
+    var openBtn = document.getElementById('openBtn');
+    var closeBtn = document.getElementById('closeBtn');
+    var emailEl = document.getElementById('email');
+    var nameEl = document.getElementById('name');
+    var extraEl = document.getElementById('extraFields');
+    var submitBtn = document.getElementById('submitBtn');
+    var emailError = document.getElementById('emailError');
+    var nameError = document.getElementById('nameError');
+
+    function isValidEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+
+    function setError(input, errorEl, show) {
+      input.classList.toggle('error', show);
+      errorEl.classList.toggle('visible', show);
+    }
+
+    function updateSubmit() {
+      var emailOk = isValidEmail(emailEl.value);
+      var extraVisible = extraEl.classList.contains('visible');
+      var nameOk = !extraVisible || nameEl.value.trim().length > 0;
+      submitBtn.disabled = !(emailOk && nameOk);
+    }
+
+    function openDialog() {
+      overlay.classList.add('open');
+      emailEl.focus();
+    }
+
+    function closeDialog() {
+      overlay.classList.remove('open');
+    }
+
+    openBtn.addEventListener('click', openDialog);
+    closeBtn.addEventListener('click', closeDialog);
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeDialog();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeDialog();
+    });
+
+    emailEl.addEventListener('blur', function () {
+      var hasValue = emailEl.value.trim().length > 0;
+      if (hasValue && !isValidEmail(emailEl.value)) {
+        setError(emailEl, emailError, true);
+      } else {
+        setError(emailEl, emailError, false);
+      }
+      if (hasValue) extraEl.classList.add('visible');
+      updateSubmit();
+    });
+
+    emailEl.addEventListener('input', function () {
+      if (emailEl.classList.contains('error') && isValidEmail(emailEl.value)) {
+        setError(emailEl, emailError, false);
+      }
+      updateSubmit();
+    });
+
+    nameEl.addEventListener('blur', function () {
+      setError(nameEl, nameError, nameEl.value.trim().length === 0);
+      updateSubmit();
+    });
+
+    nameEl.addEventListener('input', function () {
+      if (nameEl.value.trim().length > 0) setError(nameEl, nameError, false);
+      updateSubmit();
+    });
+
+    document.getElementById('orderForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var emailOk = isValidEmail(emailEl.value);
+      setError(emailEl, emailError, !emailOk);
+      var nameOk = nameEl.value.trim().length > 0;
+      setError(nameEl, nameError, !nameOk);
+      if (!emailOk || !nameOk) return;
+      // TODO: submit order
+    });
+  </script>
+</body>
+
+</html>

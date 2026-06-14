@@ -1,0 +1,231 @@
+:root {
+  --primary: #9fe870;
+  --primary-active: #cdffad;
+  --primary-pale: #e2f6d5;
+  --canvas: #ffffff;
+  --canvas-soft: #e8ebe6;
+  --ink: #0e0f0c;
+  --ink-deep: #163300;
+  --body: #454745;
+  --mute: #868685;
+  --r-md: 12px;
+  --r-xl: 24px;
+  --r-pill: 9999px;
+  --font: "Inter", -apple-system, system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--canvas-soft);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 15, 12, 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Dialog */
+.dialog {
+  background: var(--canvas);
+  border-radius: var(--r-xl);
+  padding: 36px 32px 32px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  transform: translateY(12px) scale(0.98);
+  transition:
+    transform 0.22s ease,
+    opacity 0.2s ease;
+  opacity: 0;
+}
+
+.overlay.open .dialog {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--canvas-soft);
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--body);
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.15s;
+}
+
+.dialog-close:hover {
+  background: #d8dbd6;
+}
+
+.dialog-title {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.dialog-sub {
+  font-size: 14px;
+  color: var(--mute);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.form-label .opt {
+  font-weight: 400;
+  color: var(--mute);
+  margin-left: 4px;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  border: 1.5px solid rgba(14, 15, 12, 0.22);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.form-input::placeholder {
+  color: var(--mute);
+}
+
+.form-input:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--primary-pale);
+}
+
+.form-input.error {
+  border-color: #d03238;
+  box-shadow: 0 0 0 3px rgba(208, 50, 56, 0.12);
+}
+
+.field-error {
+  display: none;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #d03238;
+  font-weight: 500;
+}
+
+.field-error.visible {
+  display: block;
+}
+
+/* Extra fields — hidden until email blurred with value */
+.extra-fields {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.3s ease;
+}
+
+.extra-fields.visible {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: 8px;
+  background: var(--primary);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 20px;
+  border-radius: var(--r-pill);
+  border: none;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    opacity 0.15s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--primary-active);
+}
+
+.btn-submit:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* Form-level submission error */
+.form-error {
+  background: rgba(208, 50, 56, 0.07);
+  border: 1.5px solid rgba(208, 50, 56, 0.25);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #d03238;
+  line-height: 1.5;
+}
+
+.form-error p {
+  margin: 0;
+}
+
+.form-error-contact {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #d03238;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

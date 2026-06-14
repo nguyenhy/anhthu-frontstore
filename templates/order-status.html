@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order #TMP-20240601-A3X — Templa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --primary:#9fe870;--primary-active:#cdffad;--primary-pale:#e2f6d5;
+      --canvas:#ffffff;--canvas-soft:#e8ebe6;
+      --ink:#0e0f0c;--ink-deep:#163300;--body:#454745;--mute:#868685;
+      --positive:#2ead4b;--positive-pale:#d1f5da;
+      --warning:#ffd11a;--warning-content:#4a3b1c;--warning-pale:#fff8d6;
+      --negative:#d03238;
+      --r-sm:8px;--r-md:12px;--r-xl:24px;--r-pill:9999px;
+      --sp-xs:4px;--sp-sm:8px;--sp-md:12px;--sp-lg:16px;--sp-xl:24px;--sp-2xl:32px;--sp-3xl:48px;
+      --font:'Inter',-apple-system,system-ui,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);font-size:16px;line-height:1.5;color:var(--ink);background:var(--canvas-soft);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    button{font-family:var(--font);cursor:pointer;border:none}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:var(--canvas);border-bottom:1px solid rgba(14,15,12,.08)}
+    .nav-inner{max-width:960px;margin:0 auto;padding:0 var(--sp-xl);height:64px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-size:20px;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:6px}
+    .nav-logo-badge{width:30px;height:30px;background:var(--primary);border-radius:var(--r-sm);display:grid;place-items:center;font-size:15px;font-weight:900;color:var(--ink)}
+    .nav-help{font-size:14px;font-weight:600;color:var(--body)}
+    .nav-help a{color:var(--ink);border-bottom:1px solid rgba(14,15,12,.2);transition:border-color .15s}
+    .nav-help a:hover{border-color:var(--ink)}
+
+    /* LAYOUT */
+    .page{max-width:960px;margin:0 auto;padding:var(--sp-2xl) var(--sp-xl) var(--sp-3xl)}
+    .grid{display:grid;grid-template-columns:1fr 400px;gap:var(--sp-2xl);align-items:start}
+    .col-main{display:flex;flex-direction:column;gap:var(--sp-lg)}
+    .col-side{display:flex;flex-direction:column;gap:var(--sp-lg);position:sticky;top:80px}
+
+    /* CARDS */
+    .card{background:var(--canvas);border-radius:var(--r-xl);padding:var(--sp-xl);border:1px solid rgba(14,15,12,.08)}
+    .card-title{font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:var(--sp-lg)}
+
+    /* STATUS BANNER */
+    .status-banner{border-radius:var(--r-xl);padding:var(--sp-xl);display:flex;align-items:flex-start;gap:var(--sp-lg)}
+    .status-banner.pending{background:var(--warning-pale);border:1px solid rgba(255,209,26,.4)}
+    .status-banner.delivered{background:var(--positive-pale);border:1px solid rgba(46,173,75,.3)}
+    .status-icon{width:44px;height:44px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;font-size:20px}
+    .status-banner.pending .status-icon{background:var(--warning)}
+    .status-banner.delivered .status-icon{background:var(--positive-pale);color:var(--positive)}
+    .status-label{font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin-bottom:var(--sp-xs)}
+    .status-desc{font-size:14px;color:var(--body);line-height:1.55}
+
+    /* TIMELINE */
+    .timeline{list-style:none;display:flex;flex-direction:column;gap:0}
+    .tl-item{display:flex;gap:var(--sp-lg);align-items:flex-start;padding-bottom:var(--sp-xl)}
+    .tl-item:last-child{padding-bottom:0}
+    .tl-track{display:flex;flex-direction:column;align-items:center;gap:0}
+    .tl-dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid transparent;display:grid;place-items:center}
+    .tl-dot.done{background:var(--positive);border-color:var(--positive)}
+    .tl-dot.active{background:var(--warning);border-color:var(--warning)}
+    .tl-dot.future{background:var(--canvas);border-color:rgba(14,15,12,.2)}
+    .tl-dot-inner{width:8px;height:8px;border-radius:50%;background:var(--canvas)}
+    .tl-line{width:2px;flex:1;min-height:28px;background:rgba(14,15,12,.1);margin-top:2px}
+    .tl-item:last-child .tl-line{display:none}
+    .tl-content{padding-top:1px}
+    .tl-step{font-size:15px;font-weight:600;color:var(--ink)}
+    .tl-step.future{color:var(--mute);font-weight:400}
+    .tl-time{font-size:13px;color:var(--mute);margin-top:2px}
+
+    /* ORDER SUMMARY */
+    .product-row{display:flex;align-items:center;gap:var(--sp-lg);padding-bottom:var(--sp-lg);border-bottom:1px solid rgba(14,15,12,.08);margin-bottom:var(--sp-lg)}
+    .product-thumb{width:60px;height:60px;background:var(--canvas-soft);border-radius:var(--r-md);flex-shrink:0;display:grid;place-items:center;font-size:24px}
+    .product-name{font-size:15px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:4px}
+    .product-meta{font-size:13px;color:var(--mute)}
+    .pricing-rows{display:flex;flex-direction:column;gap:var(--sp-sm)}
+    .pr-row{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+    .pr-label{color:var(--body)}.pr-val{font-weight:600;color:var(--ink)}
+    .pr-row.discount .pr-val{color:var(--positive)}
+    .pr-divider{height:1px;background:rgba(14,15,12,.08);margin:var(--sp-sm) 0}
+    .pr-row.total .pr-label{font-size:16px;font-weight:600;color:var(--ink)}
+    .pr-row.total .pr-val{font-size:20px;font-weight:900;color:var(--ink)}
+    .coupon-row{margin-top:var(--sp-md);display:flex;gap:var(--sp-sm)}
+    .coupon-input{flex:1;border:1px solid rgba(14,15,12,.2);border-radius:var(--r-md);padding:9px var(--sp-md);font-size:14px;font-family:var(--font);color:var(--ink);background:var(--canvas);outline:none;transition:box-shadow .15s}
+    .coupon-input:focus{box-shadow:0 0 0 3px var(--primary-pale);border-color:var(--ink)}
+    .coupon-input::placeholder{color:var(--mute)}
+    .coupon-btn{background:var(--canvas-soft);color:var(--ink);font-size:14px;font-weight:600;padding:9px var(--sp-lg);border-radius:var(--r-md);transition:background .15s}
+    .coupon-btn:hover{background:#d5d9d0}
+    .coupon-msg{font-size:13px;margin-top:var(--sp-sm);display:none}
+    .coupon-msg.ok{color:var(--positive);display:block}
+    .coupon-msg.err{color:var(--negative);display:block}
+
+    /* BUYER INFO */
+    .info-list{display:flex;flex-direction:column;gap:var(--sp-sm)}
+    .info-row{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;gap:var(--sp-md)}
+    .info-key{color:var(--mute);flex-shrink:0}
+    .info-val{font-weight:600;color:var(--ink);text-align:right;word-break:break-all}
+
+    /* PAYMENT */
+    .payment-method-tabs{display:flex;gap:var(--sp-sm);margin-bottom:var(--sp-xl)}
+    .pm-tab{flex:1;padding:var(--sp-sm) var(--sp-md);border-radius:var(--r-md);font-size:14px;font-weight:600;color:var(--body);background:var(--canvas-soft);transition:background .15s,color .15s;border:1.5px solid transparent;text-align:center;cursor:pointer}
+    .pm-tab.active{background:var(--canvas);border-color:var(--ink);color:var(--ink)}
+    .pm-panel{display:none}
+    .pm-panel.active{display:block}
+    .bank-detail{background:var(--canvas-soft);border-radius:var(--r-xl);padding:var(--sp-xl);margin-bottom:var(--sp-md)}
+    .bank-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:var(--sp-sm) 0;border-bottom:1px solid rgba(14,15,12,.07)}
+    .bank-row:last-child{border:none;margin-top:var(--sp-sm)}
+    .bank-key{color:var(--mute)}
+    .bank-val-wrap{display:flex;align-items:center;gap:var(--sp-sm)}
+    .bank-val{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+    .copy-btn{background:var(--canvas);border:1px solid rgba(14,15,12,.14);border-radius:var(--r-sm);padding:3px 10px;font-size:12px;font-weight:600;color:var(--body);transition:background .15s}
+    .copy-btn:hover{background:var(--canvas-soft)}
+    .copy-btn.copied{color:var(--positive)}
+    .bank-amount-note{font-size:13px;color:var(--body);margin-top:var(--sp-md);line-height:1.55}
+    .bank-amount-note strong{font-weight:600;color:var(--ink)}
+    .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:var(--sp-md);padding:var(--sp-xl)}
+    .qr-placeholder{width:180px;height:180px;background:var(--canvas-soft);border-radius:var(--r-md);border:2px dashed rgba(14,15,12,.15);display:grid;place-items:center;color:var(--mute);font-size:13px;font-weight:600;text-align:center;padding:var(--sp-lg)}
+    .qr-label{font-size:14px;color:var(--body);text-align:center;line-height:1.55}
+    .deadline-box{background:var(--warning-pale);border:1px solid rgba(255,209,26,.5);border-radius:var(--r-xl);padding:var(--sp-lg) var(--sp-xl);display:flex;align-items:flex-start;gap:var(--sp-md)}
+    .deadline-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+    .deadline-text{font-size:14px;color:var(--warning-content);line-height:1.6}
+
+    /* UPSELL — hidden at P0, left in DOM with display:none */
+    .upsell{display:none}
+
+    /* HELP CARD */
+    .help-card{border:1px solid rgba(14,15,12,.1);border-radius:var(--r-xl);padding:var(--sp-xl);display:flex;flex-direction:column;gap:var(--sp-sm)}
+    .help-card-title{font-size:15px;font-weight:600;color:var(--ink)}
+    .help-card-text{font-size:14px;color:var(--body);line-height:1.55}
+    .help-card a{font-weight:600;color:var(--ink);border-bottom:1.5px solid var(--ink)}
+
+    /* FOOTER */
+    .footer{background:var(--ink);color:var(--canvas-soft);padding:var(--sp-3xl) var(--sp-xl)}
+    .footer-inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-2xl);flex-wrap:wrap}
+    .footer-logo{font-size:18px;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:6px;margin-bottom:var(--sp-sm)}
+    .footer-logo-badge{width:26px;height:26px;background:var(--primary);border-radius:var(--r-sm);display:grid;place-items:center;font-size:13px;font-weight:900;color:var(--ink)}
+    .footer-tagline{font-size:13px;color:var(--mute);max-width:200px;line-height:1.5}
+    .footer-col-title{font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);margin-bottom:var(--sp-md)}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:var(--sp-sm)}
+    .footer-col a{font-size:13px;color:rgba(232,235,230,.65);transition:color .15s}
+    .footer-col a:hover{color:var(--canvas-soft)}
+    .footer-bottom{max-width:960px;margin:var(--sp-3xl) auto 0;padding-top:var(--sp-xl);border-top:1px solid rgba(232,235,230,.1);font-size:12px;color:var(--mute)}
+
+    @media(max-width:820px){.grid{grid-template-columns:1fr}.col-side{position:static}}
+    @media(max-width:600px){.page{padding:var(--sp-lg) var(--sp-lg) var(--sp-3xl)}.payment-method-tabs{flex-direction:column}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-badge">T</span>Templa
+    </a>
+    <p class="nav-help">Need help? <a href="contact.html">Contact support</a></p>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- PAGE HEADER -->
+  <div style="margin-bottom:var(--sp-xl)">
+    <p style="font-size:13px;color:var(--mute);margin-bottom:var(--sp-xs)">Order</p>
+    <h1 style="font-size:28px;font-weight:900;letter-spacing:-.025em;color:var(--ink)">#TMP-20240601-A3X</h1>
+    <p style="font-size:14px;color:var(--mute);margin-top:4px">Placed 1 June 2024 · Freelancer Invoice Tracker</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- MAIN COLUMN -->
+    <div class="col-main">
+
+      <!-- STATUS BANNER — toggle class: pending / delivered -->
+      <div class="status-banner pending" id="statusBanner">
+        <div class="status-icon" id="statusIcon">⏳</div>
+        <div>
+          <p class="status-label" id="statusLabel">Waiting for payment</p>
+          <p class="status-desc" id="statusDesc">Please complete payment using the details below. We'll confirm your order within 24 hours after payment is received.</p>
+        </div>
+      </div>
+
+      <!-- ORDER TIMELINE -->
+      <div class="card">
+        <p class="card-title">Progress</p>
+        <ul class="timeline" id="timeline">
+          <li class="tl-item">
+            <div class="tl-track">
+              <div class="tl-dot done"><div class="tl-dot-inner"></div></div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <p class="tl-step">Order placed</p>
+              <p class="tl-time">1 Jun 2024, 10:42</p>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-track">
+              <div class="tl-dot active" id="tlDotPay"><div class="tl-dot-inner"></div></div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <p class="tl-step" id="tlStepPay">Waiting for payment</p>
+              <p class="tl-time" id="tlTimePay">Complete payment within 48 hours</p>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-track">
+              <div class="tl-dot future" id="tlDotDel"><div class="tl-dot-inner"></div></div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <p class="tl-step future" id="tlStepDel">Template delivered</p>
+              <p class="tl-time">Seller sends access link by email after confirming payment</p>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-track">
+              <div class="tl-dot future"><div class="tl-dot-inner"></div></div>
+            </div>
+            <div class="tl-content">
+              <p class="tl-step future">Done</p>
+              <p class="tl-time">Enjoy your template</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- PAYMENT SECTION -->
+      <div class="card" id="paymentSection">
+        <p class="card-title">Payment</p>
+
+        <!-- Deadline warning -->
+        <div class="deadline-box" style="margin-bottom:var(--sp-xl)">
+          <span class="deadline-icon">⚠️</span>
+          <p class="deadline-text">Please complete payment within <strong>48 hours</strong>. After that your order will expire.</p>
+        </div>
+
+        <!-- Method tabs -->
+        <div class="payment-method-tabs">
+          <div class="pm-tab active" data-tab="bank">Bank transfer</div>
+          <div class="pm-tab" data-tab="momo">MoMo QR</div>
+        </div>
+
+        <!-- Bank transfer -->
+        <div class="pm-panel active" id="tab-bank">
+          <div class="bank-detail">
+            <div class="bank-row">
+              <span class="bank-key">Bank</span>
+              <div class="bank-val-wrap"><span class="bank-val">Vietcombank</span></div>
+            </div>
+            <div class="bank-row">
+              <span class="bank-key">Account number</span>
+              <div class="bank-val-wrap">
+                <span class="bank-val" id="accNum">1234 5678 9012</span>
+                <button class="copy-btn" onclick="copyVal('accNum', this)">Copy</button>
+              </div>
+            </div>
+            <div class="bank-row">
+              <span class="bank-key">Account name</span>
+              <div class="bank-val-wrap"><span class="bank-val">NGUYEN VAN AN</span></div>
+            </div>
+            <div class="bank-row">
+              <span class="bank-key">Amount</span>
+              <div class="bank-val-wrap">
+                <span class="bank-val" id="payAmount">460,000 VND</span>
+                <button class="copy-btn" onclick="copyVal('payAmount', this)">Copy</button>
+              </div>
+            </div>
+            <div class="bank-row">
+              <span class="bank-key">Reference / Note</span>
+              <div class="bank-val-wrap">
+                <span class="bank-val" id="payRef">TMP-A3X</span>
+                <button class="copy-btn" onclick="copyVal('payRef', this)">Copy</button>
+              </div>
+            </div>
+          </div>
+          <p class="bank-amount-note">Include the reference <strong>TMP-A3X</strong> in your transfer note so we can match your payment. After transferring, no further action is needed — we'll confirm within 24 hours.</p>
+        </div>
+
+        <!-- MoMo QR -->
+        <div class="pm-panel" id="tab-momo">
+          <div class="qr-wrap">
+            <div class="qr-placeholder">QR code<br/>placeholder<br/><span style="font-weight:400;font-size:11px">(replace with real MoMo QR image)</span></div>
+            <p class="qr-label">Scan with MoMo app. Amount may need to be entered manually.<br/>Reference note: <strong>TMP-A3X</strong></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE COLUMN -->
+    <div class="col-side">
+
+      <!-- ORDER SUMMARY -->
+      <div class="card">
+        <p class="card-title">Your order</p>
+        <div class="product-row">
+          <div class="product-thumb">📊</div>
+          <div>
+            <p class="product-name">Freelancer Invoice Tracker</p>
+            <p class="product-meta">Google Sheets template · Instant access after payment</p>
+          </div>
+        </div>
+
+        <div class="pricing-rows">
+          <div class="pr-row">
+            <span class="pr-label">Price</span>
+            <span class="pr-val">500,000 VND</span>
+          </div>
+          <div class="pr-row discount" id="discountRow">
+            <span class="pr-label">Discount (LAUNCH10)</span>
+            <span class="pr-val">−40,000 VND</span>
+          </div>
+          <div class="pr-divider"></div>
+          <div class="pr-row total">
+            <span class="pr-label">Total</span>
+            <span class="pr-val">460,000 VND</span>
+          </div>
+        </div>
+
+        <!-- Coupon input — hidden after coupon applied -->
+        <div class="coupon-row" id="couponRow" style="display:none">
+          <input class="coupon-input" type="text" id="couponInput" placeholder="Coupon code" />
+          <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+        </div>
+        <p class="coupon-msg ok" id="couponOk">Coupon applied — 8% off</p>
+        <p class="coupon-msg err" id="couponErr"></p>
+      </div>
+
+      <!-- BUYER INFO -->
+      <div class="card">
+        <p class="card-title">Buyer</p>
+        <div class="info-list">
+          <div class="info-row">
+            <span class="info-key">Name</span>
+            <span class="info-val">Tran Minh Khoa</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Email</span>
+            <span class="info-val">khoa.tran@example.com</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">Phone</span>
+            <span class="info-val">+84 90 123 4567</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HELP CARD -->
+      <div class="help-card">
+        <p class="help-card-title">Need help with your order?</p>
+        <p class="help-card-text">Send us the order number and we'll sort it out. Replies within 24 hours.</p>
+        <a href="contact.html?ref=order&id=TMP-20240601-A3X" style="display:inline-block;margin-top:var(--sp-xs);font-size:14px;font-weight:600;color:var(--ink);border-bottom:1.5px solid var(--ink)">Contact support →</a>
+      </div>
+
+      <!-- UPSELL — P0: hidden -->
+      <div class="upsell card">
+        <p class="card-title">More templates</p>
+        <p style="font-size:14px;color:var(--body)">Get notified when new templates drop.</p>
+        <input type="email" placeholder="Your email" style="width:100%;margin-top:var(--sp-md);border:1px solid rgba(14,15,12,.2);border-radius:var(--r-md);padding:9px var(--sp-md);font-size:14px;font-family:var(--font)" />
+        <button style="width:100%;margin-top:var(--sp-sm);background:var(--primary);color:var(--ink);font-size:14px;font-weight:600;padding:10px;border-radius:var(--r-xl)">Notify me</button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo"><span class="footer-logo-badge">T</span>Templa</div>
+      <p class="footer-tagline">Practical Google Sheets templates for freelancers and solo operators.</p>
+    </div>
+    <div style="display:flex;gap:40px;flex-wrap:wrap">
+      <div class="footer-col">
+        <p class="footer-col-title">Product</p>
+        <ul>
+          <li><a href="template-detail.html">Freelancer Invoice Tracker</a></li>
+          <li><a href="#">All templates</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Support</p>
+        <ul>
+          <li><a href="contact.html">Contact us</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 Templa. All rights reserved.</div>
+</footer>
+
+<script>
+  /* ---- Payment tabs ---- */
+  document.querySelectorAll('.pm-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.pm-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.pm-panel').forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ---- Copy to clipboard ---- */
+  function copyVal(id, btn) {
+    var text = document.getElementById(id).textContent.replace(/\s/g, '');
+    navigator.clipboard.writeText(text).then(function() {
+      var orig = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(function(){ btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+    });
+  }
+
+  /* ---- Coupon (demo only — P0 has no backend) ---- */
+  function applyCoupon() {
+    var val = document.getElementById('couponInput').value.trim().toUpperCase();
+    var ok = document.getElementById('couponOk');
+    var err = document.getElementById('couponErr');
+    ok.style.display = 'none'; err.style.display = 'none';
+    if (val === 'LAUNCH10') {
+      ok.style.display = 'block';
+    } else {
+      err.textContent = 'Code not found. Check spelling or contact support.';
+      err.style.display = 'block';
+    }
+  }
+
+  /* ---- Status switcher (demo: URL param ?status=delivered) ---- */
+  (function() {
+    var params = new URLSearchParams(location.search);
+    if (params.get('status') === 'delivered') {
+      var banner = document.getElementById('statusBanner');
+      banner.className = 'status-banner delivered';
+      document.getElementById('statusIcon').textContent = '✅';
+      document.getElementById('statusLabel').textContent = 'Delivered — contact us if you need help';
+      document.getElementById('statusDesc').textContent = 'Your template has been sent. Check the email address on your order for the Google Drive access link. Reply to that email anytime if you need help.';
+      document.getElementById('paymentSection').style.display = 'none';
+      var tlPay = document.getElementById('tlDotPay');
+      tlPay.className = 'tl-dot done';
+      document.getElementById('tlStepPay').textContent = 'Payment confirmed';
+      document.getElementById('tlTimePay').textContent = '2 Jun 2024, 09:15';
+      var tlDel = document.getElementById('tlDotDel');
+      tlDel.className = 'tl-dot done';
+      document.getElementById('tlStepDel').className = 'tl-step';
+      document.getElementById('tlStepDel').textContent = 'Template delivered';
+    }
+  })();
+</script>
+</body>
+</html>

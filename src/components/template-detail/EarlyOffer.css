@@ -1,0 +1,99 @@
+/* Early buyer */
+.early-buyer {
+  background: var(--ink);
+  border-radius: var(--r-xl);
+  padding: var(--sp-3xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2xl);
+}
+.early-buyer-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: var(--sp-md);
+}
+.early-buyer-title {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--canvas-soft);
+  margin-bottom: var(--sp-md);
+}
+.early-buyer-desc {
+  font-size: 15px;
+  color: rgba(232, 235, 230, 0.65);
+  line-height: 1.6;
+  max-width: 400px;
+}
+.early-buyer-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+  min-width: 280px;
+}
+.early-buyer-input {
+  background: rgba(232, 235, 230, 0.08);
+  border: 1px solid rgba(232, 235, 230, 0.2);
+  border-radius: var(--r-md);
+  padding: 12px var(--sp-lg);
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--canvas-soft);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.early-buyer-input::placeholder {
+  color: rgba(232, 235, 230, 0.35);
+}
+.early-buyer-input:focus {
+  border-color: var(--primary);
+}
+.btn-early {
+  background: var(--primary);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px var(--sp-xl);
+  border-radius: var(--r-xl);
+  transition: background 0.15s;
+}
+.btn-early:hover {
+  background: var(--primary-active);
+}
+.early-fine {
+  font-size: 11px;
+  color: rgba(232, 235, 230, 0.35);
+  text-align: center;
+  margin-top: var(--sp-sm);
+}
+
+/* error */
+.field-error {
+  display: none;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #d03238;
+  font-weight: 500;
+}
+
+.field-error.visible {
+  display: block;
+}
+
+.form-error p {
+  margin: 0;
+}
+
+.form-error-contact {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #d03238;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

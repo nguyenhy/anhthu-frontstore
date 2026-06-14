@@ -1,0 +1,114 @@
+/* Stage */
+.stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+}
+
+.error-card {
+  background: var(--canvas);
+  border-radius: var(--r-xl);
+  padding: 56px 48px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Code ring — color set via data-code in JS */
+.error-code-ring {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: rgba(208, 50, 56, 0.08);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 28px;
+}
+
+.error-code-ring[data-variant="warn"] {
+  background: rgba(255, 209, 26, 0.14);
+}
+
+.error-code-ring[data-variant="neutral"] {
+  background: rgba(14, 15, 12, 0.06);
+}
+
+.error-code-number {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--negative);
+  line-height: 1;
+}
+
+.error-code-ring[data-variant="warn"] .error-code-number {
+  color: var(--warning-deep);
+}
+
+.error-code-ring[data-variant="neutral"] .error-code-number {
+  color: var(--ink);
+}
+
+.error-title {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.error-desc {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--body);
+  margin-bottom: 36px;
+}
+
+.error-message {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--body);
+  margin-bottom: 36px;
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 24px;
+  border-radius: var(--r-xl);
+  transition: background 0.15s;
+  display: block;
+}
+
+.btn-primary:hover {
+  background: var(--primary-active);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--body);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: var(--r-xl);
+  border: 1px solid rgba(14, 15, 12, 0.16);
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+  display: block;
+}
+
+.btn-ghost:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}

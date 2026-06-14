@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Freelancer Invoice Tracker Google Sheets Template — Templa</title>
+  <meta name="description" content="Track every invoice, payment, and outstanding balance in one Google Sheets template. Built for freelancers, consultants, and solo operators." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,900;1,400&display=swap" rel="stylesheet" />
+
+  <!-- FAQ schema — People Also Ask eligibility -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How will I receive the template?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. You'll copy it to your own Google Drive and own it permanently."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this work with Microsoft Excel?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas may not transfer perfectly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get a refund?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because digital files are delivered instantly after purchase, we don't offer refunds. If you have a problem with your file, contact us and we'll fix it."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --primary:        #9fe870;
+      --primary-active: #cdffad;
+      --primary-pale:   #e2f6d5;
+      --canvas:         #ffffff;
+      --canvas-soft:    #e8ebe6;
+      --ink:            #0e0f0c;
+      --ink-deep:       #163300;
+      --body:           #454745;
+      --mute:           #868685;
+      --positive:       #2ead4b;
+      --negative:       #d03238;
+      --r-sm:   8px;
+      --r-md:   12px;
+      --r-lg:   16px;
+      --r-xl:   24px;
+      --r-pill: 9999px;
+      --sp-xs:  4px;
+      --sp-sm:  8px;
+      --sp-md:  12px;
+      --sp-lg:  16px;
+      --sp-xl:  24px;
+      --sp-2xl: 32px;
+      --sp-3xl: 48px;
+      --font: 'Inter', -apple-system, system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: var(--font); cursor: pointer; border: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--canvas);
+      border-bottom: 1px solid rgba(14,15,12,0.08);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 var(--sp-xl); height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: var(--sp-xl);
+    }
+    .nav-logo { font-size: 20px; font-weight: 900; letter-spacing: -0.03em; display: flex; align-items: center; gap: 6px; }
+    .nav-logo-badge { width: 30px; height: 30px; background: var(--primary); border-radius: var(--r-sm); display: grid; place-items: center; font-size: 15px; font-weight: 900; }
+    .nav-links { display: flex; align-items: center; gap: var(--sp-xl); list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 600; color: var(--body); transition: color 0.15s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { background: var(--primary); color: var(--ink); font-size: 14px; font-weight: 600; padding: var(--sp-sm) var(--sp-lg); border-radius: var(--r-xl); white-space: nowrap; transition: background 0.15s; }
+    .nav-cta:hover { background: var(--primary-active); }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb { background: var(--canvas); border-bottom: 1px solid rgba(14,15,12,0.06); }
+    .breadcrumb-inner { max-width: 1200px; margin: 0 auto; padding: var(--sp-md) var(--sp-xl); display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mute); }
+    .breadcrumb a { color: var(--mute); transition: color 0.15s; }
+    .breadcrumb a:hover { color: var(--ink); }
+    .breadcrumb-sep { opacity: 0.4; }
+    .breadcrumb-current { color: var(--body); font-weight: 600; }
+
+    /* ── Two-column top ── */
+    .main { background: var(--canvas); }
+    .main-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: var(--sp-2xl) var(--sp-xl) var(--sp-3xl);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start;
+    }
+    /* DOM: info first (SEO), visual: gallery left */
+    .col-info { order: 2; }
+    .col-gallery { order: 1; }
+
+    /* ── Product info ── */
+    .category-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--primary-pale); color: var(--ink-deep);
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: var(--sp-xs) var(--sp-md); border-radius: var(--r-pill); margin-bottom: var(--sp-lg);
+    }
+    .product-h1 { font-size: clamp(28px, 3.2vw, 40px); font-weight: 900; line-height: 1.08; letter-spacing: -0.025em; color: var(--ink); margin-bottom: var(--sp-md); }
+    .product-tagline { font-size: 17px; line-height: 1.6; color: var(--body); margin-bottom: var(--sp-xl); }
+    .rating-row { display: flex; align-items: center; gap: var(--sp-sm); margin-bottom: var(--sp-xl); }
+    .stars { color: #f5a623; font-size: 15px; letter-spacing: 1px; }
+    .rating-label { font-size: 13px; color: var(--mute); }
+    .early-label { font-size: 11px; font-weight: 600; background: var(--canvas-soft); color: var(--body); padding: 2px 8px; border-radius: var(--r-pill); }
+    .price-row { display: flex; align-items: baseline; gap: var(--sp-sm); margin-bottom: var(--sp-md); }
+    .price { font-size: 40px; font-weight: 900; letter-spacing: -0.03em; color: var(--ink); }
+    .price-currency { font-size: 20px; font-weight: 600; color: var(--mute); align-self: flex-start; margin-top: 8px; }
+    .price-sub { font-size: 13px; color: var(--mute); margin-bottom: var(--sp-xl); }
+    .btn-cta { width: 100%; background: var(--primary); color: var(--ink); font-size: 16px; font-weight: 600; padding: 15px var(--sp-xl); border-radius: var(--r-xl); transition: background 0.15s; margin-bottom: var(--sp-sm); }
+    .btn-cta:hover { background: var(--primary-active); }
+    .delivery-note { font-size: 13px; color: var(--body); text-align: center; line-height: 1.5; margin-bottom: var(--sp-xl); }
+    .delivery-note strong { font-weight: 600; color: var(--ink); }
+    .divider { height: 1px; background: rgba(14,15,12,0.1); margin: var(--sp-xl) 0; }
+    .meta-list { list-style: none; display: flex; flex-direction: column; gap: var(--sp-sm); }
+    .meta-item { display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+    .meta-key { color: var(--mute); }
+    .meta-val { font-weight: 600; color: var(--ink); }
+    .compat-note { margin-top: var(--sp-lg); background: var(--canvas-soft); border-radius: var(--r-lg); padding: var(--sp-md) var(--sp-lg); font-size: 13px; color: var(--body); line-height: 1.55; }
+
+    /* ── Gallery ── */
+    .gallery { display: flex; flex-direction: column; gap: var(--sp-md); position: sticky; top: 80px; }
+    .gallery-main {
+      border-radius: var(--r-xl); overflow: hidden;
+      border: 1px solid rgba(14,15,12,0.1);
+      background: var(--canvas-soft);
+      aspect-ratio: 16/10;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .gallery-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-md); color: var(--mute); }
+    .gallery-placeholder-icon { width: 64px; height: 64px; background: var(--canvas); border-radius: var(--r-lg); display: grid; place-items: center; font-size: 28px; }
+    .gallery-placeholder-label { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; }
+    .gallery-thumb-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md); }
+    .gallery-thumb {
+      border-radius: var(--r-lg); overflow: hidden;
+      border: 2px solid transparent;
+      background: var(--canvas-soft);
+      aspect-ratio: 16/10;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: border-color 0.15s;
+    }
+    .gallery-thumb.active { border-color: var(--ink); }
+    .gallery-thumb:hover { border-color: rgba(14,15,12,0.3); }
+    .gallery-thumb-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--mute); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .gallery-thumb-icon { font-size: 20px; }
+    .gallery-more { font-size: 12px; color: var(--mute); text-align: center; padding: var(--sp-sm) 0; }
+    .gallery-more a { color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--ink); }
+
+    /* ── Below the fold ── */
+    .below { background: var(--canvas); }
+    .below-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--sp-xl) var(--sp-3xl); }
+    .section-divider { height: 1px; background: rgba(14,15,12,0.08); margin: var(--sp-3xl) 0; }
+    .section-label { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-bottom: var(--sp-lg); }
+    .section-title { font-size: 32px; font-weight: 900; letter-spacing: -0.025em; color: var(--ink); margin-bottom: var(--sp-xl); }
+
+    /* Description */
+    .description-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .description-text { font-size: 17px; line-height: 1.7; color: var(--body); }
+    .description-text p + p { margin-top: var(--sp-lg); }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: var(--sp-sm); }
+    .feature-item { display: flex; align-items: flex-start; gap: var(--sp-md); font-size: 15px; line-height: 1.5; color: var(--body); }
+    .feature-check { flex-shrink: 0; width: 22px; height: 22px; background: var(--primary); border-radius: 50%; display: grid; place-items: center; font-size: 11px; color: var(--ink); margin-top: 1px; }
+
+    /* Who it's for */
+    .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-md); }
+    .persona-card { background: var(--canvas-soft); border-radius: var(--r-xl); padding: var(--sp-xl); }
+    .persona-icon { font-size: 28px; margin-bottom: var(--sp-md); }
+    .persona-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: var(--sp-sm); }
+    .persona-desc { font-size: 14px; color: var(--body); line-height: 1.55; }
+    .exclusion-box { margin-top: var(--sp-lg); border: 1px solid rgba(14,15,12,0.12); border-radius: var(--r-xl); padding: var(--sp-lg) var(--sp-xl); display: flex; gap: var(--sp-md); align-items: flex-start; font-size: 14px; color: var(--body); line-height: 1.55; }
+    .exclusion-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+
+    /* What's included */
+    .included-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md); }
+    .included-card { background: var(--canvas-soft); border-radius: var(--r-xl); padding: var(--sp-xl); }
+    .included-card-head { display: flex; align-items: center; gap: var(--sp-md); margin-bottom: var(--sp-md); }
+    .included-icon { width: 40px; height: 40px; background: var(--canvas); border-radius: var(--r-md); display: grid; place-items: center; font-size: 18px; }
+    .included-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+    .included-desc { font-size: 13px; color: var(--body); line-height: 1.55; }
+
+    /* FAQ */
+    .faq-list { list-style: none; display: flex; flex-direction: column; gap: var(--sp-sm); }
+    .faq-item { border: 1px solid rgba(14,15,12,0.14); border-radius: var(--r-xl); overflow: hidden; transition: border-color 0.2s; }
+    .faq-item.open { border-color: var(--ink); }
+    .faq-trigger { width: 100%; background: none; border: none; padding: var(--sp-xl); display: flex; align-items: center; justify-content: space-between; gap: var(--sp-lg); text-align: left; cursor: pointer; }
+    .faq-trigger:hover { background: rgba(232,235,230,0.5); }
+    .faq-q { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .faq-icon { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--canvas-soft); display: grid; place-items: center; font-size: 20px; font-weight: 300; color: var(--ink); transition: background 0.2s, transform 0.25s; }
+    .faq-item.open .faq-icon { background: var(--primary); transform: rotate(45deg); }
+    .faq-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-body-inner { padding: 0 var(--sp-xl) var(--sp-xl); font-size: 15px; line-height: 1.65; color: var(--body); }
+
+    /* Early buyer */
+    .early-buyer { background: var(--ink); border-radius: var(--r-xl); padding: var(--sp-3xl); display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2xl); }
+    .early-buyer-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--primary); margin-bottom: var(--sp-md); }
+    .early-buyer-title { font-size: 28px; font-weight: 900; letter-spacing: -0.025em; color: var(--canvas-soft); margin-bottom: var(--sp-md); }
+    .early-buyer-desc { font-size: 15px; color: rgba(232,235,230,0.65); line-height: 1.6; max-width: 400px; }
+    .early-buyer-form { display: flex; flex-direction: column; gap: var(--sp-sm); min-width: 280px; }
+    .early-buyer-input { background: rgba(232,235,230,0.08); border: 1px solid rgba(232,235,230,0.2); border-radius: var(--r-md); padding: 12px var(--sp-lg); font-family: var(--font); font-size: 15px; color: var(--canvas-soft); outline: none; transition: border-color 0.15s; }
+    .early-buyer-input::placeholder { color: rgba(232,235,230,0.35); }
+    .early-buyer-input:focus { border-color: var(--primary); }
+    .btn-early { background: var(--primary); color: var(--ink); font-size: 15px; font-weight: 600; padding: 13px var(--sp-xl); border-radius: var(--r-xl); transition: background 0.15s; }
+    .btn-early:hover { background: var(--primary-active); }
+    .early-fine { font-size: 11px; color: rgba(232,235,230,0.35); text-align: center; }
+
+    /* Footer */
+    .footer { background: var(--ink); color: var(--canvas-soft); padding: var(--sp-3xl) var(--sp-xl); }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; gap: var(--sp-2xl); flex-wrap: wrap; }
+    .footer-logo { font-size: 18px; font-weight: 900; letter-spacing: -0.03em; display: flex; align-items: center; gap: 6px; margin-bottom: var(--sp-sm); }
+    .footer-logo-badge { width: 26px; height: 26px; background: var(--primary); border-radius: var(--r-sm); display: grid; place-items: center; font-size: 13px; font-weight: 900; color: var(--ink); }
+    .footer-tagline { font-size: 13px; color: var(--mute); max-width: 200px; line-height: 1.5; }
+    .footer-links { display: flex; gap: 40px; flex-wrap: wrap; }
+    .footer-col-title { font-size: 12px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mute); margin-bottom: var(--sp-md); }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--sp-sm); }
+    .footer-col a { font-size: 13px; color: rgba(232,235,230,0.6); transition: color 0.15s; }
+    .footer-col a:hover { color: var(--canvas-soft); }
+    .footer-bottom { max-width: 1200px; margin: var(--sp-3xl) auto 0; padding-top: var(--sp-xl); border-top: 1px solid rgba(232,235,230,0.1); font-size: 12px; color: var(--mute); display: flex; justify-content: space-between; gap: var(--sp-xl); flex-wrap: wrap; }
+
+    /* Mobile sticky bar */
+    .sticky-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--canvas); border-top: 1px solid rgba(14,15,12,0.12); padding: var(--sp-md) var(--sp-lg); z-index: 300; align-items: center; justify-content: space-between; gap: var(--sp-md); }
+    .sticky-bar-name { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+    .sticky-bar-price { font-size: 18px; font-weight: 900; color: var(--ink); }
+    .btn-sticky { background: var(--primary); color: var(--ink); font-size: 15px; font-weight: 600; padding: 12px 20px; border-radius: var(--r-xl); white-space: nowrap; flex-shrink: 0; transition: background 0.15s; border: none; cursor: pointer; }
+    .btn-sticky:hover { background: var(--primary-active); }
+
+    /* Responsive */
+    @media (max-width: 1023px) {
+      .main-inner { grid-template-columns: 1fr; gap: var(--sp-3xl); }
+      .col-info { order: 1; } .col-gallery { order: 2; }
+      .gallery { position: static; }
+      .description-grid { grid-template-columns: 1fr; gap: var(--sp-2xl); }
+      .included-grid { grid-template-columns: 1fr 1fr; }
+      .early-buyer { flex-direction: column; }
+      .early-buyer-form { width: 100%; }
+    }
+    @media (max-width: 767px) {
+      .nav-links { display: none; }
+      .main-inner { padding: var(--sp-xl) var(--sp-lg) var(--sp-2xl); }
+      .below-inner { padding: 0 var(--sp-lg) 100px; }
+      .persona-grid { grid-template-columns: 1fr; }
+      .included-grid { grid-template-columns: 1fr; }
+      .early-buyer { padding: var(--sp-2xl); border-radius: var(--r-lg); }
+      .early-buyer-title { font-size: 22px; }
+      .sticky-bar { display: flex; }
+      .footer-inner { flex-direction: column; }
+      .footer-links { gap: var(--sp-2xl); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-badge">T</span>Templa</a>
+      <nav aria-label="Main navigation">
+        <ul class="nav-links">
+          <li><a href="#">Templates</a></li>
+          <li><a href="#">How it works</a></li>
+          <li><a href="contact.html">Support</a></li>
+        </ul>
+      </nav>
+      <a href="#order" class="nav-cta">Get This Template</a>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a><span class="breadcrumb-sep">›</span>
+      <a href="#">Templates</a><span class="breadcrumb-sep">›</span>
+      <a href="#">Finance &amp; Invoicing</a><span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Freelancer Invoice Tracker</span>
+    </div>
+  </div>
+
+  <!-- Two-column product section -->
+  <section class="main">
+    <div class="main-inner">
+
+      <!-- Product info — DOM first for SEO H1, visually right -->
+      <div class="col-info">
+        <div class="category-pill">📊 Finance &amp; Invoicing</div>
+        <h1 class="product-h1">Freelancer Invoice Tracker<br>Google Sheets Template</h1>
+        <p class="product-tagline">Track every invoice, payment due date, and outstanding balance in one clean sheet. No formulas to set up — just copy and start billing.</p>
+
+        <div class="rating-row">
+          <span class="stars" aria-label="5 stars">★★★★★</span>
+          <span class="rating-label">New</span>
+          <span class="early-label">Be the first to review</span>
+        </div>
+
+        <div class="price-row">
+          <span class="price-currency">$</span>
+          <span class="price">19</span>
+        </div>
+        <p class="price-sub">One-time payment · Yours forever</p>
+
+        <div id="order">
+          <button class="btn-cta" onclick="handleOrder()">Get This Template</button>
+          <p class="delivery-note"><strong>How delivery works:</strong> Complete your payment — we'll send your Google Sheets link within 24 hours.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <ul class="meta-list">
+          <li class="meta-item"><span class="meta-key">Format</span><span class="meta-val">Google Sheets</span></li>
+          <li class="meta-item"><span class="meta-key">Tabs</span><span class="meta-val">3 tabs included</span></li>
+          <li class="meta-item"><span class="meta-key">Formulas</span><span class="meta-val">18 pre-built</span></li>
+          <li class="meta-item"><span class="meta-key">Sample data</span><span class="meta-val">Pre-filled, easy to clear</span></li>
+          <li class="meta-item"><span class="meta-key">Updates</span><span class="meta-val">Free for life</span></li>
+        </ul>
+
+        <div class="compat-note">Built and tested in <strong>Google Sheets</strong> (free). Works in any browser — no Excel required.</div>
+      </div>
+
+      <!-- Gallery — visually left -->
+      <div class="col-gallery">
+        <div class="gallery">
+          <div class="gallery-main" id="gallery-main">
+            <div class="gallery-placeholder">
+              <div class="gallery-placeholder-icon">📋</div>
+              <div class="gallery-placeholder-label">Overview Tab</div>
+            </div>
+          </div>
+          <div class="gallery-thumb-row">
+            <div class="gallery-thumb active" onclick="switchTab(this,'overview')" role="button" aria-label="View overview tab screenshot">
+              <div class="gallery-thumb-inner"><span class="gallery-thumb-icon">📋</span>Overview tab</div>
+            </div>
+            <div class="gallery-thumb" onclick="switchTab(this,'formula')" role="button" aria-label="View formula tab screenshot">
+              <div class="gallery-thumb-inner"><span class="gallery-thumb-icon">🔣</span>Formula tab</div>
+            </div>
+          </div>
+          <p class="gallery-more">Want to see more? <a href="contact.html">Request additional screenshots</a></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Below the fold — single column -->
+  <div class="below">
+    <div class="below-inner">
+
+      <!-- Description + Features -->
+      <div class="section-divider"></div>
+      <p class="section-label">What it does</p>
+      <h2 class="section-title">Built for freelancers who hate chasing invoices</h2>
+      <div class="description-grid">
+        <div class="description-text">
+          <p>Most invoice spreadsheets start clean and go messy fast. This one doesn't. Every row is an invoice: client, amount, due date, status. Totals and overdue counts update automatically as you mark invoices paid.</p>
+          <p>The formula tab shows every calculation in plain language so you understand what's happening — no black-box functions, no locked cells.</p>
+          <p>Sample data comes pre-filled so you can see exactly how the tracker works before you clear it and make it yours. Takes about five minutes to set up for real.</p>
+        </div>
+        <ul class="feature-list" aria-label="Key features">
+          <li class="feature-item"><span class="feature-check" aria-hidden="true">✓</span>Auto-calculates total billed, total paid, and outstanding balance</li>
+          <li class="feature-item"><span class="feature-check" aria-hidden="true">✓</span>Flags overdue invoices automatically based on due date</li>
+          <li class="feature-item"><span class="feature-check" aria-hidden="true">✓</span>Tracks multiple clients in one sheet with per-client subtotals</li>
+          <li class="feature-item"><span class="feature-check" aria-hidden="true">✓</span>Currency-agnostic — works in any currency, any locale</li>
+          <li class="feature-item"><span class="feature-check" aria-hidden="true">✓</span>Monthly income summary tab for tax time</li>
+          <li class="feature-item"><span class="feature-check" aria-hidden="true">✓</span>No scripts, no add-ons, no Google Workspace plan needed</li>
+        </ul>
+      </div>
+
+      <!-- Who it's for -->
+      <div class="section-divider"></div>
+      <p class="section-label">Who it's for</p>
+      <h2 class="section-title">Made for independent workers</h2>
+      <div class="persona-grid">
+        <div class="persona-card"><div class="persona-icon">💻</div><div class="persona-title">Freelance developers &amp; designers</div><p class="persona-desc">You send 5–30 invoices a month across several clients and need to know at a glance what's paid and what's overdue.</p></div>
+        <div class="persona-card"><div class="persona-icon">📝</div><div class="persona-title">Consultants &amp; coaches</div><p class="persona-desc">You bill by project or retainer, want a clean paper trail, and don't need a full invoicing app with a monthly fee.</p></div>
+        <div class="persona-card"><div class="persona-icon">📸</div><div class="persona-title">Photographers &amp; creatives</div><p class="persona-desc">You invoice for gigs, events, and packages. You want something simple that doesn't make tax season a nightmare.</p></div>
+        <div class="persona-card"><div class="persona-icon">🏪</div><div class="persona-title">Solo operators &amp; side hustlers</div><p class="persona-desc">You run a lean operation and need to track money in without paying for software you'll only use once a week.</p></div>
+      </div>
+      <div class="exclusion-box">
+        <span class="exclusion-icon">ℹ️</span>
+        <span><strong>Not the right fit if</strong> you need to generate and send invoice PDFs directly from your tracker — this is a tracking tool, not an invoice generator.</span>
+      </div>
+
+      <!-- What's included -->
+      <div class="section-divider"></div>
+      <p class="section-label">What's included</p>
+      <h2 class="section-title">3 tabs, ready on day one</h2>
+      <div class="included-grid">
+        <div class="included-card">
+          <div class="included-card-head"><div class="included-icon">📋</div><div class="included-name">Invoice Log</div></div>
+          <p class="included-desc">One row per invoice. Client name, invoice number, issue date, due date, amount, and payment status. Conditional formatting highlights overdue rows automatically.</p>
+        </div>
+        <div class="included-card">
+          <div class="included-card-head"><div class="included-icon">📊</div><div class="included-name">Monthly Summary</div></div>
+          <p class="included-desc">Pulls from the Invoice Log to show total billed, collected, and outstanding per calendar month. Print this for your accountant at tax time.</p>
+        </div>
+        <div class="included-card">
+          <div class="included-card-head"><div class="included-icon">🔣</div><div class="included-name">Formula Reference</div></div>
+          <p class="included-desc">Every formula used in the template documented in plain English. Understand what's happening before you edit anything. 18 formulas total.</p>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="section-divider"></div>
+      <p class="section-label">Frequently asked</p>
+      <h2 class="section-title">Good questions, real answers</h2>
+      <ul class="faq-list" role="list">
+        <li class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
+            <span class="faq-q">How will I receive the template?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-body" role="region">
+            <div class="faq-body-inner">After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. Click the link, choose <em>File → Make a copy</em>, and it lands in your own Drive. You own it permanently — no subscription, no expiry.</div>
+          </div>
+        </li>
+        <li class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
+            <span class="faq-q">Does this work with Microsoft Excel?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-body" role="region">
+            <div class="faq-body-inner">The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas — like ARRAYFORMULA and conditional date rules — may not transfer perfectly. For the best experience, use Google Sheets (free with any Google account).</div>
+          </div>
+        </li>
+        <li class="faq-item">
+          <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
+            <span class="faq-q">Can I get a refund?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-body" role="region">
+            <div class="faq-body-inner">Because digital files are delivered after purchase, we don't offer refunds. If anything in your file doesn't work as described — a broken formula, a missing tab — <a href="contact.html" style="font-weight:600;border-bottom:1px solid currentColor">contact us</a> and we'll fix it same day.</div>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Early-buyer prompt -->
+      <div class="section-divider"></div>
+      <div class="early-buyer" role="complementary" aria-label="Early buyer offer">
+        <div class="early-buyer-text">
+          <p class="early-buyer-eyebrow">Early buyer offer</p>
+          <h2 class="early-buyer-title">Be the first to review.<br>Get 20% off your next template.</h2>
+          <p class="early-buyer-desc">Buy now, use the template, and send us your honest review. We'll send a 20% discount code for your next purchase — no minimum, no expiry.</p>
+        </div>
+        <div class="early-buyer-form">
+          <input class="early-buyer-input" type="email" id="eb-email" placeholder="your@email.com" autocomplete="email" />
+          <button class="btn-early" onclick="handleEarlyBuyer()">Get This Template + Claim Offer</button>
+          <p class="early-fine">We'll email your Drive link within 24 hours. One review request. Unsubscribe anytime.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><span class="footer-logo-badge">T</span>Templa</div>
+        <p class="footer-tagline">Google Sheets templates for independent workers.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <p class="footer-col-title">Templates</p>
+          <ul>
+            <li><a href="#">Finance &amp; Invoicing</a></li>
+            <li><a href="#">Project Tracking</a></li>
+            <li><a href="#">Client Management</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Support</p>
+          <ul>
+            <li><a href="contact.html">Contact us</a></li>
+            <li><a href="#">Order status</a></li>
+            <li><a href="#">How delivery works</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">Legal</p>
+          <ul>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Refund policy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Templa. All rights reserved.</span>
+      <span>Made for Google Sheets · Delivered within 24 hours</span>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky CTA bar — Phase 0: name + price only, no delivery note -->
+  <div class="sticky-bar" id="sticky-bar" role="complementary" aria-label="Purchase">
+    <div>
+      <div class="sticky-bar-name">Freelancer Invoice Tracker</div>
+      <div class="sticky-bar-price">$19</div>
+    </div>
+    <button class="btn-sticky" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Get This Template</button>
+  </div>
+
+  <script>
+    var tabContent = {
+      overview: { icon: '📋', label: 'Overview Tab — Invoice Log with conditional formatting' },
+      formula:  { icon: '🔣', label: 'Formula Reference Tab — 18 formulas explained' }
+    };
+
+    function switchTab(thumb, key) {
+      document.querySelectorAll('.gallery-thumb').forEach(function(t){ t.classList.remove('active'); });
+      thumb.classList.add('active');
+      var data = tabContent[key];
+      document.getElementById('gallery-main').innerHTML =
+        '<div class="gallery-placeholder"><div class="gallery-placeholder-icon">' + data.icon + '</div><div class="gallery-placeholder-label">' + data.label + '</div></div>';
+    }
+
+    function toggleFaq(btn) {
+      var item = btn.closest('.faq-item');
+      var body = item.querySelector('.faq-body');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i){
+        i.classList.remove('open');
+        i.querySelector('.faq-body').style.maxHeight = '0';
+        i.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    function handleOrder() {
+      window.location.href = 'contact.html?subject=order&ref=template-detail';
+    }
+
+    function handleEarlyBuyer() {
+      var email = document.getElementById('eb-email').value.trim();
+      if (!email || !email.includes('@')) {
+        document.getElementById('eb-email').style.borderColor = '#d03238';
+        document.getElementById('eb-email').focus();
+        return;
+      }
+      window.location.href = 'contact.html?ref=early-buyer&email=' + encodeURIComponent(email);
+    }
+
+    // Hide sticky bar when CTA block is on screen
+    (function(){
+      var orderEl = document.getElementById('order');
+      var bar = document.getElementById('sticky-bar');
+      if (!orderEl || !bar) return;
+      new IntersectionObserver(function(entries){
+        bar.style.display = entries[0].isIntersecting ? 'none' : '';
+      }, { threshold: 0.1 }).observe(orderEl);
+    })();
+  </script>
+
+</body>
+</html>
