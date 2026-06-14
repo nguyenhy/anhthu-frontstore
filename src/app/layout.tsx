@@ -35,13 +35,13 @@ export default function RootLayout({
           <div className="nav-inner">
             <a href="/" className="nav-logo"><span className="nav-logo-badge">T</span>Simpla</a>
             <nav aria-label="Main navigation">
-              <ul className="nav-links">
+              {/* <ul className="nav-links">
                 <li><a href="#">Templates</a></li>
                 <li><a href="#">How it works</a></li>
                 <li><a href="contact">Support</a></li>
-              </ul>
+              </ul> */}
             </nav>
-            <GetTemplateBtn className="nav-cta" />
+            {/* <GetTemplateBtn className="nav-cta" /> */}
           </div>
         </header>
 
@@ -57,26 +57,26 @@ export default function RootLayout({
               <div className="footer-col">
                 <p className="footer-col-title">Templates</p>
                 <ul>
-                  <li><a href="#">Finance &amp; Invoicing</a></li>
-                  <li><a href="#">Project Tracking</a></li>
-                  <li><a href="#">Client Management</a></li>
+                  <li><a href="/templates?category=finance-invoicing">Finance &amp; Invoicing</a></li>
+                  <li><a href="/templates?category=project-tracking">Project Tracking</a></li>
+                  <li><a href="/templates?category=client-management">Client Management</a></li>
                 </ul>
               </div>
               <div className="footer-col">
                 <p className="footer-col-title">Support</p>
                 <ul>
                   <li><a href="contact">Contact us</a></li>
-                  <li><a href="#">Order status</a></li>
-                  <li><a href="#">How delivery works</a></li>
+                  {/* <li><a href="#">Order status</a></li> */}
+                  {/* <li><a href="#">How delivery works</a></li> */}
                 </ul>
               </div>
-              <div className="footer-col">
+              {/* <div className="footer-col">
                 <p className="footer-col-title">Legal</p>
                 <ul>
                   <li><a href="#">Terms</a></li>
                   <li><a href="#">Refund policy</a></li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="footer-bottom">
