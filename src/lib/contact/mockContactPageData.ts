@@ -15,6 +15,20 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
     },
     faq: [
       {
+        label: "How delivery works?",
+        content: [
+          {
+            type: "paragraph",
+            children: [
+              {
+                type: "text",
+                text: "Complete your payment — we'll send your Google Sheets link within 24 hours",
+              },
+            ],
+          },
+        ],
+      },
+      {
         label: "How will I receive the template?",
         content: [
           {
@@ -109,8 +123,8 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
                 { type: "text", text: "Write to " },
                 {
                   type: "link",
-                  url: "mailto:support@templa.co",
-                  children: [{ type: "text", text: "support@templa.co" }],
+                  url: "mailto:support@simplavn.com",
+                  children: [{ type: "text", text: "support@simplavn.com" }],
                 },
               ],
             },
