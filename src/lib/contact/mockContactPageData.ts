@@ -16,64 +16,23 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
     faq: [
       {
         question: "How will I receive the template?",
-        answer: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. Click the link, choose ",
-              },
-              { type: "text", text: "File → Make a copy", bold: true },
-              {
-                type: "text",
-                text: " and it lands in your own Drive. You own it permanently — no subscription, no expiry.",
-              },
-            ],
-          },
-        ],
+        answer:
+          "After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. Click the link, choose **File → Make a copy** and it lands in your own Drive. You own it permanently — no subscription, no expiry.",
       },
       {
         question: "Does this work with Microsoft Excel?",
-        answer: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas — like ARRAYFORMULA and conditional date rules — may not transfer perfectly. For the best experience, use Google Sheets (free with any Google account).",
-              },
-            ],
-          },
-        ],
+        answer:
+          "The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas — like ARRAYFORMULA and conditional date rules — may not transfer perfectly. For the best experience, use Google Sheets (free with any Google account).",
       },
       {
         question: "Can I get a refund?",
-        answer: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "Because digital files are delivered after purchase, we don't offer refunds. If anything in your file doesn't work as described — a broken formula, a missing tab — contact us and we'll fix it same day.",
-              },
-            ],
-          },
-        ],
+        answer:
+          "Because digital files are delivered after purchase, we don't offer refunds. If anything in your file doesn't work as described — a broken formula, a missing tab — contact us and we'll fix it same day.",
       },
       {
         question: "What payment methods do you accept?",
-        answer: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "We accept bank transfer and QR code payment. Payment details are shown immediately after you submit your order form.",
-              },
-            ],
-          },
-        ],
+        answer:
+          "We accept bank transfer and QR code payment. Payment details are shown immediately after you submit your order form.",
       },
     ],
     support: {

@@ -179,64 +179,23 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
   ],
 
   earlyOffer: {
-    active: true,
-    eyebrow: [
-      {
-        type: "paragraph",
-        children: [{ type: "text", text: "Early buyer offer" }],
+    section_title: "Early buyer offer",
+    title: "Be the first to review. Get 20% off your next template.",
+    desc: "Buy now, use the template, and send us your honest review. We'll send a 20% discount code for your next purchase — no minimum, no expiry.",
+    note: "We'll email your Drive link within 24 hours. One review request. Unsubscribe anytime.",
+    item: {
+      submittedMessage: [],
+      note: [],
+      coupon: {
+        code: "DCA129ZW3",
+        type: "percent",
+        amount: 20,
+        currency: "USD",
+        cap_value: 20,
+        can_expired: false,
+        expires_at: undefined,
+        active: false,
       },
-    ],
-    title: [
-      {
-        type: "heading",
-        level: 2,
-        children: [
-          { type: "text", text: "Be the first to review. " },
-          { type: "text", text: "Get 20% off your next template." },
-        ],
-      },
-    ],
-    desc: [
-      {
-        type: "paragraph",
-        children: [
-          {
-            type: "text",
-            text: "Buy now, use the template, and send us your honest review. We'll send a 20% discount code for your next purchase — no minimum, no expiry.",
-          },
-        ],
-      },
-    ],
-    submittedMessage: [
-      {
-        type: "paragraph",
-        children: [
-          {
-            type: "text",
-            text: "You're on the list! We'll email your link within 24 hours.",
-          },
-        ],
-      },
-    ],
-    note: [
-      {
-        type: "paragraph",
-        children: [
-          {
-            type: "text",
-            text: "We'll email your Drive link within 24 hours. One review request. Unsubscribe anytime.",
-          },
-        ],
-      },
-    ],
-    coupon: {
-      code: "DCA129ZW3",
-      type: "percent",
-      amount: 20,
-      cap_value: 20,
-      condition: "percent-on-next-bill-for-first-review",
-      expires_at: "2099-12-31T00:00:00.000Z",
-      active: true,
     },
   },
 
