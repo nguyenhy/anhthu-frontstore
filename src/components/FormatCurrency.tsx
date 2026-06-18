@@ -13,9 +13,9 @@ export type FormatCurrencyProps = {
 export default function FormatCurrency(
 	props: FormatCurrencyProps
 ): ReactNode {
-	const { amount, currency, locale, currencyClass,
+	const { amount, currency, currencyClass,
 		priceClass } = props
-	const money = currencyParts(amount, currency, locale);
+	const money = currencyParts(amount, currency);
 
 	return (
 		<>
