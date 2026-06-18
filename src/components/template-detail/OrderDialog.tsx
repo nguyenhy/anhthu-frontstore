@@ -32,8 +32,6 @@ export function OrderDialog({
 	useEffect(() => {
 		const onOpen = (event: Event) => {
 			if (event instanceof CustomEvent) {
-				console.log(event.detail);
-
 			}
 			setOpen(true)
 		};

@@ -11,6 +11,7 @@ import {
 import { submitEarlyOffer } from "@/lib/template-detail/submitEarlyOffer";
 import { EMAIL_REGEX } from "@/lib/contact/validateContact";
 import { StrapiEarlyOffer } from '@/lib/template-detail/types';
+import MarkdownRenderer from '../MarkdownRenderer';
 
 
 function validateEmail(email: string): string {
@@ -82,28 +83,14 @@ export default function EarlyOffer({ offer }: Props) {
 	return (
 		<div className="early-buyer" role="complementary" aria-label="Early buyer offer">
 			<div className="early-buyer-text">
-				<RichTextRender
-					content={offer.eyebrow}
-					blocks={{ paragraph: ({ children }) => <p className="early-buyer-eyebrow">{children}</p> }}
-				/>
-				<RichTextRender
-					content={offer.title}
-					blocks={{ heading: ({ children }) => <h2 className="early-buyer-title">{children}</h2> }}
-				/>
-				<RichTextRender
-					content={offer.desc}
-					blocks={{ paragraph: ({ children }) => <p className="early-buyer-desc">{children}</p> }}
-				/>
+				<p className="early-buyer-eyebrow">{offer.section_title}</p>
+				<h2 className="early-buyer-title">{offer.title}</h2>
+				<MarkdownRenderer className="early-buyer-desc" content={offer.desc} />
 			</div>
 
 			<div>
 				{submitted ? (
-					<RichTextRender
-						content={offer.submittedMessage}
-						blocks={{
-							paragraph: ({ children }) => <p className="early-buyer-success">{children}</p>
-						}}
-					/>
+					<p className="early-buyer-success">{"You're on the list! We'll email your link within 24 hours."}</p>
 				) : (
 					<form onSubmit={handleSubmit} noValidate className="early-buyer-form">
 						<input
@@ -152,12 +139,9 @@ export default function EarlyOffer({ offer }: Props) {
 					</form>
 				)}
 
-				<RichTextRender
-					content={offer.note}
-					blocks={{
-						paragraph: ({ children }) => <p className="early-fine">{children}</p>
-					}}
-				/>
+				{
+					<p className="early-fine">{"We'll email your Drive link within 24 hours. One review request. Unsubscribe anytime."}</p>
+				}
 			</div>
 		</div>
 	);

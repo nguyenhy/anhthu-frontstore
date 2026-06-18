@@ -9,21 +9,21 @@ type Props = {
 };
 
 export default function Gallery({ tabs }: Props) {
-    const [activeKey, setActiveKey] = useState(tabs[0]?.key);
+    const [activeKey, setActiveKey] = useState(0);
 
     return (
         <div className="gallery">
             <div className="gallery-main">
-                {tabs.map((tab) => {
-                    return !!tab.image?.url && (
+                {tabs.map((tab, index) => {
+                    return !!tab.url && (
                         <img
-                            key={tab.key}
+                            key={index}
                             className="gallery-image"
-                            src={tab.image.url}
+                            src={tab.url}
                             alt={tab.ariaLabel}
-                            width={500}
-                            height={500}
-                            style={{ display: activeKey === tab.key ? 'block' : 'none' }}
+                            width={tab.width}
+                            height={tab.width}
+                            style={{ display: activeKey === index ? 'block' : 'none' }}
                         />
                     )
 
@@ -31,28 +31,28 @@ export default function Gallery({ tabs }: Props) {
             </div>
 
             <div className="gallery-thumb-row">
-                {tabs.map((tab) => (
+                {tabs.map((tab, index) => (
                     <button
-                        key={tab.key}
+                        key={index}
                         type="button"
                         aria-label={tab.ariaLabel}
                         className={clsx(
                             'gallery-thumb',
-                            activeKey === tab.key && 'active'
+                            activeKey === index && 'active'
                         )}
                         onClick={() => {
-                            setActiveKey(tab.key)
+                            setActiveKey(index)
                         }}
                     >
                         <div className="gallery-thumb-inner">
 
                             {
-                                !!tab.image?.url && (<img
+                                !!tab.url && (<img
                                     className="gallery-image"
-                                    src={tab.image.url}
+                                    src={tab.url}
                                     alt={tab.ariaLabel}
-                                    width={200}
-                                    height={200}
+                                    width={tab.width}
+                                    height={tab.width}
                                 />
                                 )
                             }

@@ -1,8 +1,10 @@
 'use client'
 
-import { StrapiDescriptionBlock, StrapiFeaturesSectionBlock, StrapiPersonasSectionBlock, StrapiIncludedSectionBlock, StrapiFaqBlock } from "@/lib/template-detail/types"
+import { StrapiDescriptionBlock, StrapiFeaturesSectionBlock, StrapiPersonasSectionBlock, StrapiFaqBlock } from "@/lib/template-detail/types"
 import RichTextRender from "@/components/RichTextRender"
 import Faq from "./Faq"
+import MaterialIcon from "../MaterialIcon"
+import MarkdownRenderer from "../MarkdownRenderer"
 
 export interface TemplateDetailDescriptionProps {
 	blocks: StrapiDescriptionBlock[]
@@ -12,22 +14,25 @@ export interface TemplateDetailDescriptionProps {
 export default function TemplateDetailDescription(props: TemplateDetailDescriptionProps) {
 	return <div>
 		{
-			props.blocks.map((item, index) => {
-				if (item.__component === 'divider') {
-					return <div key={index} className="section-divider"></div>
+			(props.blocks || []).map((item, index) => {
+				if (item.collection === 'template_desc_block_feature') {
+					return (
+						<StrapiFeaturesSectionBlockElement key={index} block={item} />
+					)
 
-				} else if (item.__component === 'blocks.features-section') {
-					return <StrapiFeaturesSectionBlockElement key={index} block={item} />
+				} else if (item.collection === 'template_desc_block_card') {
+					return item.item.note ?
+						(
+							<StrapiPersonasSectionBlockElement key={index} block={item} />
+						)
+						: (
+							<StrapiIncludedSectionBlockElement key={index} block={item} />
+						)
 
-				} else if (item.__component === 'blocks.personas-section') {
-					return <StrapiPersonasSectionBlockElement key={index} block={item} />
-
-				} else if (item.__component === 'blocks.included-section') {
-					return <StrapiIncludedSectionBlockElement key={index} block={item} />
-
-				} else if (item.__component === 'blocks.faq') {
-					return <StrapiFaqBlockElement key={index} block={item} />
-
+				} else if (item.collection === 'template_desc_block_faq') {
+					return (
+						<StrapiFaqBlockElement key={index} block={item} />
+					)
 				}
 
 				return null
@@ -42,21 +47,23 @@ export function StrapiFeaturesSectionBlockElement({ block }: {
 }) {
 	return (
 		<div>
-			<p className="section-label">{block.sectionTitle}</p>
-			<h2 className="section-title">{block.title}</h2>
+			<p className="section-label">{block.item.section_title}</p>
+			<h2 className="section-title">{block.item.title}</h2>
 			<div className="description-grid">
-				<div className="description-text">
-					<RichTextRender content={block.description} />
+				<div className="description-text" dangerouslySetInnerHTML={{
+					__html: block.item.desc
+				}}>
 				</div>
 				<ul className="feature-list" aria-label="Key features">
-					{block.features.map((item, index) => (
+					{block.item.features.map((item, index) => (
 						<li key={index} className="feature-item">
 							<span className="feature-check" aria-hidden="true">✓</span>
-							{item.title}
+							{item.label}
 						</li>
 					))}
 				</ul>
 			</div>
+			<div className="section-divider"></div>
 		</div>
 	)
 }
@@ -67,45 +74,49 @@ export function StrapiPersonasSectionBlockElement({ block }: {
 }) {
 	return (
 		<div>
-			<p className="section-label">{block.sectionTitle}</p>
-			<h2 className="section-title">{block.title}</h2>
+			<p className="section-label">{block.item.section_title}</p>
+			<h2 className="section-title">{block.item.title}</h2>
 			<div className="persona-grid">
-				{block.personas.map((p, i) => (
+				{block.item.cards.map((p, i) => (
 					<div key={i} className="persona-card">
-						<div className="persona-icon">{p.icon}</div>
+						<MaterialIcon className="persona-icon" icon={p.icon} />
 						<div className="persona-title">{p.title}</div>
-						<p className="persona-desc">{p.description}</p>
+						<MarkdownRenderer className="persona-desc" content={p.content} />
 					</div>
 				))}
 			</div>
-			<div className="exclusion-box">
-				<span className="exclusion-icon">{block.noteIcon}</span>
-				<span><strong>Not the right fit if</strong> {block.note}</span>
-			</div>
+			{
+				!!block.item.note && (
+					<div className="exclusion-box">
+						<MaterialIcon className="exclusion-icon" icon={block.item.note_icon} />
+						<MarkdownRenderer content={block.item.note} />
+					</div>
+				)
+			}
+			<div className="section-divider"></div>
 		</div>
 	)
 }
 
 export function StrapiIncludedSectionBlockElement({ block }: {
-	block: StrapiIncludedSectionBlock
+	block: StrapiPersonasSectionBlock
 }) {
 	return (
 		<div>
-			<p className="section-label">{block.sectionTitle}</p>
-			<h2 className="section-title">{block.title}</h2>
+			<p className="section-label">{block.item.section_title}</p>
+			<h2 className="section-title">{block.item.title}</h2>
 			<div className="included-grid">
-				{block.cards.map((card, i) => (
+				{block.item.cards.map((card, i) => (
 					<div key={i} className="included-card">
 						<div className="included-card-head">
-							<div className="included-icon">{card.icon}</div>
+							<MaterialIcon className="included-icon" icon={card.icon} />
 							<div className="included-name">{card.title}</div>
 						</div>
-						<RichTextRender content={card.description} blocks={{
-							paragraph: ({ children }) => <p className="included-desc">{children}</p>
-						}} />
+						<MarkdownRenderer className="included-desc" content={card.content} />
 					</div>
 				))}
 			</div>
+			<div className="section-divider"></div>
 		</div>
 	)
 }
@@ -115,9 +126,10 @@ export function StrapiFaqBlockElement({ block }: {
 }) {
 	return (
 		<div>
-			<p className="section-label">{block.sectionTitle}</p>
-			<h2 className="section-title">{block.title}</h2>
-			<Faq items={block.faq} />
+			<p className="section-label">{block.item.section_title}</p>
+			<h2 className="section-title">{block.item.title}</h2>
+			<Faq items={block.item.faqs} />
+			<div className="section-divider"></div>
 		</div>
 	)
 }

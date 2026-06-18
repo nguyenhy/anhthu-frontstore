@@ -3,8 +3,8 @@
 import './Faq.css'
 import { useState } from 'react';
 import clsx from 'clsx';
-import RichTextRender from '../RichTextRender';
 import { StrapiFaqContent } from '@/lib/template-detail/types';
+import MarkdownRenderer from '../MarkdownRenderer';
 
 type FAQProps = {
 	items: StrapiFaqContent[];
@@ -39,7 +39,7 @@ export default function Faq({ items }: FAQProps) {
 							onClick={() => toggleFaq(index)}
 						>
 							<span className="faq-q">
-								{item.label}
+								{item.question}
 							</span>
 
 							<span
@@ -60,7 +60,7 @@ export default function Faq({ items }: FAQProps) {
 							}}
 						>
 							<div className="faq-body-inner">
-								<RichTextRender content={item.content} />
+								<MarkdownRenderer content={item.answer} />
 							</div>
 						</div>
 					</li>
