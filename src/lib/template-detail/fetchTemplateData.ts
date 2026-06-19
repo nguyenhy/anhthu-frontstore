@@ -90,7 +90,7 @@ export async function fetchTemplateDetail(
     try {
       url = await getImagePresignedUrl(file.filename_disk);
     } catch (error) {
-      console.error("getImagePresignedUrl", file.filename_disk, error);
+      console.error(new Date().toISOString(), "fetchTemplateDetail", String(error));
     }
 
     const tab: StrapiGalleryTab = {

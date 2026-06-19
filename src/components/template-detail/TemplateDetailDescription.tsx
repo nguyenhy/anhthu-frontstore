@@ -1,7 +1,6 @@
 'use client'
 
 import { StrapiDescriptionBlock, StrapiFeaturesSectionBlock, StrapiPersonasSectionBlock, StrapiFaqBlock } from "@/lib/template-detail/types"
-import RichTextRender from "@/components/RichTextRender"
 import Faq from "./Faq"
 import MaterialIcon from "../MaterialIcon"
 import MarkdownRenderer from "../MarkdownRenderer"

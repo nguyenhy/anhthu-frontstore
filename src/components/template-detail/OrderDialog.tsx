@@ -214,7 +214,7 @@ export function OrderDialog({
 				</h2>
 
 				<p className="dialog-sub">
-					Enter your email and we'll send
+					Enter your email and we&apos;ll send
 					the Google Drive link within 24
 					hours.
 				</p>

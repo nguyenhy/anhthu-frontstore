@@ -19,7 +19,7 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 	const { order, paymentMethods } = data;
 
 	const {
-		isDelivered, isPending,
+		isPending,
 		appliedCoupon, couponApplying, couponError,
 		copiedField, copyValue,
 		total, currency, pricingRows,

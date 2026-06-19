@@ -13,12 +13,9 @@ export default function VisualEditor() {
 
 		const initEditor = async () => {
 			const directusUrl = process.env.NEXT_PUBLIC_VISUAL_EDITING_URL || ''
-			console.log('editorInstance', directusUrl, editorInstance,
-				document.querySelectorAll('[data-directus]')
-			)
 			editorInstance = await apply({
 				directusUrl: directusUrl, // Your Directus API URL
-				onSaved: ({ collection, item, payload }) => {
+				onSaved: () => {
 					// Trigger a Next.js router refresh to fetch fresh server data
 					router.refresh();
 				},

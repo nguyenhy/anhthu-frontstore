@@ -30,7 +30,7 @@ export async function generateMetadata(
   try {
     data = await getTemplateData(params.id, typeof query.version === 'string' ? query.version : undefined)
   } catch (error) {
-    console.error(error);
+    console.error(new Date().toISOString(), 'Template.Meta', String(error));
   }
 
   if (!data) {
@@ -51,7 +51,7 @@ export default async function Template(props: Props) {
   try {
     data = await getTemplateData(params.id, typeof query.version === 'string' ? query.version : undefined)
   } catch (error) {
-    console.error(error);
+    console.error(new Date().toISOString(), 'Template', String(error));
     throw new HttpError('500')
   }
 

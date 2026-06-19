@@ -1,6 +1,7 @@
 import { StrapiTemplateDetail } from "./types";
 
 export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
+  id: "1",
   slug: "freelancer-invoice-tracker",
 
   name: "Freelancer Invoice Tracker — Google Sheets Template",

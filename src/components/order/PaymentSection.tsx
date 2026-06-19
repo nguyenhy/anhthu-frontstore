@@ -1,3 +1,5 @@
+"use client"
+
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import type { StrapiPaymentMethod } from "@/lib/payment/types";

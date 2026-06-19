@@ -1,7 +1,6 @@
 'use client'
 import './EarlyOffer.css'
 import { HTMLAttributes, useCallback, useEffect, useState } from "react";
-import RichTextRender from "@/components/RichTextRender";
 import clsx from "clsx";
 import {
 	EMAIL_INVALID,

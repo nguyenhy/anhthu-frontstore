@@ -2,7 +2,7 @@ import OrderDetail from "@/components/order/OrderDetail";
 import { HttpError } from "@/lib/error";
 import { type OrderPageData } from "@/lib/order/types";
 import { fetchOrderDetail } from "@/lib/order/mockOrderDetail";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -10,13 +10,8 @@ type Props = {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata(
-	props: {},
-	parent: ResolvingMetadata
-): Promise<Metadata> {
-	return {
-
-	};
+export async function generateMetadata(): Promise<Metadata> {
+	return {};
 }
 
 export default async function Order(props: Props) {
