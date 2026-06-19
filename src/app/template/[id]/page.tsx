@@ -4,6 +4,12 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from 'next/navigation';
 import { HttpError } from '@/lib/error';
 import { StrapiTemplateDetail } from '@/lib/template-detail/types';
+import { cache } from 'react';
+
+
+const getTemplateData = cache((slug: string,
+  version?: string,) => fetchTemplateDetail(slug, version)
+);
 
 type Props = {
   params: Promise<{ id: string }>
@@ -19,7 +25,7 @@ export async function generateMetadata(
   const params = await props.params
   let data: StrapiTemplateDetail | null = null
   try {
-    data = await fetchTemplateDetail(params.id)
+    data = await getTemplateData(params.id)
   } catch (error) {
     console.error(error);
   }
@@ -38,7 +44,7 @@ export default async function Template(props: Props) {
   const params = await props.params
   let data: StrapiTemplateDetail | null = null
   try {
-    data = await fetchTemplateDetail(params.id)
+    data = await getTemplateData(params.id)
   } catch (error) {
     console.error(error);
     throw new HttpError('500')
