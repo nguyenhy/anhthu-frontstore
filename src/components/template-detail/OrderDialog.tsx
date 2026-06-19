@@ -5,12 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { getOrderErrorMessage, validateOrder, ValidationError } from '@/lib/order/validateOrder';
 import { createOrder } from '@/lib/order/createOrder';
-
-export interface OrderFormData {
-	email: string
-	name?: string
-	phone?: string
-}
+import type { ContactFormData } from '@/lib/order/types';
 
 type Props = {
 	onClose?: () => void;
@@ -112,7 +107,7 @@ export function OrderDialog({
 			);
 	}, [onCloseDialog]);
 
-	const getForm = useCallback<() => OrderFormData>(() => ({ email, name: name || undefined, phone: phone || undefined }), [email, name, phone])
+	const getForm = useCallback<() => ContactFormData>(() => ({ email, name: name || undefined, phone: phone || undefined }), [email, name, phone])
 	const setOrderErrorMessage = useCallback((errors: ValidationError[]) => {
 		for (let index = 0; index < errors.length; index++) {
 			const error = errors[index];

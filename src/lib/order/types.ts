@@ -31,3 +31,9 @@ export type RawAppliedCoupon = {
   discount: number;
   label: string;
 };
+
+export type ContactFormData = {
+  email: string;
+  name?: string;
+  phone?: string;
+};
