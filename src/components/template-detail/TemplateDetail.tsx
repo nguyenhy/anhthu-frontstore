@@ -1,7 +1,6 @@
 import './TemplateDetail.css'
 import { GetTemplateBtn } from '@/components/template-detail/GetTemplateBtn';
 import Gallery from '@/components/template-detail/Gallery';
-import { OrderDialog } from '@/components/template-detail/OrderDialog';
 import EarlyOffer from '@/components/template-detail/EarlyOffer';
 import { StrapiTemplateDetail } from '@/lib/template-detail/types';
 import TemplateDetailDescription from './TemplateDetailDescription';
@@ -121,7 +120,6 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 				<GetTemplateBtn className="btn-sticky" templateId={data.id} />
 			</div>
 
-			<OrderDialog />
 		</>
 	);
 }
