@@ -18,8 +18,24 @@ export type SupportedCurrency = keyof typeof currencyLocales;
 
 export function currencyParts(
   amount: number,
-  currency: SupportedCurrency,
+  currency: string,
 ): CurrencyParts {
+  if (
+    currency !== "VND" &&
+    currency !== "USD" &&
+    currency !== "EUR" &&
+    currency !== "GBP" &&
+    currency !== "JPY"
+  ) {
+    return {
+      formatted: `${amount} ${currency}`,
+      value: amount.toString(),
+      symbol: currency,
+      symbolPosition: "suffix",
+      parts: [],
+    };
+  }
+
   const locale = currencyLocales[currency];
 
   const parts = new Intl.NumberFormat(locale, {
@@ -48,9 +64,6 @@ export function currencyParts(
 /**
  * @todo remove hard code convert as unknown as SupportedCurrency
  */
-export function formatMoney(
-  amount: number,
-  currency: string,
-): string {
-  return currencyParts(amount, currency as unknown as SupportedCurrency).formatted;
+export function formatMoney(amount: number, currency: string): string {
+  return currencyParts(amount, currency).formatted;
 }
