@@ -1,19 +1,18 @@
 import './TemplateDetail.css'
 import { GetTemplateBtn } from '@/components/template-detail/GetTemplateBtn';
 import Gallery from '@/components/template-detail/Gallery';
-import Faq from '@/components/template-detail/Faq';
 import { OrderDialog } from '@/components/template-detail/OrderDialog';
 import EarlyOffer from '@/components/template-detail/EarlyOffer';
 import { StrapiTemplateDetail } from '@/lib/template-detail/types';
 import TemplateDetailDescription from './TemplateDetailDescription';
 import FormatCurrency from '../FormatCurrency';
+import { setAttr } from '@directus/visual-editing'
 
 export interface TemplateDetailProps {
 	data: StrapiTemplateDetail
 }
 export default async function TemplateDetail(props: TemplateDetailProps) {
 	const { data } = props
-	console.log('TemplateDetail', data);
 
 
 	return (
@@ -22,8 +21,25 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 				<div className="breadcrumb-inner">
 					<a href="index.html">Home</a><span className="breadcrumb-sep">›</span>
 					<a href="#">Templates</a><span className="breadcrumb-sep">›</span>
-					<a href={data.category.slug}>{data.category.name}</a><span className="breadcrumb-sep">›</span>
-					<span className="breadcrumb-current">{data.name}</span>
+					<a
+						data-directus={
+							setAttr({
+								collection: 'template',    // The parent collection name
+								item: data.id,             // The parent item ID
+								fields: 'category',        // The Many-to-One structural field name
+								mode: 'popover'
+							})
+						}
+						href={`/category/${data.category.slug}`}>{data.category.name}</a><span className="breadcrumb-sep">›</span>
+					<span className="breadcrumb-current"
+						data-directus={
+							setAttr({
+								collection: 'template',
+								item: data.id,
+								fields: 'name',
+								mode: 'popover'
+							})
+						}>{data.name}</span>
 				</div>
 			</div>
 

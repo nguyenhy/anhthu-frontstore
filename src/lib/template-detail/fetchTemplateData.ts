@@ -4,8 +4,10 @@ import { StrapiGalleryTab, StrapiTemplateDetail } from "./types";
 
 export async function fetchTemplateDetail(
   slug: string,
+  version?: string,
 ): Promise<StrapiTemplateDetail | null> {
   const fields = [
+    "id",
     "slug",
     "name",
 
@@ -58,9 +60,13 @@ export async function fetchTemplateDetail(
     "early_offer.coupon.expires_at",
   ];
   const search = new URLSearchParams();
+  if (version) {
+    search.append("version", version);
+  }
   search.append("filter[slug][_eq]", slug);
   search.append("limit", "1");
   search.append("fields", fields.join(","));
+
   const res = await fetchFromBff(`/items/template?${search.toString()}`);
 
   if (!res.ok) {
@@ -84,7 +90,7 @@ export async function fetchTemplateDetail(
     try {
       url = await getImagePresignedUrl(file.filename_disk);
     } catch (error) {
-      console.error("getImagePresignedUrl", file.filename_disk, error);
+      console.error(new Date().toISOString(), "fetchTemplateDetail", String(error));
     }
 
     const tab: StrapiGalleryTab = {
@@ -100,6 +106,7 @@ export async function fetchTemplateDetail(
   }
 
   return {
+    id: raw.id,
     slug: raw.slug,
     name: raw.name,
     category: {

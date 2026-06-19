@@ -4,9 +4,7 @@ export function HelpCard({ contactUrl }: Props) {
 	return (
 		<div className="help-card">
 			<p className="help-card-title">Need help with your order?</p>
-			<p className="help-card-text">
-				Send us the order number and we'll sort it out. Replies within 24 hours.
-			</p>
+			<p className="help-card-text">{"Send us the order number and we'll sort it out. Replies within 24 hours."}</p>
 			<a
 				href={contactUrl}
 				style={{

@@ -36,8 +36,8 @@ function AccountSection({ fields, reference, copiedField, onCopy, title }: Accou
 				))}
 			</div>
 			<p className="bank-amount-note">
-				Include the reference <strong>{reference}</strong> in your transfer note
-				so we can match your payment. After transferring, no further action is needed — we'll confirm within 24 hours.
+				Include the reference <strong>{reference}</strong> in your transfer note so we can match your payment.
+				{"After transferring, no further action is needed — we'll confirm within 24 hours."}
 			</p>
 		</div>
 	);
@@ -52,7 +52,7 @@ type QRSectionProps = {
 };
 
 // qrDeeplink intentionally unused — server-generated deeplink wired at P3
-function QRSection({ qrImageUrl, qrDeeplink: _qrDeeplink, title }: QRSectionProps) {
+function QRSection({ qrImageUrl, title }: QRSectionProps) {
 	return (
 		<div className="qr-wrap">
 			{title && <p className="pm-section-title">{title}</p>}

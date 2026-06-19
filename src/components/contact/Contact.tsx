@@ -119,7 +119,7 @@ export default function Contact({ content, preset }: ContactProp) {
 						: 'Something went wrong. Please try again.',
 				);
 			}
-		} catch (error) {
+		} catch {
 			setGlobalError(
 				'Something went wrong. Please try again.',
 			)
