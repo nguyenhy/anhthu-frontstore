@@ -4,6 +4,8 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from 'next/navigation';
 import { HttpError } from '@/lib/error';
 import { StrapiTemplateDetail } from '@/lib/template-detail/types';
+import { isVisualEditor } from '@/lib/cms/visual-editor';
+import VisualEditor from '@/components/cms/VisualEditor';
 import { cache } from 'react';
 
 
@@ -22,10 +24,11 @@ export async function generateMetadata(
   const parentMetadata = await parent;
   const { title: parentTitle, description: parentDescription, } = parentMetadata
 
+  const query = await props.searchParams
   const params = await props.params
   let data: StrapiTemplateDetail | null = null
   try {
-    data = await getTemplateData(params.id)
+    data = await getTemplateData(params.id, typeof query.version === 'string' ? query.version : undefined)
   } catch (error) {
     console.error(error);
   }
@@ -41,10 +44,12 @@ export async function generateMetadata(
 }
 
 export default async function Template(props: Props) {
+  const query = await props.searchParams
   const params = await props.params
+
   let data: StrapiTemplateDetail | null = null
   try {
-    data = await getTemplateData(params.id)
+    data = await getTemplateData(params.id, typeof query.version === 'string' ? query.version : undefined)
   } catch (error) {
     console.error(error);
     throw new HttpError('500')
@@ -54,9 +59,26 @@ export default async function Template(props: Props) {
     notFound()
   }
 
+  const editor = isVisualEditor(query.edit)
+  const cmsUrl = process.env.VISUAL_EDITING_CSP__FRAME_SRC
+
   return (
     <>
+      {
+        /**
+         * Inject CSP meta tag directly into HTML head dynamically at runtime. 
+         * This avoids next.config.js build-time baking constraints completely.
+         */
+        !!cmsUrl && !!editor &&
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content={`frame-ancestors 'self' ${cmsUrl}`}
+        />
+      }
       <TemplateDetailTsx data={data} />
+      {
+        !!editor && <VisualEditor />
+      }
     </>
   );
 }

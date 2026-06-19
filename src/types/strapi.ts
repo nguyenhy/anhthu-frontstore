@@ -237,6 +237,7 @@ export type StrapiGalleryTab = {
  * `driveLink` is excluded from the public API — never present on the frontend.
  */
 export type StrapiTemplateDetail = {
+  readonly id: string;
   readonly slug: string;
   readonly name: string;
   readonly category: StrapiCategory;
