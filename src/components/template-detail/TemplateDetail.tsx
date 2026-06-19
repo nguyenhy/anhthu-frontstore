@@ -66,7 +66,7 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 						<p className="price-sub">{data.priceSub}</p>
 
 						<div id="order">
-							<GetTemplateBtn className="btn-cta" />
+							<GetTemplateBtn className="btn-cta" templateId={data.id} />
 							<div className="delivery-note" dangerouslySetInnerHTML={{
 								__html: data.deliveryNote
 							}}></div>
@@ -118,7 +118,7 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 					<div className="sticky-bar-name">{data.name}</div>
 					<div className="sticky-bar-price">{data.currency}{data.price}</div>
 				</div>
-				<GetTemplateBtn className="btn-sticky" />
+				<GetTemplateBtn className="btn-sticky" templateId={data.id} />
 			</div>
 
 			<OrderDialog />
