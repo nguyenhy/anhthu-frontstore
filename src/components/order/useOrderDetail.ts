@@ -27,6 +27,7 @@ export function useOrderDetail({
 }: OrderPageData & { labels: PricingLabels }) {
   const isPending = order.status === "pending";
   const isDelivered = order.status === "delivered";
+  const hasContact = !!order.buyerEmail;
 
   const [couponApplying, setCouponApplying] = useState(false);
   const [couponError, setCouponError] = useState("");
@@ -107,6 +108,7 @@ export function useOrderDetail({
   return {
     isPending,
     isDelivered,
+    hasContact,
     appliedCoupon,
     couponApplying,
     couponError,

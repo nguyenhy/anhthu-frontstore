@@ -11,6 +11,7 @@ import { OrderTimeline } from "./OrderTimeline";
 import { PaymentSection } from "./PaymentSection";
 import { OrderSummary } from "./OrderSummary";
 import { BuyerInfo } from "./BuyerInfo";
+import { ContactForm } from "./ContactForm";
 import { HelpCard } from "./HelpCard";
 
 type OrderDetailProps = { data: OrderPageData };
@@ -20,6 +21,7 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 
 	const {
 		isPending,
+		hasContact,
 		appliedCoupon, couponApplying, couponError,
 		copiedField, copyValue,
 		total, currency, pricingRows,
@@ -52,7 +54,7 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 						currentStatus={order.status}
 					/>
 
-					{!!isPending && !!isAmountDueValid && (
+					{!!isPending && !!isAmountDueValid && !!hasContact && (
 						<PaymentSection
 							paymentMethods={paymentMethods}
 							total={total}
@@ -77,11 +79,15 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 						onApplyCoupon={handleApplyCoupon}
 					/>
 
-					<BuyerInfo
-						buyerEmail={order.buyerEmail}
-						buyerName={order.buyerName}
-						buyerPhone={order.buyerPhone}
-					/>
+					{hasContact ? (
+						<BuyerInfo
+							buyerEmail={order.buyerEmail}
+							buyerName={order.buyerName}
+							buyerPhone={order.buyerPhone}
+						/>
+					) : (
+						<ContactForm token={order.token} />
+					)}
 
 					<HelpCard contactUrl={contactUrl} />
 				</div>
