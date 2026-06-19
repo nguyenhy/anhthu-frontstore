@@ -32,10 +32,10 @@ export const ORDER_STATUS_CONFIG: Record<StrapiOrderStatus, StatusConfig> = {
     desc: "Our team is reviewing the order and will contact you directly.",
     variant: "disputed",
   },
-  used: {
+  completed: {
     icon: "✅",
     label: "Completed",
     desc: "This order has been fulfilled.",
-    variant: "delivered",
+    variant: "completed",
   },
 };

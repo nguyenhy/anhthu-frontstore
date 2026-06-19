@@ -32,7 +32,7 @@ export const ORDER_STATUS_CONFIG: Record<StrapiOrderStatus, StatusConfig> = {
     desc: "Đội ngũ của chúng tôi đang xem xét đơn hàng và sẽ liên hệ trực tiếp với bạn.",
     variant: "disputed",
   },
-  used: {
+  completed: {
     icon: "✅",
     label: "Hoàn tất",
     desc: "Đơn hàng này đã được thực hiện.",

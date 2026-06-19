@@ -268,7 +268,7 @@ export type StrapiOrderStatus =
   | "delivered"
   | "expired"
   | "disputed"
-  | "used";
+  | "completed";
 
 /** Who triggered the order event. */
 export type StrapiOrderActor = "admin" | "system" | "buyer";
