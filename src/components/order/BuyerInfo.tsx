@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 type Props = {
-  buyerEmail: string;
+  buyerEmail: string | null;
   buyerName?: string | null;
   buyerPhone?: string | null;
 };
@@ -34,7 +34,7 @@ export function BuyerInfo({ buyerEmail, buyerName, buyerPhone }: Props) {
 
   const items = [
     buyerName ? { label: "Name", value: buyerName, redacted: redactName(buyerName) } : null,
-    { label: "Email", value: buyerEmail, redacted: redactEmail(buyerEmail) },
+    buyerEmail ? { label: "Email", value: buyerEmail, redacted: redactEmail(buyerEmail) } : null,
     buyerPhone ? { label: "Phone", value: buyerPhone, redacted: redactPhone(buyerPhone) } : null,
   ].filter(Boolean) as { label: string; value: string; redacted: string }[];
 

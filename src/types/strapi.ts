@@ -320,7 +320,8 @@ export type StrapiOrderDetail = {
   /** Payment deadline. Assigned at order creation, always present. */
   readonly deadlineAt: string; // ISO 8601
 
-  readonly buyerEmail: string;
+  /** Null on draft orders (contact not yet submitted). */
+  readonly buyerEmail: string | null;
   readonly buyerName?: string | null;
   readonly buyerPhone?: string | null;
 
