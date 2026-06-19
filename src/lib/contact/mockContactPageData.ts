@@ -15,79 +15,24 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
     },
     faq: [
       {
-        label: "How delivery works?",
-        content: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "Complete your payment — we'll send your Google Sheets link within 24 hours",
-              },
-            ],
-          },
-        ],
+        question: "How will I receive the template?",
+        answer:
+          "After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. Click the link, choose **File → Make a copy** and it lands in your own Drive. You own it permanently — no subscription, no expiry.",
       },
       {
-        label: "How will I receive the template?",
-        content: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. Click the link, choose ",
-              },
-              { type: "text", text: "File → Make a copy", bold: true },
-              {
-                type: "text",
-                text: " and it lands in your own Drive. You own it permanently — no subscription, no expiry.",
-              },
-            ],
-          },
-        ],
+        question: "Does this work with Microsoft Excel?",
+        answer:
+          "The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas — like ARRAYFORMULA and conditional date rules — may not transfer perfectly. For the best experience, use Google Sheets (free with any Google account).",
       },
       {
-        label: "Does this work with Microsoft Excel?",
-        content: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas — like ARRAYFORMULA and conditional date rules — may not transfer perfectly. For the best experience, use Google Sheets (free with any Google account).",
-              },
-            ],
-          },
-        ],
+        question: "Can I get a refund?",
+        answer:
+          "Because digital files are delivered after purchase, we don't offer refunds. If anything in your file doesn't work as described — a broken formula, a missing tab — contact us and we'll fix it same day.",
       },
       {
-        label: "Can I get a refund?",
-        content: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "Because digital files are delivered after purchase, we don't offer refunds. If anything in your file doesn't work as described — a broken formula, a missing tab — contact us and we'll fix it same day.",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        label: "What payment methods do you accept?",
-        content: [
-          {
-            type: "paragraph",
-            children: [
-              {
-                type: "text",
-                text: "We accept bank transfer and QR code payment. Payment details are shown immediately after you submit your order form.",
-              },
-            ],
-          },
-        ],
+        question: "What payment methods do you accept?",
+        answer:
+          "We accept bank transfer and QR code payment. Payment details are shown immediately after you submit your order form.",
       },
     ],
     support: {
@@ -123,8 +68,8 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
                 { type: "text", text: "Write to " },
                 {
                   type: "link",
-                  url: "mailto:support@simplavn.com",
-                  children: [{ type: "text", text: "support@simplavn.com" }],
+                  url: "mailto:support@templa.co",
+                  children: [{ type: "text", text: "support@templa.co" }],
                 },
               ],
             },

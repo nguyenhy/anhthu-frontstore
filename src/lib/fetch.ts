@@ -3,14 +3,23 @@ import { AppError } from "./error";
 export const BFF_API_ENDPOINT = process.env.BFF_API_ENDPOINT ?? "";
 export const BFF_API_TOKEN = process.env.BFF_API_TOKEN ?? "";
 
-export const fetchFromBff = (input: string, init: RequestInit = {}) => {
+export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
   if (!BFF_API_ENDPOINT) {
     throw new AppError("api not configured");
   }
 
+  const uid = Math.floor(Math.random() * 10000000) + Date.now();
   const url = new URL(input, BFF_API_ENDPOINT);
 
-  return fetch(url, {
+  console.log(
+    new Date().toISOString(),
+    uid,
+    "[api] >>",
+    init.method || "GET",
+    decodeURIComponent(url.toString()),
+  );
+
+  const result = await fetch(url, {
     next: { revalidate: 60, ...init.next },
     ...init,
     headers: {
@@ -19,4 +28,8 @@ export const fetchFromBff = (input: string, init: RequestInit = {}) => {
       ...init.headers,
     },
   });
+
+  console.log(new Date().toISOString(), uid, "[api] <<", result.status);
+
+  return result;
 };

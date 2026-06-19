@@ -18,6 +18,9 @@ import type { RichText } from "@/components/RichTextRender";
 // Shared primitives
 // ---------------------------------------------------------------------------
 
+type HTMLString = string;
+type MarkdownString = string;
+
 /** `{ key, value }` pair used in template meta lists. */
 export type StrapiMetaItem = {
   readonly key: string;
@@ -26,7 +29,7 @@ export type StrapiMetaItem = {
 
 /** Single feature bullet inside a features-section block. */
 export type StrapiFeatureItem = {
-  readonly title: string;
+  readonly label: string;
 };
 
 /** Card entry inside an included-section block. */
@@ -38,8 +41,8 @@ export type StrapiIncludedCard = {
 
 /** Single FAQ entry — shared across template and contact pages. */
 export type StrapiFaqContent = {
-  readonly label: string;
-  readonly content: RichText;
+  readonly question: string;
+  readonly answer: MarkdownString;
 };
 
 /** Strapi media object. Only `url` is guaranteed at P0. */
@@ -67,7 +70,7 @@ export type StrapiCategory = {
 export type StrapiPersona = {
   readonly icon: string;
   readonly title: string;
-  readonly description: string;
+  readonly content: string;
 };
 
 // ---------------------------------------------------------------------------
@@ -91,11 +94,12 @@ export type StrapiCoupon = {
   /** `percent` = percentage off; `fixed` = flat amount off in currency. */
   readonly type: "percent" | "fixed";
   readonly amount: number;
+  readonly currency: string;
   /** Maximum discount cap in currency units. Only relevant for `percent` type. */
-  readonly cap?: number;
+  readonly cap_value: number;
   /** Human-readable condition text shown to buyer. */
-  readonly condition: string;
-  readonly expiresAt: string; // ISO 8601
+  readonly can_expired: boolean;
+  readonly expires_at?: string | null; // ISO 8601
   readonly active: boolean;
 };
 
@@ -105,14 +109,16 @@ export type StrapiCoupon = {
 
 /** Promotional offer widget shown on the template detail page. Requires a linked Coupon. */
 export type StrapiEarlyOffer = {
-  readonly eyebrow: RichText;
-  readonly title: RichText;
-  readonly desc: RichText;
-  /** Message shown after buyer submits the early offer form. */
-  readonly submittedMessage: RichText;
-  readonly note: RichText;
-  readonly coupon: StrapiCoupon;
-  readonly active: boolean;
+  readonly section_title: string;
+  readonly title: string;
+  readonly desc: MarkdownString;
+  readonly note: MarkdownString;
+  readonly item: {
+    /** Message shown after buyer submits the early offer form. */
+    readonly submittedMessage: RichText;
+    readonly note: RichText;
+    readonly coupon: StrapiCoupon;
+  };
 };
 
 // ---------------------------------------------------------------------------
@@ -154,44 +160,50 @@ export type StrapiPaymentMethod = {
 // ---------------------------------------------------------------------------
 
 export type StrapiDividerSectionBlock = {
-  readonly __component: "divider";
+  readonly collection: "divider";
 };
 
 export type StrapiFeaturesSectionBlock = {
-  readonly __component: "blocks.features-section";
-  readonly sectionTitle: string;
-  readonly title: string;
-  readonly description: RichText;
-  readonly features: StrapiFeatureItem[];
+  readonly collection: "template_desc_block_feature";
+  readonly item: {
+    readonly section_title: string;
+    readonly title: string;
+    readonly desc: HTMLString;
+    readonly features: StrapiFeatureItem[];
+  };
 };
 
 export type StrapiPersonasSectionBlock = {
-  readonly __component: "blocks.personas-section";
-  readonly sectionTitle: string;
-  readonly title: string;
-  readonly personas: StrapiPersona[];
-  readonly note: string;
-  readonly noteIcon: string;
+  readonly collection: "template_desc_block_card";
+  readonly item: {
+    readonly section_title: string;
+    readonly title: string;
+    readonly cards: StrapiPersona[];
+    readonly note: string;
+    readonly note_icon: string;
+  };
 };
 
 export type StrapiIncludedSectionBlock = {
-  readonly __component: "blocks.included-section";
+  readonly collection: "blocks.included-section";
   readonly sectionTitle: string;
   readonly title: string;
   readonly cards: StrapiIncludedCard[];
 };
 
 export type StrapiRichTextBlock = {
-  readonly __component: "blocks.rich-text";
+  readonly collection: "blocks.rich-text";
   readonly sectionTitle: string;
   readonly content: RichText;
 };
 
 export type StrapiFaqBlock = {
-  readonly __component: "blocks.faq";
-  readonly sectionTitle: string;
-  readonly title: string;
-  readonly faq: StrapiFaqContent[];
+  readonly collection: "template_desc_block_faq";
+  readonly item: {
+    readonly section_title: string;
+    readonly title: string;
+    readonly faqs: StrapiFaqContent[];
+  };
 };
 
 /** Union of all dynamic zone block types in Template.description. */
@@ -212,7 +224,12 @@ export type StrapiGalleryTab = {
   readonly key: string;
   readonly label: string;
   readonly ariaLabel: string;
-  readonly image?: StrapiMedia | null;
+  // readonly filename_disk: string;
+  // readonly filename_download: string;
+  readonly url: string;
+  readonly width: string;
+  readonly height: string;
+  readonly type: string;
 };
 
 /**

@@ -1,4 +1,4 @@
-import { fetchTemplateDetail } from '@/lib/template-detail/mockTemplateDetail';
+import { fetchTemplateDetail } from '@/lib/template-detail/fetchTemplateData';
 import TemplateDetailTsx from '@/components/template-detail/TemplateDetail';
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from 'next/navigation';

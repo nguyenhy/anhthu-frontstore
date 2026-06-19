@@ -13,6 +13,8 @@ export interface TemplateDetailProps {
 }
 export default async function TemplateDetail(props: TemplateDetailProps) {
 	const { data } = props
+	console.log('TemplateDetail', data);
+
 
 	return (
 		<>
@@ -40,15 +42,18 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 						</div>
 
 						<div className="price-row">
-							<FormatCurrency amount={data.price} currency={data.currency} />
-							<span className="price-currency">{data.currency}</span>
-							<span className="price">{data.price}</span>
+							<FormatCurrency amount={data.price} currency={data.currency}
+								currencyClass="price-currency"
+								priceClass='price'
+							/>
 						</div>
 						<p className="price-sub">{data.priceSub}</p>
 
 						<div id="order">
 							<GetTemplateBtn className="btn-cta" />
-							<p className="delivery-note"><strong>How delivery works:</strong> {data.deliveryNote}</p>
+							<div className="delivery-note" dangerouslySetInnerHTML={{
+								__html: data.deliveryNote
+							}}></div>
 						</div>
 
 						<div className="divider"></div>
@@ -62,7 +67,9 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 							))}
 						</ul>
 
-						<div className="compat-note">{data.compatNote}</div>
+						<div className="compat-note" dangerouslySetInnerHTML={{
+							__html: data.compatNote
+						}}></div>
 					</div>
 
 					<div className="col-gallery">
