@@ -1,7 +1,7 @@
 import OrderDetail from "@/components/order/OrderDetail";
 import { HttpError } from "@/lib/error";
 import { type OrderPageData } from "@/lib/order/types";
-import { fetchOrderDetail } from "@/lib/order/mockOrderDetail";
+import { fetchOrderDetail } from "@/lib/order/fetchOrderDetail";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 

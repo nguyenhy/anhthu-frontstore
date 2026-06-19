@@ -9,7 +9,7 @@ export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
   }
 
   const uid = Math.floor(Math.random() * 10000000) + Date.now();
-  const url = new URL(input, BFF_API_ENDPOINT);
+  const url = parseBffEndpoint(input);
 
   console.log(
     new Date().toISOString(),
@@ -32,4 +32,12 @@ export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
   console.log(new Date().toISOString(), uid, "[api] <<", result.status);
 
   return result;
+};
+
+export const parseBffEndpoint = (path: string) => {
+  if (!BFF_API_ENDPOINT) {
+    throw new AppError("api not configured");
+  }
+
+  return new URL(path, BFF_API_ENDPOINT);
 };

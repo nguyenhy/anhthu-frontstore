@@ -133,24 +133,21 @@ export type StrapiPaymentMethodType = "bank" | "ewallet";
  * Fetched from `/api/payment-instructions`.
  */
 export type StrapiPaymentMethod = {
-  /** Unique, URL-friendly identifier. Example: `"vietcombank-bank"`, `"momo-wallet"`. */
-  readonly slug: string;
   /** Human-readable name shown to buyer. Example: `"Vietcombank"`, `"MoMo"`. */
-  readonly displayName: string;
+  readonly name: string;
   readonly type: StrapiPaymentMethodType;
   /** Logo or brand image. */
   readonly logo?: unknown;
   /** Bank account number, wallet ID, or phone number receiving payments. */
-  readonly accountNumber?: string;
+  readonly accountNumber: string;
   /** Registered account holder name. */
-  readonly accountName?: string;
+  readonly accountName: string;
   /** URL of a static QR image for scanning. */
   readonly qrImageUrl?: string;
   /** Deep link to open the payment app directly. Example: `"momo://..."`. */
   readonly qrDeeplink?: string;
   /** Additional instructions shown to buyer. */
   readonly note?: string;
-  readonly active: boolean;
   /** Display order — lower values shown first. */
   readonly sortOrder?: number;
 };
@@ -316,9 +313,9 @@ export type StrapiOrderDetail = {
   readonly orderNumber: string;
   /** Read cache of latest OrderEvent.status. Never write directly. */
   readonly status: StrapiOrderStatus;
-  readonly createdAt: string; // ISO 8601
+  readonly createdAt: string | null; // ISO 8601
   /** Payment deadline. Assigned at order creation, always present. */
-  readonly deadlineAt: string; // ISO 8601
+  readonly deadlineAt: string | null; // ISO 8601
 
   /** Null on draft orders (contact not yet submitted). */
   readonly buyerEmail: string | null;
@@ -326,13 +323,14 @@ export type StrapiOrderDetail = {
   readonly buyerPhone?: string | null;
 
   /** Template name at purchase time. */
-  readonly snapshotName: string;
+  readonly templateName: string;
+  readonly templateSlug: string;
   /** Currency code at purchase time. Example: `"VND"`. */
-  readonly snapshotCurrency: string;
+  readonly currency: string;
   /** Category emoji at purchase time. */
-  readonly snapshotEmoji: string;
+  readonly thumbnail: StrapiGalleryTab;
   /** Category name at purchase time. */
-  readonly snapshotCategoryName: string;
+  readonly category: StrapiCategory;
 
   readonly subtotal: number;
   readonly discount: number;
@@ -341,11 +339,6 @@ export type StrapiOrderDetail = {
   /** Applied coupon snapshot. Null if no coupon was used. */
   readonly coupon?: StrapiCouponSnapshot | null;
   readonly timeline: StrapiOrderEvent[];
-
-  /** CMS-editable copy shown when status is `pending`. Falls back to hardcoded strings if null. */
-  readonly orderPendingDesc?: RichText | null;
-  /** CMS-editable copy shown when status is `delivered`. Falls back to hardcoded strings if null. */
-  readonly orderDeliveredDesc?: RichText | null;
 };
 
 // ---------------------------------------------------------------------------

@@ -3,22 +3,18 @@ import type { StrapiPaymentMethod } from "@/lib/payment/types";
 
 const MOCK_PAYMENT_METHODS: StrapiPaymentMethod[] = [
   {
-    slug: "vietcombank-bank",
-    displayName: "Vietcombank",
+    name: "Vietcombank",
     type: "bank",
     accountNumber: "1234 5678 9012",
     accountName: "NGUYEN VAN AN",
-    active: true,
     sortOrder: 1,
   },
   {
-    slug: "momo-wallet",
-    displayName: "MoMo",
+    name: "MoMo",
     type: "ewallet",
     accountNumber: "9012 1234 5678",
     accountName: "NGUYEN VAN AN",
     qrImageUrl: "https://picsum.photos/400/400",
-    active: true,
     sortOrder: 2,
   },
 ];
@@ -34,10 +30,23 @@ const BASE_ORDER: StrapiOrderDetail = {
   buyerName: "Tran Minh Khoa",
   buyerPhone: "+84 90 123 4567",
 
-  snapshotName: "Freelancer Invoice Tracker",
-  snapshotCurrency: "VND",
-  snapshotEmoji: "📊",
-  snapshotCategoryName: "Finance",
+  templateName: "Freelancer Invoice Tracker",
+  templateSlug: "freelancer-invoice-tracker",
+  currency: "VND",
+  thumbnail: {
+    key: "",
+    label: "",
+    ariaLabel: "",
+    url: "",
+    width: "",
+    height: "",
+    type: "",
+  },
+  category: {
+    slug: "",
+    name: "",
+    emoji: "",
+  },
 
   subtotal: 500000,
   discount: 0,
@@ -51,30 +60,6 @@ const BASE_ORDER: StrapiOrderDetail = {
       occurredAt: "2024-06-01T10:42:00Z",
       actor: "system",
       correction: false,
-    },
-  ],
-
-  orderPendingDesc: [
-    {
-      type: "paragraph",
-      children: [
-        {
-          type: "text",
-          text: "Complete payment using the details below. Delivery ",
-        },
-        { type: "text", text: "within 24h", bold: true },
-        { type: "text", text: " after payment is confirmed." },
-      ],
-    },
-  ],
-  orderDeliveredDesc: [
-    {
-      type: "paragraph",
-      children: [
-        { type: "text", text: "Your template has been sent. Check your " },
-        { type: "text", text: "email", bold: true },
-        { type: "text", text: " for the Google Drive access link." },
-      ],
     },
   ],
 };

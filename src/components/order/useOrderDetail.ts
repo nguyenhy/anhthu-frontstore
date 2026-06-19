@@ -31,7 +31,7 @@ export function useOrderDetail({
 
   const [couponApplying, setCouponApplying] = useState(false);
   const [couponError, setCouponError] = useState("");
-  const currency = order.snapshotCurrency;
+  const currency = order.currency;
 
   const [appliedCoupon, setAppliedCoupon] = useState<RawAppliedCoupon | null>(
     order.coupon

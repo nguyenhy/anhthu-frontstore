@@ -11,7 +11,7 @@ export type {
 // Combined payload returned by fetchOrderDetail / mockOrderDetail
 export type OrderPageData = {
   order: StrapiOrderDetail;
-  paymentMethods: StrapiPaymentMethod[];
+  paymentMethods?: StrapiPaymentMethod[];
 };
 
 // --- Component display types (computed by useOrderDetail from raw shapes) ---

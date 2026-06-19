@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function OrderHeader({ orderNumber, createdAt, name }: Props) {
-  const orderMeta = `Placed ${formatDate(createdAt)} - ${name}`;
+  const orderMeta = createdAt ? `Placed ${formatDate(createdAt)} - ${name}` : '';
 
   return (
     <div style={{ marginBottom: "var(--sp-xl)" }}>

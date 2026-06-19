@@ -19,6 +19,7 @@ type OrderDetailProps = { data: OrderPageData };
 export default function OrderDetail({ data }: OrderDetailProps) {
 	const { order, paymentMethods } = data;
 
+	const parsed = useOrderDetail({ ...data, labels: ORDER_PRICING_LABELS })
 	const {
 		isPending,
 		hasContact,
@@ -28,25 +29,22 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 		contactUrl,
 		isAmountDueValid,
 		handleApplyCoupon,
-	} = useOrderDetail({ ...data, labels: ORDER_PRICING_LABELS });
+	} = parsed;
+	console.log(order, paymentMethods);
+
 
 	return (
 		<main className="page">
 			<OrderHeader
 				orderNumber={order.orderNumber}
-				createdAt={order.createdAt}
-				name={order.snapshotName}
+				createdAt={order.createdAt || ''}
+				name={order.templateName}
 			/>
 
 			<div className="grid">
 				<div className="col-main">
 					<StatusBanner
-						config={getOrderStatusConfig(order.status)}
-						cmsDesc={
-							order.status === "pending" ? order.orderPendingDesc :
-								order.status === "delivered" ? order.orderDeliveredDesc :
-									null
-						}
+						status={order.status}
 					/>
 
 					<OrderTimeline
@@ -54,7 +52,7 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 						currentStatus={order.status}
 					/>
 
-					{!!isPending && !!isAmountDueValid && !!hasContact && (
+					{!!isPending && !!isAmountDueValid && !!hasContact && !!paymentMethods && (
 						<PaymentSection
 							paymentMethods={paymentMethods}
 							total={total}
@@ -62,16 +60,17 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 							copiedField={copiedField}
 							onCopy={copyValue}
 							reference={order.orderNumber}
-							deadlineAt={order.deadlineAt}
+							deadlineAt={order.deadlineAt || ''}
 						/>
 					)}
 				</div>
 
 				<div className="col-side">
 					<OrderSummary
-						snapshotName={order.snapshotName}
-						snapshotEmoji={order.snapshotEmoji}
-						snapshotCategoryName={order.snapshotCategoryName}
+						templateName={order.templateName}
+						templateSlug={order.templateSlug}
+						thumbnail={order.thumbnail}
+						category={order.category}
 						pricingRows={pricingRows}
 						appliedCoupon={appliedCoupon}
 						couponApplying={couponApplying}
