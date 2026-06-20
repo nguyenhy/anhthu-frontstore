@@ -35,7 +35,7 @@ export async function fetchPaymentMethods(
   const json = await res.json();
   const raw = json?.data;
 
-  if (!raw) {
+  if (!raw || !Array.isArray(raw)) {
     throw new Error(`payment_method not found`);
   }
 
