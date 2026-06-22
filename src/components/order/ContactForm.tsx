@@ -103,37 +103,41 @@ export function ContactForm({ token }: Props) {
           {!!emailError && <p className="field-error visible">{emailError}</p>}
         </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="cf-name">Your name</label>
-          <input
-            className={clsx("form-input", nameError && "error")}
-            id="cf-name"
-            type="text"
-            name="name"
-            autoComplete="name"
-            placeholder="Jane Smith"
-            value={name}
-            onChange={(e) => { setName(e.target.value); setNameError(""); }}
-          />
-          {!!nameError && <p className="field-error visible">{nameError}</p>}
-        </div>
+        {emailFocused && (
+          <>
+            <div className="form-group">
+              <label className="form-label" htmlFor="cf-name">Your name</label>
+              <input
+                className={clsx("form-input", nameError && "error")}
+                id="cf-name"
+                type="text"
+                name="name"
+                autoComplete="name"
+                placeholder="Jane Smith"
+                value={name}
+                onChange={(e) => { setName(e.target.value); setNameError(""); }}
+              />
+              {!!nameError && <p className="field-error visible">{nameError}</p>}
+            </div>
 
-        <div className="form-group">
-          <label className="form-label" htmlFor="cf-phone">
-            Phone number <span style={{ color: "var(--mute)", fontWeight: 400 }}>(optional)</span>
-          </label>
-          <input
-            className={clsx("form-input", phoneError && "error")}
-            id="cf-phone"
-            type="tel"
-            name="phone"
-            autoComplete="tel"
-            placeholder="+1 555 000 0000"
-            value={phone}
-            onChange={(e) => { setPhone(e.target.value); setPhoneError(""); }}
-          />
-          {!!phoneError && <p className="field-error visible">{phoneError}</p>}
-        </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="cf-phone">
+                Phone number <span style={{ color: "var(--mute)", fontWeight: 400 }}>(optional)</span>
+              </label>
+              <input
+                className={clsx("form-input", phoneError && "error")}
+                id="cf-phone"
+                type="tel"
+                name="phone"
+                autoComplete="tel"
+                placeholder="+1 555 000 0000"
+                value={phone}
+                onChange={(e) => { setPhone(e.target.value); setPhoneError(""); }}
+              />
+              {!!phoneError && <p className="field-error visible">{phoneError}</p>}
+            </div>
+          </>
+        )}
 
         {!!globalError && (
           <div className="form-error" role="alert">
