@@ -115,7 +115,9 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 			<div className="sticky-bar" id="sticky-bar" role="complementary" aria-label="Purchase">
 				<div>
 					<div className="sticky-bar-name">{data.name}</div>
-					<div className="sticky-bar-price">{data.currency}{data.price}</div>
+					<div className="sticky-bar-price">
+						<FormatCurrency currency={data.currency} amount={data.price} />
+					</div>
 				</div>
 				<GetTemplateBtn className="btn-sticky" templateId={data.id} />
 			</div>
