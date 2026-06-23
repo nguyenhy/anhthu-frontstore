@@ -21,7 +21,7 @@ export async function applyCoupon(
   code: string,
 ): Promise<ApplyCouponResult> {
   try {
-    const res = await fetchFromBff(`/api/orders/${token}/coupons`, {
+    const res = await fetchFromBff(`/api/order/${token}/coupons`, {
       method: "POST",
       body: JSON.stringify({ code: code.trim().toUpperCase() }),
     });

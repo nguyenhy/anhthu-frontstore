@@ -17,6 +17,7 @@ import { ContactForm } from "./ContactForm";
 import { VerifyForm } from "./VerifyForm";
 import { HelpCard } from "./HelpCard";
 import { verifyContact } from '@/lib/order/verifyContact';
+import { resendVerify } from '@/lib/order/resendVerify';
 
 type OrderDetailProps = { data: OrderPageData };
 
@@ -41,6 +42,12 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 		}
 		return result.message ?? "Something went wrong. Please try again.";
 	}, [order.token, router]);
+
+	const handleResendVerify = useCallback(async (): Promise<string | undefined> => {
+		const result = await resendVerify(order.token, code);
+		if (result.status === "success") return undefined;
+		return result.message ?? "Something went wrong. Please try again.";
+	}, [order.token]);
 
 	const parsed = useOrderDetail({ ...data, labels: ORDER_PRICING_LABELS });
 	const {
@@ -103,7 +110,7 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 					)}
 
 					{order.buyer && !order.buyer.verified_at && (
-						<VerifyForm onSubmit={handleVerifySubmit} />
+						<VerifyForm onSubmit={handleVerifySubmit} onResend={handleResendVerify} />
 					)}
 
 					{order.buyer && (

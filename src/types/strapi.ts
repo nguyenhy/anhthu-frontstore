@@ -310,7 +310,7 @@ export type StrapiBuyer = {
 };
 
 /**
- * Order record returned by `GET /api/orders/:token`.
+ * Order record returned by `GET /api/order/:token`.
  * Snapshot fields (`snapshot*`) capture template state at purchase time and never change.
  * `status` is a read cache of the latest `OrderEvent.status` — never written directly.
  */

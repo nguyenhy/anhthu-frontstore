@@ -2,16 +2,19 @@
 
 import { useState, useCallback } from "react";
 import clsx from "clsx";
-import "./ContactForm.css";
+import "./VerifyForm.css";
 
 type Props = {
   onSubmit: (code: string) => Promise<string | undefined>;
+  onResend: () => Promise<string | undefined>;
 };
 
-export function VerifyForm({ onSubmit }: Props) {
+export function VerifyForm({ onSubmit, onResend }: Props) {
   const [code, setCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [resending, setResending] = useState(false);
   const [error, setError] = useState("");
+  const [errorResend, setErrorResend] = useState("");
 
   const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,6 +30,20 @@ export function VerifyForm({ onSubmit }: Props) {
       setSubmitting(false);
     }
   }, [submitting, code, onSubmit]);
+
+  const handleResend = useCallback(async () => {
+    if (resending || submitting) return;
+    setErrorResend("");
+    setResending(true);
+    try {
+      const errorMessage = await onResend();
+      if (errorMessage) setErrorResend(errorMessage);
+    } catch {
+      setErrorResend("Something went wrong. Please try again.");
+    } finally {
+      setResending(false);
+    }
+  }, [resending, submitting, onResend]);
 
   return (
     <div className="card">
@@ -54,6 +71,10 @@ export function VerifyForm({ onSubmit }: Props) {
         <button type="submit" className="btn-submit" disabled={submitting || !code.trim()}>
           {submitting ? "Verifying…" : "Verify email →"}
         </button>
+        <button type="button" className="btn-resend" disabled={resending || submitting} onClick={handleResend}>
+          {resending ? "Resending…" : "Resend email →"}
+        </button>
+        {!!errorResend && <p className="field-error visible">{errorResend}</p>}
       </form>
     </div>
   );
