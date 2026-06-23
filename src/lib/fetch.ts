@@ -1,4 +1,5 @@
 import { AppError } from "./error";
+import { createLogger } from "./logger";
 
 export const BFF_API_ENDPOINT = process.env.BFF_API_ENDPOINT ?? "";
 export const BFF_API_TOKEN = process.env.BFF_API_TOKEN ?? "";
@@ -8,12 +9,10 @@ export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
     throw new AppError("api not configured");
   }
 
-  const uid = Math.floor(Math.random() * 10000000) + Date.now();
+  const logger = createLogger();
   const url = parseBffEndpoint(input);
 
-  console.log(
-    new Date().toISOString(),
-    uid,
+  logger.info(
     "[api] >>",
     init.method || "GET",
     decodeURIComponent(url.toString()),
@@ -29,7 +28,7 @@ export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
     },
   });
 
-  console.log(new Date().toISOString(), uid, "[api] <<", result.status);
+  logger.info("[api] <<", result.status);
 
   return result;
 };
