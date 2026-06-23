@@ -17,7 +17,7 @@ export type CreateDraftOrderResult =
   | CreateDraftOrderError;
 
 export async function createDraftOrder(
-  templateId: string,
+  templateId: number,
 ): Promise<CreateDraftOrderResult> {
   try {
     const search = new URLSearchParams();
