@@ -15,7 +15,7 @@ export const GetTemplateBtn = ({ templateId, ...props }: Props) => {
     if (!templateId || loading) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/orders/new", {
+      const res = await fetch("/api/order/new", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ templateId }),
