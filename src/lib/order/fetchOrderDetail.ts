@@ -1,4 +1,4 @@
-import { StrapiPaymentMethod } from "@/types/strapi";
+import { StrapiOrderEvent, StrapiPaymentMethod } from "@/types/strapi";
 import { fetchFromBff } from "../fetch";
 import { getImageAssets, getImagePresignedUrl } from "../image/storage";
 import { fetchPaymentMethods } from "../payment/fetchPaymentMethods";
@@ -17,8 +17,9 @@ export async function fetchOrderDetail(
     "buyer.email",
     "buyer.name",
     "buyer.phone",
+    "buyer.date_created",
+    "buyer.verified_at",
 
-    "status",
     "events.status",
 
     // "coupon.type",
@@ -95,25 +96,19 @@ export async function fetchOrderDetail(
   }
 
   const dateCreated = new Date(raw.date_created);
-  const inValidDateCreated = isNaN(dateCreated.valueOf());
-  const createdAt = inValidDateCreated ? null : dateCreated.toISOString();
-  const deadlineAt = inValidDateCreated
-    ? null
-    : new Date(
-        dateCreated.valueOf() + (raw.expired_after || 24) * 3600 * 1000,
-      ).toISOString();
+  const createdAt = dateCreated.toISOString();
+  const deadlineAt = new Date(
+    dateCreated.valueOf() + (raw.expired_after || 24) * 3600 * 1000,
+  ).toISOString();
 
   return {
     order: {
       token: raw.slug,
       orderNumber: raw.order_id,
-      status: raw.status,
       createdAt: createdAt,
       deadlineAt: deadlineAt,
 
-      buyerEmail: raw.buyer ? raw.buyer.email : "",
-      buyerName: raw.buyer ? raw.buyer.name : "",
-      buyerPhone: raw.buyer ? raw.buyer.phone : "",
+      buyer: raw.buyer,
 
       templateName: raw.template.name,
       templateSlug: raw.template.slug,
@@ -133,7 +128,6 @@ export async function fetchOrderDetail(
       discount: 0,
       total: raw.template.product.price,
       coupon: null,
-      timeline: raw.events,
     },
     paymentMethods: paymentMethods,
   } satisfies OrderPageData;

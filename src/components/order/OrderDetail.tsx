@@ -1,36 +1,57 @@
 "use client";
 
 import './OrderDetail.css';
-import type { OrderPageData } from "@/lib/order/types";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import type { OrderPageData, ContactFormData, StrapiOrderStatus, StrapiOrderEvent } from "@/lib/order/types";
+import { submitContact } from "@/lib/order/submitContact";
 import { useOrderDetail } from "./useOrderDetail";
 import { ORDER_PRICING_LABELS } from "@/locales/en/orderPricing";
 import { OrderHeader } from "./OrderHeader";
 import { StatusBanner } from "./StatusBanner";
-import { getOrderStatusConfig } from "@/locales/orderStatus";
 import { OrderTimeline } from "./OrderTimeline";
 import { PaymentSection } from "./PaymentSection";
 import { OrderSummary } from "./OrderSummary";
 import { BuyerInfo } from "./BuyerInfo";
 import { ContactForm } from "./ContactForm";
+import { VerifyForm } from "./VerifyForm";
 import { HelpCard } from "./HelpCard";
+import { verifyContact } from '@/lib/order/verifyContact';
 
 type OrderDetailProps = { data: OrderPageData };
 
 export default function OrderDetail({ data }: OrderDetailProps) {
+	const router = useRouter();
 	const { order, paymentMethods } = data;
 
-	const parsed = useOrderDetail({ ...data, labels: ORDER_PRICING_LABELS })
+	const handleContactSubmit = useCallback(async (form: ContactFormData): Promise<string | undefined> => {
+		const result = await submitContact(order.token, form);
+		if (result.status === "success") {
+			router.refresh();
+			return undefined;
+		}
+		return result.message ?? "Something went wrong. Please try again.";
+	}, [order.token, router]);
+
+	const handleVerifySubmit = useCallback(async (code: string): Promise<string | undefined> => {
+		const result = await verifyContact(order.token, code);
+		if (result.status === "success") {
+			router.refresh();
+			return undefined;
+		}
+		return result.message ?? "Something went wrong. Please try again.";
+	}, [order.token, router]);
+
+	const parsed = useOrderDetail({ ...data, labels: ORDER_PRICING_LABELS });
 	const {
-		isPending,
-		hasContact,
 		appliedCoupon, couponApplying, couponError,
 		copiedField, copyValue,
 		total, currency, pricingRows,
 		contactUrl,
 		isAmountDueValid,
 		handleApplyCoupon,
+		status, timeline
 	} = parsed;
-	console.log(order, paymentMethods);
 
 
 	return (
@@ -43,26 +64,25 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 
 			<div className="grid">
 				<div className="col-main">
-					<StatusBanner
-						status={order.status}
-					/>
+					<StatusBanner status={status} />
 
-					<OrderTimeline
-						timeline={order.timeline}
-						currentStatus={order.status}
-					/>
+					<OrderTimeline date={timeline} />
 
-					{!!isPending && !!isAmountDueValid && !!hasContact && !!paymentMethods && (
-						<PaymentSection
-							paymentMethods={paymentMethods}
-							total={total}
-							currency={currency}
-							copiedField={copiedField}
-							onCopy={copyValue}
-							reference={order.orderNumber}
-							deadlineAt={order.deadlineAt || ''}
-						/>
-					)}
+					{
+						!!order.buyer?.email &&
+						!!order.buyer?.verified_at &&
+						!!isAmountDueValid
+						&& !!paymentMethods && (
+							<PaymentSection
+								paymentMethods={paymentMethods}
+								total={total}
+								currency={currency}
+								copiedField={copiedField}
+								onCopy={copyValue}
+								reference={order.orderNumber}
+								deadlineAt={order.deadlineAt || ''}
+							/>
+						)}
 				</div>
 
 				<div className="col-side">
@@ -78,14 +98,20 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 						onApplyCoupon={handleApplyCoupon}
 					/>
 
-					{hasContact ? (
+					{!order.buyer && (
+						<ContactForm onSubmit={handleContactSubmit} />
+					)}
+
+					{order.buyer && !order.buyer.verified_at && (
+						<VerifyForm onSubmit={handleVerifySubmit} />
+					)}
+
+					{order.buyer && (
 						<BuyerInfo
-							buyerEmail={order.buyerEmail}
-							buyerName={order.buyerName}
-							buyerPhone={order.buyerPhone}
+							buyerEmail={order.buyer.email}
+							buyerName={order.buyer.name}
+							buyerPhone={order.buyer.phone}
 						/>
-					) : (
-						<ContactForm token={order.token} />
 					)}
 
 					<HelpCard contactUrl={contactUrl} />

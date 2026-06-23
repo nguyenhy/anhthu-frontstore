@@ -5,7 +5,7 @@ import type { OrderPageData, RawAppliedCoupon } from "@/lib/order/types";
 import type { ORDER_PRICING_LABELS } from "@/locales/en/orderPricing";
 import { applyCoupon } from "@/lib/order/applyCoupon";
 import { formatMoney } from "@/lib/formatCurrency";
-
+import { createOrderTimelineDate, getOrderStatus } from "./OrderTimeline";
 
 export type PricingRow = {
   label: string;
@@ -25,9 +25,8 @@ export function useOrderDetail({
   order,
   labels,
 }: OrderPageData & { labels: PricingLabels }) {
-  const isPending = order.status === "pending";
-  const isDelivered = order.status === "delivered";
-  const hasContact = !!order.buyerEmail;
+  const timeline = createOrderTimelineDate(order);
+  const status = getOrderStatus(timeline);
 
   const [couponApplying, setCouponApplying] = useState(false);
   const [couponError, setCouponError] = useState("");
@@ -106,9 +105,6 @@ export function useOrderDetail({
   );
 
   return {
-    isPending,
-    isDelivered,
-    hasContact,
     appliedCoupon,
     couponApplying,
     couponError,
@@ -120,5 +116,7 @@ export function useOrderDetail({
     contactUrl,
     isAmountDueValid,
     handleApplyCoupon,
+    status,
+    timeline,
   };
 }

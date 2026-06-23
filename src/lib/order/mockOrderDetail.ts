@@ -22,13 +22,15 @@ const MOCK_PAYMENT_METHODS: StrapiPaymentMethod[] = [
 const BASE_ORDER: StrapiOrderDetail = {
   token: "mock-token-pending",
   orderNumber: "TMP-A3X",
-  status: "pending",
+  status: "idle",
   createdAt: new Date().toISOString(),
   deadlineAt: new Date(Date.now() + 10 * 1000).toISOString(),
 
-  buyerEmail: "khoa.tran@example.com",
-  buyerName: "Tran Minh Khoa",
-  buyerPhone: "+84 90 123 4567",
+  buyer: {
+    email: "khoa.tran@example.com",
+    name: "Tran Minh Khoa",
+    phone: "+84 90 123 4567",
+  },
 
   templateName: "Freelancer Invoice Tracker",
   templateSlug: "freelancer-invoice-tracker",
@@ -53,15 +55,6 @@ const BASE_ORDER: StrapiOrderDetail = {
   total: 500000,
 
   coupon: null,
-  timeline: [
-    {
-      id: "evt-1",
-      status: "pending",
-      occurredAt: "2024-06-01T10:42:00Z",
-      actor: "system",
-      correction: false,
-    },
-  ],
 };
 
 const mockOrderPending: StrapiOrderDetail = BASE_ORDER;
@@ -87,29 +80,6 @@ const mockOrderDelivered: StrapiOrderDetail = {
   total: 450000,
 
   coupon: { code: "LAUNCH10", type: "percent", amount: 10 },
-  timeline: [
-    {
-      id: "evt-1",
-      status: "pending",
-      occurredAt: "2024-06-01T10:42:00Z",
-      actor: "system",
-      correction: false,
-    },
-    {
-      id: "evt-2",
-      status: "payment_confirmed",
-      occurredAt: "2024-06-02T09:05:00Z",
-      actor: "admin",
-      correction: false,
-    },
-    {
-      id: "evt-3",
-      status: "delivered",
-      occurredAt: "2024-06-02T09:30:00Z",
-      actor: "admin",
-      correction: false,
-    },
-  ],
 };
 
 export async function fetchOrderDetail(

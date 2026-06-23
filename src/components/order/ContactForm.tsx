@@ -3,18 +3,14 @@
 import './ContactForm.css'
 import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import type { ContactFormData } from "@/lib/order/types";
-import { submitContact } from "@/lib/order/submitContact";
 import { validateOrder, getOrderErrorMessage, type ValidationError } from "@/lib/order/validateOrder";
 
 type Props = {
-  token: string;
+  onSubmit: (data: ContactFormData) => Promise<string | undefined>;
 };
 
-export function ContactForm({ token }: Props) {
-  const router = useRouter();
-
+export function ContactForm({ onSubmit }: Props) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -43,7 +39,6 @@ export function ContactForm({ token }: Props) {
     }
   }, []);
 
-  // Re-validate while email is focused
   useEffect(() => {
     if (!emailFocused) return;
     const errors = validateOrder({ email, name, phone });
@@ -65,18 +60,16 @@ export function ContactForm({ token }: Props) {
 
     setSubmitting(true);
     try {
-      const result = await submitContact(token, form);
-      if (result.status === "success") {
-        router.refresh();
-      } else {
-        setGlobalError(result.message ?? "Something went wrong. Please try again.");
+      const errorMessage = await onSubmit(form);
+      if (errorMessage) {
+        setGlobalError(errorMessage);
       }
     } catch {
       setGlobalError("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
-  }, [submitting, email, name, phone, token, router, resetFieldErrors, applyErrors]);
+  }, [submitting, email, name, phone, onSubmit, resetFieldErrors, applyErrors]);
 
   return (
     <div className="card">

@@ -1,28 +1,52 @@
 import clsx from "clsx";
 import { useMemo } from "react";
 import { formatDate } from "@/lib/formatDate";
-import type { StrapiOrderEvent, StrapiOrderStatus, RawTimelineStep } from "@/lib/order/types";
+import type { StrapiOrderDetail, StrapiOrderStatus, RawTimelineStep } from "@/lib/order/types";
 
-const STATUS_ORDER: StrapiOrderStatus[] = ["pending", "payment_confirmed", "delivered"];
+const STATUS_ORDER: StrapiOrderStatus[] = ['idle', 'payment_received', "delivered"];
+export type TimeLineDatetime = {
+  orderCreatedAt: string
+  contactCreatedAt: string
+  contactVerifiedAt: string
+  paymentReceivedAt: string
+  productDeliverAt: string
+}
+
+export function createOrderTimelineDate(order: StrapiOrderDetail): TimeLineDatetime {
+  return {
+    orderCreatedAt: order.createdAt,
+    contactCreatedAt: order.buyer?.date_created || '',
+    contactVerifiedAt: order.buyer?.verified_at || '',
+    paymentReceivedAt: "",
+    productDeliverAt: ""
+  }
+}
+
+export function getOrderStatus(date: TimeLineDatetime): StrapiOrderStatus {
+  if (date.productDeliverAt) return 'delivered';
+  if (date.contactVerifiedAt) return 'contact_verified';
+  if (date.contactCreatedAt) return 'contact_provided';
+  return 'idle';
+}
+
 
 function deriveTimelineSteps(
-  timeline: StrapiOrderEvent[],
-  currentStatus: StrapiOrderStatus,
+  date: TimeLineDatetime
 ): RawTimelineStep[] {
-  const currentIdx = STATUS_ORDER.indexOf(currentStatus);
-  const eventByStatus = new Map(timeline.map((e) => [e.status, e]));
+  const status = getOrderStatus(date);
 
-  function stepState(statusIdx: number) {
-    if (statusIdx < currentIdx) return "done" as const;
-    if (statusIdx === currentIdx) return "active" as const;
+  function stepState(stepStatus: 'idle' | 'payment_received' | "delivered") {
+    const currentIdx = STATUS_ORDER.indexOf(status);
+    const stepStatusIdx = STATUS_ORDER.indexOf(stepStatus);
+
+    if (stepStatusIdx === currentIdx) return "active" as const;
+    if (stepStatusIdx < currentIdx) return "done" as const;
     return "future" as const;
   }
 
-  const paymentEvent = eventByStatus.get("payment_confirmed");
-  const deliveredEvent = eventByStatus.get("delivered");
-  const waitingState = stepState(0);
-  const paymentState = stepState(1);
-  const deliveredState = stepState(2);
+  const waitingState = stepState('idle');
+  const paymentState = stepState('payment_received');
+  const deliveredState = stepState('delivered');
 
   return [
     {
@@ -30,50 +54,59 @@ function deriveTimelineSteps(
       title: "Order placed",
       description: "Your order has been received.",
       state: "done",
-      timestamp: eventByStatus.get("pending")?.occurredAt,
+      timestamp: date.orderCreatedAt,
     },
-    {
-      key: "waiting_payment",
-      title: "Waiting for payment",
-      description: waitingState === "done" ? "Completed" : "Complete payment within 48 hours",
-      state: waitingState,
-      timestamp: waitingState === "done" ? paymentEvent?.occurredAt : undefined,
-    },
-    {
-      key: "payment_confirmed",
-      title: "Payment confirmed",
-      description: paymentState === "done" ? "Transfer verified" : "Seller verifies your transfer",
-      state: paymentState,
-      timestamp: paymentState === "done" ? paymentEvent?.occurredAt : undefined,
-    },
-    {
-      key: "delivered",
-      title: "Template delivered",
-      description:
-        deliveredState === "done"
-          ? "Google Drive link sent to your email"
-          : "Seller sends Google Drive access link by email",
-      state: deliveredState,
-      timestamp: deliveredState === "done" ? deliveredEvent?.occurredAt : undefined,
-    },
-    {
-      key: "done",
-      title: "Done",
-      description: "Enjoy your template",
-      state: currentStatus === "delivered" ? "active" : "future",
-    },
+    waitingState === 'active' ||
+      waitingState === 'future'
+      ? {
+        key: "waiting_payment",
+        title: "Waiting for payment",
+        description: "Complete payment within 48 hours",
+        state: waitingState,
+        timestamp: undefined,
+      } :
+      {
+        key: "payment_confirmed",
+        title: "Payment confirmed",
+        description: "Transfer verified",
+        state: paymentState,
+        timestamp: date.paymentReceivedAt,
+      },
+    deliveredState === 'active' ||
+      deliveredState === 'future'
+      ? {
+        key: "delivered",
+        title: "Template delivered",
+        description:
+          "Seller sends Google Drive access link by email",
+        state: deliveredState,
+        timestamp: undefined,
+      }
+      : {
+        key: "delivered",
+        title: "Template delivered",
+        description:
+          "Google Drive link sent to your email",
+        state: deliveredState,
+        timestamp: date.productDeliverAt,
+      },
   ];
 }
 
+export const createOrderTimeline = (date: TimeLineDatetime) => {
+
+
+  return { status }
+}
+
 type Props = {
-  timeline: StrapiOrderEvent[];
-  currentStatus: StrapiOrderStatus;
+  date: TimeLineDatetime
 };
 
-export function OrderTimeline({ timeline, currentStatus }: Props) {
+export function OrderTimeline({ date }: Props) {
   const steps = useMemo(
-    () => deriveTimelineSteps(timeline, currentStatus),
-    [timeline, currentStatus],
+    () => deriveTimelineSteps(date),
+    [date],
   );
 
   return (

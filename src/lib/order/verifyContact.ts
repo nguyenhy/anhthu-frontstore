@@ -1,30 +1,28 @@
 import type { ContactFormData } from "@/lib/order/types";
 import { OrderError } from "./OrderError";
 
-export interface SubmitContactSuccess {
+export interface VerifyContactSuccess {
   status: "success";
 }
 
-export interface SubmitContactError {
+export interface VerifyContactError {
   status: "error";
   message?: string;
   errorId?: string;
 }
 
-export type SubmitContactResult = SubmitContactSuccess | SubmitContactError;
+export type VerifyContactResult = VerifyContactSuccess | VerifyContactError;
 
-export async function submitContact(
+export async function verifyContact(
   slug: string,
-  data: ContactFormData,
-): Promise<SubmitContactResult> {
+  code: string,
+): Promise<VerifyContactResult> {
   try {
-    const res = await fetch(`/api/order/${slug}/contact`, {
+    const res = await fetch(`/api/order/${slug}/verify`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: data.email.trim(),
-        name: data.name?.trim() || undefined,
-        phone: data.phone?.trim() || undefined,
+        code: code.trim(),
       }),
     });
 

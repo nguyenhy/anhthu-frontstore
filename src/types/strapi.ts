@@ -260,8 +260,10 @@ export type StrapiTemplateDetail = {
 
 /** All possible order lifecycle statuses. Mirrors `OrderEvent.status` enum in Strapi. */
 export type StrapiOrderStatus =
-  | "pending"
-  | "payment_confirmed"
+  | "idle"
+  | "contact_provided"
+  | "contact_verified"
+  | "payment_received"
   | "delivered"
   | "expired"
   | "disputed"
@@ -279,13 +281,8 @@ export type StrapiOrderActor = "admin" | "system" | "buyer";
  * `correction: true` is required for backward status transitions.
  */
 export type StrapiOrderEvent = {
-  readonly id: string;
   readonly status: StrapiOrderStatus;
   readonly occurredAt: string; // ISO 8601
-  readonly note?: string;
-  readonly actor: StrapiOrderActor;
-  /** True when this event reverses a previous status (admin correction). */
-  readonly correction: boolean;
 };
 
 // ---------------------------------------------------------------------------
@@ -303,6 +300,15 @@ export type StrapiCouponSnapshot = {
   readonly cap?: number;
 };
 
+export type StrapiBuyer = {
+  readonly email: string | null;
+  readonly name?: string | null;
+  readonly phone?: string | null;
+  readonly verified_at?: string;
+  readonly verify_expires_at?: string;
+  readonly date_created: string;
+};
+
 /**
  * Order record returned by `GET /api/orders/:token`.
  * Snapshot fields (`snapshot*`) capture template state at purchase time and never change.
@@ -312,15 +318,12 @@ export type StrapiOrderDetail = {
   readonly token: string;
   readonly orderNumber: string;
   /** Read cache of latest OrderEvent.status. Never write directly. */
-  readonly status: StrapiOrderStatus;
-  readonly createdAt: string | null; // ISO 8601
+  readonly createdAt: string; // ISO 8601
   /** Payment deadline. Assigned at order creation, always present. */
   readonly deadlineAt: string | null; // ISO 8601
 
   /** Null on draft orders (contact not yet submitted). */
-  readonly buyerEmail: string | null;
-  readonly buyerName?: string | null;
-  readonly buyerPhone?: string | null;
+  readonly buyer: StrapiBuyer | null;
 
   /** Template name at purchase time. */
   readonly templateName: string;
@@ -338,7 +341,6 @@ export type StrapiOrderDetail = {
 
   /** Applied coupon snapshot. Null if no coupon was used. */
   readonly coupon?: StrapiCouponSnapshot | null;
-  readonly timeline: StrapiOrderEvent[];
 };
 
 // ---------------------------------------------------------------------------
