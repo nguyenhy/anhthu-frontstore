@@ -195,6 +195,67 @@
     text-align: center;
   }
 
+  /* ── Order context ── */
+  .order-context {
+    margin-top: 28px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    padding: 20px 24px;
+    box-shadow: var(--elev-ring);
+  }
+
+  .order-context-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-feature-settings: "calt";
+    margin-bottom: 10px;
+  }
+
+  .order-context-desc {
+    font-size: 14px;
+    color: var(--fg);
+    font-feature-settings: "calt";
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .order-url-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-on);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    font-feature-settings: "calt";
+    text-decoration: none;
+    border-radius: var(--radius-pill);
+    padding: 10px 22px;
+    margin-bottom: 14px;
+  }
+
+  .order-url-manual {
+    font-size: 12px;
+    color: var(--muted);
+    font-feature-settings: "calt";
+    margin-bottom: 6px;
+  }
+
+  .order-url-text {
+    display: block;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    word-break: break-all;
+    line-height: 1.5;
+  }
+
   /* ── Security notice ── */
   .security-notice {
     margin-top: 32px;
@@ -317,6 +378,15 @@
       </div>
     </div>
     <p class="otp-expiry">⏱ This code expires in <strong>10 minutes</strong></p>
+
+    <!-- Order context -->
+    <div class="order-context">
+      <p class="order-context-label">This code is for your order</p>
+      <p class="order-context-desc">Use the code above to verify your email for order <strong>[ORDER_ID]</strong>. You can view your order at the link below.</p>
+      <a href="[ORDER_URL]" class="order-url-btn">View order →</a>
+      <p class="order-url-manual">Or copy this link and open it manually in your browser:</p>
+      <span class="order-url-text">[ORDER_URL]</span>
+    </div>
 
     <!-- Security notice -->
     <div class="security-notice" role="note">
