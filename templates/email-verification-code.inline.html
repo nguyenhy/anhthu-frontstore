@@ -63,6 +63,14 @@
               </table>
 
               <p style="font-size: 13px; color: #868685; margin: 12px 0 0 0; text-align: center;">⏱ This code expires in <strong>{{{OTP_EXPIRES_MINUTES}}}</strong> minutes</p>
+
+              <div class="order-context" style="margin-top: 28px; background: #ffffff; border-radius: 12px; padding: 20px 24px; border: 1px solid #E3E5E2;">
+                <p class="order-context-label" style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #868685; margin: 0 0 10px 0;">This code is for your order</p>
+                <p class="order-context-desc" style="font-size: 14px; color: #0e0f0c; line-height: 1.5; margin: 0 0 14px 0;">Use the code above to verify your email for order <strong style="font-weight: 600;">{{{ORDER_ID}}}</strong>. You can view your order at the link below.</p>
+                <a href="{{{ORDER_URL}}}" class="order-url-btn" style="display: inline-block; background: #9fe870; color: #0e0f0c; font-size: 15px; font-weight: 600; text-decoration: none; border-radius: 9999px; padding: 10px 22px; margin: 0 0 14px 0;">View order →</a>
+                <p class="order-url-manual" style="font-size: 12px; color: #868685; margin: 0 0 6px 0;">Or copy this link and open it manually in your browser:</p>
+                <span class="order-url-text" style="display: block; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; color: #0e0f0c; background: #f4f6f2; border: 1px solid #E3E5E2; border-radius: 8px; padding: 10px 14px; word-break: break-all; line-height: 1.5;">{{{ORDER_URL}}}</span>
+              </div>
             </td>
           </tr>
         </table>
