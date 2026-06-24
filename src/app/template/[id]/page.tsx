@@ -6,12 +6,7 @@ import { HttpError } from '@/lib/error';
 import { StrapiTemplateDetail } from '@/lib/template-detail/types';
 import { isVisualEditor } from '@/lib/cms/visual-editor';
 import VisualEditor from '@/components/cms/VisualEditor';
-import { cache } from 'react';
 
-
-const getTemplateData = cache((slug: string,
-  version?: string,) => fetchTemplateDetail(slug, version)
-);
 
 type Props = {
   params: Promise<{ id: string }>
@@ -28,7 +23,7 @@ export async function generateMetadata(
   const params = await props.params
   let data: StrapiTemplateDetail | null = null
   try {
-    data = await getTemplateData(params.id, typeof query.version === 'string' ? query.version : undefined)
+    data = await fetchTemplateDetail(params.id, typeof query.version === 'string' ? query.version : undefined)
   } catch (error) {
     console.error(new Date().toISOString(), 'Template.Meta', String(error));
   }
@@ -49,7 +44,7 @@ export default async function Template(props: Props) {
 
   let data: StrapiTemplateDetail | null = null
   try {
-    data = await getTemplateData(params.id, typeof query.version === 'string' ? query.version : undefined)
+    data = await fetchTemplateDetail(params.id, typeof query.version === 'string' ? query.version : undefined)
   } catch (error) {
     console.error(new Date().toISOString(), 'Template', String(error));
     throw new HttpError('500')
