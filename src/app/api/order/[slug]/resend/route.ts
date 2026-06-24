@@ -70,25 +70,6 @@ export async function PATCH(
     return NextResponse.json(null, { status: 201 });
   }
 
-  if (order.buyer.verify_expires_at) {
-    const date = new Date(order.buyer.verify_expires_at);
-    if (isNaN(date.valueOf())) {
-      console.error(
-        new Date().toISOString(),
-        "order_resend.order_buyer_expires_invalid",
-      );
-      return NextResponse.json(null, { status: 410 });
-    }
-
-    if (Date.now() >= date.valueOf()) {
-      console.error(
-        new Date().toISOString(),
-        "order_resend.order_buyer_expired",
-      );
-      return NextResponse.json(null, { status: 410 });
-    }
-  }
-
   try {
     await updateBuyerAsResendVerify(order.buyer.id);
     return NextResponse.json({}, { status: 200 });
