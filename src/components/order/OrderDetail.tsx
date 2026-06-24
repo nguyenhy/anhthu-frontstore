@@ -44,7 +44,7 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 	}, [order.token, router]);
 
 	const handleResendVerify = useCallback(async (): Promise<string | undefined> => {
-		const result = await resendVerify(order.token, code);
+		const result = await resendVerify(order.token);
 		if (result.status === "success") return undefined;
 		return result.message ?? "Something went wrong. Please try again.";
 	}, [order.token]);
