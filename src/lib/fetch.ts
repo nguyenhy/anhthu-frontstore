@@ -18,17 +18,23 @@ export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
     decodeURIComponent(url.toString()),
   );
 
+  const cacheControl =
+    !!init.headers && "Cache-Control" in init.headers
+      ? init.headers["Cache-Control"]
+      : "no-store";
+
   const result = await fetch(url, {
     next: { revalidate: 60, ...init.next },
     ...init,
     headers: {
       ...(BFF_API_TOKEN ? { Authorization: `Bearer ${BFF_API_TOKEN}` } : {}),
       "Content-Type": "application/json",
+      "Cache-Control": cacheControl,
       ...init.headers,
     },
   });
 
-  logger.info("[api] <<", result.status);
+  logger.info("[api] <<", result.status, Array.from(result.headers.entries()));
 
   return result;
 };
