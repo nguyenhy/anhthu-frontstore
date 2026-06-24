@@ -22,7 +22,6 @@ const MOCK_PAYMENT_METHODS: StrapiPaymentMethod[] = [
 const BASE_ORDER: StrapiOrderDetail = {
   token: "mock-token-pending",
   orderNumber: "TMP-A3X",
-  status: "idle",
   createdAt: new Date().toISOString(),
   deadlineAt: new Date(Date.now() + 10 * 1000).toISOString(),
 
@@ -30,6 +29,7 @@ const BASE_ORDER: StrapiOrderDetail = {
     email: "khoa.tran@example.com",
     name: "Tran Minh Khoa",
     phone: "+84 90 123 4567",
+    date_created: "2026-06-24T03:46:08.816Z",
   },
 
   templateName: "Freelancer Invoice Tracker",
@@ -73,7 +73,6 @@ const mockOrderDelivered: StrapiOrderDetail = {
   ...BASE_ORDER,
   token: "mock-token-delivered",
   orderNumber: "TMP-D4W",
-  status: "delivered",
 
   subtotal: 500000,
   discount: 50000,
