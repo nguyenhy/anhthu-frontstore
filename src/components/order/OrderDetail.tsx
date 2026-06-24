@@ -18,6 +18,7 @@ import { VerifyForm } from "./VerifyForm";
 import { HelpCard } from "./HelpCard";
 import { verifyContact } from '@/lib/order/verifyContact';
 import { resendVerify } from '@/lib/order/resendVerify';
+import { RESEND_COOLDOWN_SECS } from '@/lib/order/resendConfig';
 
 type OrderDetailProps = { data: OrderPageData };
 
@@ -43,10 +44,10 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 		return result.message ?? "Something went wrong. Please try again.";
 	}, [order.token, router]);
 
-	const handleResendVerify = useCallback(async (): Promise<string | undefined> => {
+	const handleResendVerify = useCallback(async (): Promise<{ error?: string; retryAfter?: number }> => {
 		const result = await resendVerify(order.token);
-		if (result.status === "success") return undefined;
-		return result.message ?? "Something went wrong. Please try again.";
+		if (result.status === "success") return { retryAfter: result.retryAfter };
+		return { error: result.message ?? "Something went wrong. Please try again." };
 	}, [order.token]);
 
 	const parsed = useOrderDetail({ ...data, labels: ORDER_PRICING_LABELS });
@@ -110,7 +111,7 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 					)}
 
 					{order.buyer && !order.buyer.verified_at && (
-						<VerifyForm onSubmit={handleVerifySubmit} onResend={handleResendVerify} />
+						<VerifyForm latestResend={order.buyer.verify_resend_at ?? null} cooldownSecs={RESEND_COOLDOWN_SECS} onSubmit={handleVerifySubmit} onResend={handleResendVerify} />
 					)}
 
 					{order.buyer && (

@@ -66,10 +66,12 @@ export async function PATCH(
     return NextResponse.json(null, { status: 410 });
   }
 
+  console.log("verify", order.id, order.buyer);
+
   if (order.buyer.verified_at) {
     console.error(
       new Date().toISOString(),
-      "order_verify.order_buyer_code_mismatch",
+      "order_verify.order_buyer_verified",
     );
     return NextResponse.json(null, { status: 201 });
   }

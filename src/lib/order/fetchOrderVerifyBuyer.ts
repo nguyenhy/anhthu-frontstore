@@ -9,6 +9,7 @@ export type OrderVerifyBuyerData = {
     readonly verify_code: string;
     readonly verified_at: string | null;
     readonly verify_expires_at: string | null;
+    readonly verify_resend_at: string | null;
   } | null;
 };
 
@@ -25,6 +26,7 @@ export async function fetchOrderVerifyBuyer(
     "buyer.verify_code",
     "buyer.verified_at",
     "buyer.verify_expires_at",
+    "buyer.verify_resend_at",
   ];
   const search = new URLSearchParams();
   if (version) {
@@ -61,6 +63,7 @@ export async function fetchOrderVerifyBuyer(
           verify_code: raw.buyer.verify_code || "",
           verified_at: raw.buyer.verified_at || "",
           verify_expires_at: raw.buyer.verify_expires_at || "",
+          verify_resend_at: raw.buyer.verify_resend_at || null,
         }
       : null,
   };

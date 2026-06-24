@@ -6,6 +6,7 @@ import {
   fetchOrderVerifyBuyer,
   OrderVerifyBuyerData,
 } from "@/lib/order/fetchOrderVerifyBuyer";
+import { RESEND_COOLDOWN_SECS } from "@/lib/order/resendConfig";
 
 export async function PATCH(
   req: NextRequest,
@@ -59,7 +60,7 @@ export async function PATCH(
       new Date().toISOString(),
       "order_resend.order_buyer_not_exist",
     );
-    return NextResponse.json(null, { status: 410 });
+    return NextResponse.json(null, { status: 404 });
   }
 
   if (order.buyer.verified_at) {
@@ -67,12 +68,42 @@ export async function PATCH(
       new Date().toISOString(),
       "order_resend.order_buyer_code_mismatch",
     );
-    return NextResponse.json(null, { status: 201 });
+    return NextResponse.json(null, { status: 409 });
+  }
+
+  const COOLDOWN_MS = RESEND_COOLDOWN_SECS * 1000;
+
+  if (order.buyer.verify_resend_at) {
+    const date = new Date(order.buyer.verify_resend_at);
+    if (!isNaN(date.valueOf())) {
+      console.error(
+        new Date().toISOString(),
+        "order_resend.order_buyer_resend_invalid",
+      );
+
+      const timePassed = Date.now() - date.getTime();
+      if (timePassed < COOLDOWN_MS) {
+        const secondsRemaining = Math.ceil((COOLDOWN_MS - timePassed) / 1000);
+        console.error(
+          new Date().toISOString(),
+          "order_resend.order_buyer_rate_limited",
+          date.toISOString(),
+          order.buyer,
+        );
+        return NextResponse.json(null, {
+          status: 429,
+          headers: { "Retry-After": String(secondsRemaining) },
+        });
+      }
+    }
   }
 
   try {
     await updateBuyerAsResendVerify(order.buyer.id);
-    return NextResponse.json({}, { status: 200 });
+    return NextResponse.json({}, {
+      status: 200,
+      headers: { "Retry-After": String(COOLDOWN_MS / 1000) },
+    });
   } catch (error) {
     console.error(
       new Date().toISOString(),

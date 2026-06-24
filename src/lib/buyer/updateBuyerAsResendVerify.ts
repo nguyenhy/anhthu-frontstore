@@ -3,13 +3,17 @@ import { fetchFromBff } from "../fetch";
 
 export async function updateBuyerAsResendVerify(id: string): Promise<void> {
   const code = randomInt(100000, 999999).toString();
+  const today = new Date();
   const res = await fetchFromBff(`/items/buyer?fields=id`, {
     method: "PATCH",
     body: JSON.stringify({
       keys: [id],
       data: {
         verify_code: code,
-        verify_expires_at: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+        verify_expires_at: new Date(
+          today.valueOf() + 15 * 60 * 1000,
+        ).toISOString(),
+        verify_resend_at: today.toISOString(),
       },
     }),
   });
@@ -17,15 +21,15 @@ export async function updateBuyerAsResendVerify(id: string): Promise<void> {
   if (!res.ok) {
     console.log(
       new Date().toISOString(),
-      "updateBuyerAsResendVerify",
-      await res.json(),
+      "updateBuyerAsResendVerify.fail",
+      JSON.stringify(await res.json()),
     );
     throw new Error(`fetch failed: ${res.status}`);
   }
 
   console.log(
     new Date().toISOString(),
-    "updateBuyerAsResendVerify",
-    await res.json(),
+    "updateBuyerAsResendVerify.ok",
+    JSON.stringify(await res.json()),
   );
 }

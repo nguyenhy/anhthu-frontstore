@@ -2,6 +2,7 @@ import { OrderError } from "./OrderError";
 
 export interface ResendVerifySuccess {
   status: "success";
+  retryAfter?: number;
 }
 
 export interface ResendVerifyError {
@@ -27,7 +28,8 @@ export async function resendVerify(slug: string): Promise<ResendVerifyResult> {
       });
     }
 
-    return { status: "success" };
+    const retryAfter = Number(res.headers.get("Retry-After")) || undefined;
+    return { status: "success", retryAfter };
   } catch (err) {
     if (err instanceof OrderError) {
       return {

@@ -306,6 +306,7 @@ export type StrapiBuyer = {
   readonly phone?: string | null;
   readonly verified_at?: string;
   readonly verify_expires_at?: string;
+  readonly verify_resend_at?: string;
   readonly date_created: string;
 };
 

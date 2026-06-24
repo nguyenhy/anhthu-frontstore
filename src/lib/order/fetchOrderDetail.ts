@@ -19,6 +19,8 @@ export async function fetchOrderDetail(
     "buyer.phone",
     "buyer.date_created",
     "buyer.verified_at",
+    "buyer.verify_expires_at",
+    "buyer.verify_resend_at",
 
     "events.status",
 
@@ -108,7 +110,17 @@ export async function fetchOrderDetail(
       createdAt: createdAt,
       deadlineAt: deadlineAt,
 
-      buyer: raw.buyer,
+      buyer: raw.buyer
+        ? {
+            email: raw.buyer.email || "",
+            name: raw.buyer.name || "",
+            phone: raw.buyer.phone || "",
+            verified_at: raw.buyer.verified_at || "",
+            verify_expires_at: raw.buyer.verify_expires_at || "",
+            verify_resend_at: raw.buyer.verify_resend_at || "",
+            date_created: raw.buyer.date_created || "",
+          }
+        : null,
 
       templateName: raw.template.name,
       templateSlug: raw.template.slug,
