@@ -112,67 +112,18 @@
     margin-bottom: 16px;
   }
 
-  /* Products */
-  .product-list { margin-bottom: 32px; }
-  .product-card {
-    border: 1px solid var(--border); border-radius: var(--radius-sm);
-    overflow: hidden; margin-bottom: 16px;
+  /* Order Summary Table */
+  .order-summary { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .order-summary td {
+    padding: 13px 0; border-bottom: 1px solid var(--border);
+    font-size: 15px; font-feature-settings: "calt";
   }
-  .product-card:last-child { margin-bottom: 0; }
-
-  .product-header {
-    background: var(--surface); padding: 16px 20px;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }
-  .product-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: var(--accent); display: flex; align-items: center;
-    justify-content: center; font-size: 18px; flex-shrink: 0;
-  }
-  .product-name-block { flex: 1; min-width: 0; }
-  .product-name {
-    font-weight: 600; font-size: 15px; color: var(--fg);
-    font-feature-settings: "calt";
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .product-view-link a {
-    font-size: 13px; font-weight: 600; color: var(--accent-on);
-    font-feature-settings: "calt"; text-decoration: none;
-    background: rgba(22,51,0,0.08); padding: 6px 14px;
-    border-radius: var(--radius-pill); white-space: nowrap;
-  }
-
-  /* Attachments */
-  .attachments-section { padding: 0 20px 20px; }
-  .attachments-label {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
-    text-transform: uppercase; color: var(--muted); font-feature-settings: "calt";
-    padding: 16px 0 10px; border-top: 1px solid var(--border);
-  }
-  .attachment-row {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border);
-  }
-  .attachment-row:last-child { border-bottom: none; }
-  .attachment-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-  .attachment-file-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: var(--surface); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; flex-shrink: 0;
-  }
-  .attachment-name {
-    font-size: 14px; font-weight: 500; color: var(--fg);
-    font-feature-settings: "calt";
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .attachment-download a {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 13px; font-weight: 600; color: var(--accent-on);
-    font-feature-settings: "calt"; text-decoration: none;
-    border: 1.5px solid var(--accent);
-    background: rgba(159,232,112,0.12);
-    padding: 5px 12px; border-radius: var(--radius-pill); white-space: nowrap;
+  .order-summary td:last-child { text-align: right; font-family: var(--font-mono); font-weight: 600; }
+  .order-summary .summary-label { color: var(--muted); }
+  .order-summary .summary-discount td { color: #054d28; }
+  .order-summary .summary-total td {
+    border-bottom: none; padding-top: 16px;
+    font-weight: 700; font-size: 17px; color: var(--fg);
   }
 
   /* CTA block */
@@ -258,45 +209,28 @@
 
     <div class="email-divider"></div>
 
-    <p class="section-heading">Your products</p>
+    <p class="section-heading">Order summary</p>
 
-    <div class="product-list">
-
-      <!-- ── Product card — repeat per product ── -->
-      <div class="product-card">
-        <div class="product-header">
-          <div class="product-icon">📄</div>
-          <div class="product-name-block">
-            <div class="product-name">[PRODUCT_NAME]</div>
-          </div>
-          <div class="product-view-link">
-            <a href="[PRODUCT_URL]">View product</a>
-          </div>
-        </div>
-        <div class="attachments-section">
-          <div class="attachments-label">Downloads</div>
-          <!-- ── Attachment row — repeat per file ── -->
-          <div class="attachment-row">
-            <div class="attachment-left">
-              <div class="attachment-file-icon">📊</div>
-              <span class="attachment-name">[ATTACHMENT_NAME]</span>
-            </div>
-            <div class="attachment-download">
-              <a href="[ATTACHMENT_URL]">↓ Download</a>
-            </div>
-          </div>
-          <!-- /attachment-row -->
-        </div>
-      </div>
-      <!-- /product-card -->
-
-    </div>
+    <table class="order-summary">
+      <tr>
+        <td class="summary-label">Subtotal</td>
+        <td>[SUBTOTAL]</td>
+      </tr>
+      <tr class="summary-discount">
+        <td class="summary-label">Coupon / Discount</td>
+        <td>−[DISCOUNT]</td>
+      </tr>
+      <tr class="summary-total">
+        <td>Total paid</td>
+        <td>[TOTAL_PAID]</td>
+      </tr>
+    </table>
 
     <div class="email-divider"></div>
 
     <div class="email-cta">
-      <p>Need to access your order again later? Visit your order page anytime.</p>
-      <a href="[ORDER_URL]" class="btn-primary">Go to my order</a>
+      <p>Your files are ready. Visit your download page to access all purchased products.</p>
+      <a href="[ORDER_URL]" class="btn-primary">Download my products →</a>
       <div class="order-url-manual">
         Or copy this link to open manually:
         <span class="url-text">[ORDER_URL]</span>
