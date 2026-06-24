@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your order is ready — [STORE_NAME]</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #e8ebe6;
+    --fg: #0e0f0c;
+    --muted: #868685;
+    --border: rgba(14,15,12,0.12);
+    --accent: #9fe870;
+    --accent-on: #163300;
+    --font-display: "Wise Sans", Inter, ui-sans-serif, system-ui, sans-serif;
+    --font-body: Inter, Helvetica, Arial, ui-sans-serif, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --radius-sm: 16px;
+    --radius-md: 30px;
+    --radius-lg: 40px;
+    --radius-pill: 9999px;
+    --elev-ring: 0 0 0 1px var(--border);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f4f6f2;
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 16px;
+  }
+
+  .preheader {
+    display: none; font-size: 1px; line-height: 1px;
+    max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all;
+  }
+
+  .email-wrapper { max-width: 600px; margin: 0 auto; }
+
+  /* Header */
+  .email-header {
+    background: var(--fg);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 28px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .email-header .logo {
+    font-family: var(--font-display);
+    font-weight: 900; font-size: 24px; color: var(--accent);
+    font-feature-settings: "calt"; letter-spacing: -0.02em;
+    line-height: 1; text-decoration: none;
+  }
+  .email-header .header-badge {
+    background: rgba(159,232,112,0.15); color: var(--accent);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; font-feature-settings: "calt";
+    padding: 5px 12px; border-radius: var(--radius-pill);
+    border: 1px solid rgba(159,232,112,0.3);
+  }
+
+  /* Body */
+  .email-body { background: var(--bg); padding: 48px 40px; }
+
+  /* Hero */
+  .email-hero { margin-bottom: 36px; }
+  .email-hero .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+    font-feature-settings: "calt"; margin-bottom: 12px;
+  }
+  .email-hero h1 {
+    font-family: var(--font-display);
+    font-weight: 900; font-size: 40px; line-height: 0.9; color: var(--fg);
+    font-feature-settings: "calt"; margin-bottom: 16px;
+  }
+  .email-hero .lead {
+    font-size: 16px; line-height: 1.6; color: var(--muted);
+    font-feature-settings: "calt"; max-width: 480px;
+  }
+
+  /* Divider */
+  .email-divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+  /* Order meta */
+  .order-meta {
+    background: var(--surface); border-radius: var(--radius-sm);
+    padding: 20px 24px; margin-bottom: 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .order-meta-id { font-size: 13px; color: var(--muted); font-feature-settings: "calt"; }
+  .order-meta-id strong {
+    display: block; font-family: var(--font-mono);
+    font-size: 15px; font-weight: 600; color: var(--fg);
+    margin-top: 2px; letter-spacing: 0.02em;
+  }
+  .order-meta-link a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent); color: var(--accent-on);
+    font-size: 13px; font-weight: 600; font-feature-settings: "calt";
+    padding: 8px 16px; border-radius: var(--radius-pill);
+    text-decoration: none; white-space: nowrap;
+  }
+
+  /* Section heading */
+  .section-heading {
+    font-family: var(--font-display); font-weight: 900; font-size: 20px;
+    line-height: 1; color: var(--fg); font-feature-settings: "calt";
+    margin-bottom: 16px;
+  }
+
+  /* Products */
+  .product-list { margin-bottom: 32px; }
+  .product-card {
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    overflow: hidden; margin-bottom: 16px;
+  }
+  .product-card:last-child { margin-bottom: 0; }
+
+  .product-header {
+    background: var(--surface); padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .product-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--accent); display: flex; align-items: center;
+    justify-content: center; font-size: 18px; flex-shrink: 0;
+  }
+  .product-name-block { flex: 1; min-width: 0; }
+  .product-name {
+    font-weight: 600; font-size: 15px; color: var(--fg);
+    font-feature-settings: "calt";
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .product-view-link a {
+    font-size: 13px; font-weight: 600; color: var(--accent-on);
+    font-feature-settings: "calt"; text-decoration: none;
+    background: rgba(22,51,0,0.08); padding: 6px 14px;
+    border-radius: var(--radius-pill); white-space: nowrap;
+  }
+
+  /* Attachments */
+  .attachments-section { padding: 0 20px 20px; }
+  .attachments-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--muted); font-feature-settings: "calt";
+    padding: 16px 0 10px; border-top: 1px solid var(--border);
+  }
+  .attachment-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .attachment-row:last-child { border-bottom: none; }
+  .attachment-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .attachment-file-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+  .attachment-name {
+    font-size: 14px; font-weight: 500; color: var(--fg);
+    font-feature-settings: "calt";
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .attachment-download a {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 13px; font-weight: 600; color: var(--accent-on);
+    font-feature-settings: "calt"; text-decoration: none;
+    border: 1.5px solid var(--accent);
+    background: rgba(159,232,112,0.12);
+    padding: 5px 12px; border-radius: var(--radius-pill); white-space: nowrap;
+  }
+
+  /* CTA block */
+  .email-cta {
+    background: var(--surface); border-radius: var(--radius-sm);
+    padding: 28px; text-align: center; margin: 8px 0 32px;
+  }
+  .email-cta p {
+    font-size: 14px; color: var(--muted); font-feature-settings: "calt"; margin-bottom: 16px;
+  }
+  .btn-primary {
+    display: inline-block; background: var(--accent); color: var(--accent-on);
+    font-family: var(--font-body); font-size: 16px; font-weight: 600;
+    line-height: 1; font-feature-settings: "calt"; padding: 14px 28px;
+    border-radius: var(--radius-pill); text-decoration: none;
+    letter-spacing: -0.02em; box-shadow: var(--elev-ring);
+  }
+  .order-url-manual {
+    margin-top: 16px; font-size: 12px; color: var(--muted);
+    font-feature-settings: "calt"; line-height: 1.6;
+  }
+  .order-url-manual .url-text {
+    display: block; font-family: var(--font-mono); font-size: 12px; color: var(--fg);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; word-break: break-all; margin-top: 6px;
+  }
+
+  /* Notice */
+  .notice {
+    background: rgba(159,232,112,0.12); border: 1px solid rgba(159,232,112,0.4);
+    border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 32px;
+    font-size: 13px; line-height: 1.55; color: var(--fg); font-feature-settings: "calt";
+  }
+  .notice strong { color: var(--accent-on); }
+
+  /* Footer */
+  .email-footer {
+    background: var(--fg); border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    padding: 32px 40px; text-align: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display); font-weight: 900; font-size: 18px;
+    color: var(--accent); font-feature-settings: "calt"; letter-spacing: -0.02em;
+    text-decoration: none; display: block; margin-bottom: 16px;
+  }
+  .footer-links {
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .footer-links a { font-size: 12px; color: var(--muted); font-feature-settings: "calt"; text-decoration: none; }
+  .footer-legal { font-size: 11px; color: var(--muted); font-feature-settings: "calt"; line-height: 1.7; }
+  .footer-legal a { color: var(--muted); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="preheader">Your digital products are ready to download. Order [ORDER_ID] — access your files now.</div>
+
+<div class="email-wrapper">
+
+  <div class="email-header">
+    <a href="[STORE_URL]" class="logo">[STORE_NAME]</a>
+    <span class="header-badge">Order confirmed</span>
+  </div>
+
+  <div class="email-body">
+
+    <div class="email-hero">
+      <p class="eyebrow">Digital delivery</p>
+      <h1>Your files are ready.</h1>
+      <p class="lead">Payment confirmed. Download your products below — links are available any time from your order page.</p>
+    </div>
+
+    <div class="order-meta">
+      <div class="order-meta-id">
+        Order ID
+        <strong>[ORDER_ID]</strong>
+      </div>
+      <div class="order-meta-link">
+        <a href="[ORDER_URL]">View order →</a>
+      </div>
+    </div>
+
+    <div class="email-divider"></div>
+
+    <p class="section-heading">Your products</p>
+
+    <div class="product-list">
+
+      <!-- ── Product card — repeat per product ── -->
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-icon">📄</div>
+          <div class="product-name-block">
+            <div class="product-name">[PRODUCT_NAME]</div>
+          </div>
+          <div class="product-view-link">
+            <a href="[PRODUCT_URL]">View product</a>
+          </div>
+        </div>
+        <div class="attachments-section">
+          <div class="attachments-label">Downloads</div>
+          <!-- ── Attachment row — repeat per file ── -->
+          <div class="attachment-row">
+            <div class="attachment-left">
+              <div class="attachment-file-icon">📊</div>
+              <span class="attachment-name">[ATTACHMENT_NAME]</span>
+            </div>
+            <div class="attachment-download">
+              <a href="[ATTACHMENT_URL]">↓ Download</a>
+            </div>
+          </div>
+          <!-- /attachment-row -->
+        </div>
+      </div>
+      <!-- /product-card -->
+
+    </div>
+
+    <div class="email-divider"></div>
+
+    <div class="email-cta">
+      <p>Need to access your order again later? Visit your order page anytime.</p>
+      <a href="[ORDER_URL]" class="btn-primary">Go to my order</a>
+      <div class="order-url-manual">
+        Or copy this link to open manually:
+        <span class="url-text">[ORDER_URL]</span>
+      </div>
+    </div>
+
+    <div class="notice">
+      <strong>Keep this email.</strong> Your download links are permanent and tied to this order. If you have trouble accessing your files, reply to this email or visit your order page.
+    </div>
+
+  </div>
+
+  <div class="email-footer">
+    <a href="[STORE_URL]" class="footer-logo">[STORE_NAME]</a>
+    <div class="footer-links">
+      <a href="[ORDER_URL]">My order</a>
+      <a href="[SUPPORT_URL]">Support</a>
+      <a href="[UNSUBSCRIBE_URL]">Unsubscribe</a>
+    </div>
+    <p class="footer-legal">
+      © [YEAR] [STORE_NAME]. All rights reserved.<br>
+      [STORE_ADDRESS]<br>
+      You're receiving this because you placed an order at <a href="[STORE_URL]">[STORE_URL]</a>.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
