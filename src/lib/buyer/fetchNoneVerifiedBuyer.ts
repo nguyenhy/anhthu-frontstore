@@ -45,7 +45,6 @@ export async function fetchOrderNoneVerifiedBuyer(
 
   const json = await res.json();
   const raw = json?.data?.[0];
-  console.log('code', raw);
 
   if (!raw) {
     return null;
