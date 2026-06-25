@@ -342,6 +342,8 @@ export type StrapiOrderDetail = {
 
   /** Applied coupon snapshot. Null if no coupon was used. */
   readonly coupon?: StrapiCouponSnapshot | null;
+
+  user_paid_at?: string;
 };
 
 // ---------------------------------------------------------------------------

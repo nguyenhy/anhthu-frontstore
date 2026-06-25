@@ -95,7 +95,6 @@
   display: flex;
   gap: var(--sp-lg);
   align-items: flex-start;
-  padding-bottom: var(--sp-xl);
 }
 .tl-item:last-child {
   padding-bottom: 0;
@@ -155,10 +154,15 @@
   color: var(--mute);
   font-weight: 400;
 }
-.tl-time {
+.tl-state {
   font-size: 13px;
-  color: var(--mute);
   margin-top: 2px;
+}
+.tl-time {
+  color: var(--body);
+}
+.tl-desc {
+  color: var(--mute);
 }
 
 /* ORDER SUMMARY */

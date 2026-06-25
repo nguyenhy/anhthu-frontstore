@@ -22,8 +22,6 @@ export async function fetchOrderDetail(
     "buyer.verify_expires_at",
     "buyer.verify_resend_at",
 
-    "events.status",
-
     // "coupon.type",
     // "coupon.amount",
     // "coupon.currency",
@@ -47,6 +45,8 @@ export async function fetchOrderDetail(
     "template.category.slug",
 
     "date_created",
+
+    "order_fulfillment.date_created",
   ];
   const search = new URLSearchParams();
   if (version) {
@@ -140,6 +140,8 @@ export async function fetchOrderDetail(
       discount: 0,
       total: raw.template.product.price,
       coupon: null,
+
+      user_paid_at: raw.order_fulfillment[0]?.date_created,
     },
     paymentMethods: paymentMethods,
   } satisfies OrderPageData;

@@ -17,36 +17,23 @@ export function createOrderTimelineDate(order: StrapiOrderDetail): TimeLineDatet
     orderCreatedAt: order.createdAt,
     contactCreatedAt: order.buyer?.date_created || '',
     contactVerifiedAt: order.buyer?.verified_at || '',
-    paymentReceivedAt: "",
-    productDeliverAt: ""
+    paymentReceivedAt: order.user_paid_at || '',
+    productDeliverAt: order.user_paid_at || ''
   }
 }
 
 export function getOrderStatus(date: TimeLineDatetime): StrapiOrderStatus {
   if (date.productDeliverAt) return 'delivered';
+  if (date.paymentReceivedAt) return 'payment_received';
   if (date.contactVerifiedAt) return 'contact_verified';
   if (date.contactCreatedAt) return 'contact_provided';
   return 'idle';
 }
 
 
-function deriveTimelineSteps(
-  date: TimeLineDatetime
-): RawTimelineStep[] {
-  const status = getOrderStatus(date);
-
-  function stepState(stepStatus: 'idle' | 'payment_received' | "delivered") {
-    const currentIdx = STATUS_ORDER.indexOf(status);
-    const stepStatusIdx = STATUS_ORDER.indexOf(stepStatus);
-
-    if (stepStatusIdx === currentIdx) return "active" as const;
-    if (stepStatusIdx < currentIdx) return "done" as const;
-    return "future" as const;
-  }
-
-  const waitingState = stepState('idle');
-  const paymentState = stepState('payment_received');
-  const deliveredState = stepState('delivered');
+function deriveTimelineSteps(date: TimeLineDatetime): RawTimelineStep[] {
+  const isPaid = !!date.paymentReceivedAt;
+  const isDelivered = !!date.productDeliverAt;
 
   return [
     {
@@ -56,39 +43,35 @@ function deriveTimelineSteps(
       state: "done",
       timestamp: date.orderCreatedAt,
     },
-    waitingState === 'active' ||
-      waitingState === 'future'
+    isPaid
       ? {
-        key: "waiting_payment",
-        title: "Waiting for payment",
-        description: "Complete payment within 48 hours",
-        state: waitingState,
-        timestamp: undefined,
-      } :
-      {
         key: "payment_confirmed",
         title: "Payment confirmed",
         description: "Transfer verified",
-        state: paymentState,
+        state: isDelivered ? "done" : "active",
         timestamp: date.paymentReceivedAt,
+      }
+      : {
+        key: "waiting_payment",
+        title: "Waiting for payment",
+        description: "Complete payment within 48 hours",
+        state: "active",
+        timestamp: undefined,
       },
-    deliveredState === 'active' ||
-      deliveredState === 'future'
+    isDelivered
       ? {
         key: "delivered",
         title: "Template delivered",
-        description:
-          "Seller sends Google Drive access link by email",
-        state: deliveredState,
-        timestamp: undefined,
+        description: "Google Drive link sent to your email",
+        state: "done",
+        timestamp: date.productDeliverAt,
       }
       : {
         key: "delivered",
         title: "Template delivered",
-        description:
-          "Google Drive link sent to your email",
-        state: deliveredState,
-        timestamp: date.productDeliverAt,
+        description: "Seller sends Google Drive access link by email",
+        state: "future",
+        timestamp: undefined,
       },
   ];
 }
@@ -125,10 +108,11 @@ export function OrderTimeline({ date }: Props) {
               <p className={clsx("tl-step", step.state === "future" && "future")}>
                 {step.title}
               </p>
-              <p className="tl-time">
-                {step.state === "done" && step.timestamp
-                  ? formatDate(step.timestamp)
-                  : step.description}
+              <p className="tl-state">
+                <span className="tl-time">{step.state === "done" && step.timestamp
+                  ? `${formatDate(step.timestamp)} - `
+                  : undefined}</span>
+                <span className="tl-desc">{step.description}</span>
               </p>
             </div>
           </li>
