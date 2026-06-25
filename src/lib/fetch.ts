@@ -9,8 +9,10 @@ export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
     throw new AppError("api not configured");
   }
 
-  const logger = createLogger();
+  const uid = Math.floor(Math.random() * 10000000) + Date.now();
+  const logger = createLogger(uid);
   const url = parseBffEndpoint(input);
+  url.searchParams.set("rid", uid.toString());
 
   logger.info(
     "[api] >>",

@@ -1,5 +1,5 @@
-export const createLogger = () => {
-  const uid = Math.floor(Math.random() * 10000000) + Date.now();
+export const createLogger = (_uid?: number) => {
+  const uid = _uid || Math.floor(Math.random() * 10000000) + Date.now();
 
   const infoLogger = (...args: unknown[]) => {
     console.log(
