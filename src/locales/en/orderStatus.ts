@@ -2,40 +2,52 @@ import type { StatusConfig } from "@/components/order/StatusBanner";
 import type { StrapiOrderStatus } from "@/lib/order/types";
 
 export const ORDER_STATUS_CONFIG: Record<StrapiOrderStatus, StatusConfig> = {
-  pending: {
-    icon: "⏳",
-    label: "Waiting for payment",
-    desc: "Please make payment using the information below. We will confirm your order within 24 hours of receiving payment.",
+  idle: {
+    icon: "📝",
+    label: "Enter Contact Info",
+    desc: "Please provide your contact information to start the order process.",
     variant: "pending",
   },
-  payment_confirmed: {
-    icon: "🔄",
-    label: "Payment received — preparing",
-    desc: "We have confirmed payment and are preparing the template. You will have access soon.",
+  contact_provided: {
+    icon: "✉️",
+    label: "Verify Your Email",
+    desc: "Contact information received. Please check your email and click the verification link to proceed.",
+    variant: "pending",
+  },
+  contact_verified: {
+    icon: "⏳",
+    label: "Awaiting Payment",
+    desc: "Email verified successfully. Please complete payment using the details below.",
+    variant: "pending",
+  },
+  payment_received: {
+    icon: "📦",
+    label: "Payment Confirmed",
+    desc: "Payment received. We are preparing your template now.",
     variant: "confirmed",
   },
   delivered: {
-    icon: "✅",
-    label: "Delivered — contact us if you need support",
-    desc: "Template has been sent. Check your order email for the Google Drive link.",
+    icon: "🎉",
+    label: "Template Delivered",
+    desc: "Check your email for the Google Drive download link. Reach out if you need support.",
     variant: "delivered",
   },
   expired: {
     icon: "⛔",
-    label: "Order has expired",
-    desc: "This order has expired. Please contact us if you still need this template.",
+    label: "Order Expired",
+    desc: "This session has expired. Please contact support if you need assistance.",
     variant: "expired",
   },
   disputed: {
     icon: "🔍",
-    label: "Under review",
-    desc: "Our team is reviewing the order and will contact you directly.",
+    label: "Under Review",
+    desc: "Our team is reviewing this order and will reach out to you directly.",
     variant: "disputed",
   },
-  used: {
+  completed: {
     icon: "✅",
-    label: "Completed",
-    desc: "This order has been fulfilled.",
-    variant: "delivered",
+    label: "Order Completed",
+    desc: "This order is fully processed and complete.",
+    variant: "completed",
   },
 };

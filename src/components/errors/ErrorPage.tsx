@@ -1,3 +1,5 @@
+"use client"
+
 import './ErrorPage.css'
 import Link from 'next/link'
 

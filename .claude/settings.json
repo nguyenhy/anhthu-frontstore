@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc --noEmit *)",
+      "Bash(npx tsc --noEmit)",
+      "mcp__codegraph__codegraph_explore",
+      "mcp__codegraph__codegraph_node",
+      "mcp__codegraph__codegraph_search",
+      "Bash(git commit *)",
+      "Bash(git add *)",
+      "Bash(git status)"
+    ],
+    "deny": []
+  }
+}

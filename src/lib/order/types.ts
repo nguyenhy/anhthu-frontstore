@@ -11,7 +11,7 @@ export type {
 // Combined payload returned by fetchOrderDetail / mockOrderDetail
 export type OrderPageData = {
   order: StrapiOrderDetail;
-  paymentMethods: StrapiPaymentMethod[];
+  paymentMethods?: StrapiPaymentMethod[];
 };
 
 // --- Component display types (computed by useOrderDetail from raw shapes) ---
@@ -30,4 +30,10 @@ export type RawAppliedCoupon = {
   code: string;
   discount: number;
   label: string;
+};
+
+export type ContactFormData = {
+  email: string;
+  name?: string;
+  phone?: string;
 };

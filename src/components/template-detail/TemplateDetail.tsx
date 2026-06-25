@@ -1,7 +1,6 @@
 import './TemplateDetail.css'
 import { GetTemplateBtn } from '@/components/template-detail/GetTemplateBtn';
 import Gallery from '@/components/template-detail/Gallery';
-import { OrderDialog } from '@/components/template-detail/OrderDialog';
 import EarlyOffer from '@/components/template-detail/EarlyOffer';
 import { StrapiTemplateDetail } from '@/lib/template-detail/types';
 import TemplateDetailDescription from './TemplateDetailDescription';
@@ -66,7 +65,7 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 						<p className="price-sub">{data.priceSub}</p>
 
 						<div id="order">
-							<GetTemplateBtn className="btn-cta" />
+							<GetTemplateBtn className="btn-cta" templateId={data.id} />
 							<div className="delivery-note" dangerouslySetInnerHTML={{
 								__html: data.deliveryNote
 							}}></div>
@@ -116,12 +115,13 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 			<div className="sticky-bar" id="sticky-bar" role="complementary" aria-label="Purchase">
 				<div>
 					<div className="sticky-bar-name">{data.name}</div>
-					<div className="sticky-bar-price">{data.currency}{data.price}</div>
+					<div className="sticky-bar-price">
+						<FormatCurrency currency={data.currency} amount={data.price} />
+					</div>
 				</div>
-				<GetTemplateBtn className="btn-sticky" />
+				<GetTemplateBtn className="btn-sticky" templateId={data.id} />
 			</div>
 
-			<OrderDialog />
 		</>
 	);
 }

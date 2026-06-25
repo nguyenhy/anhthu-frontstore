@@ -133,24 +133,21 @@ export type StrapiPaymentMethodType = "bank" | "ewallet";
  * Fetched from `/api/payment-instructions`.
  */
 export type StrapiPaymentMethod = {
-  /** Unique, URL-friendly identifier. Example: `"vietcombank-bank"`, `"momo-wallet"`. */
-  readonly slug: string;
   /** Human-readable name shown to buyer. Example: `"Vietcombank"`, `"MoMo"`. */
-  readonly displayName: string;
+  readonly name: string;
   readonly type: StrapiPaymentMethodType;
   /** Logo or brand image. */
   readonly logo?: unknown;
   /** Bank account number, wallet ID, or phone number receiving payments. */
-  readonly accountNumber?: string;
+  readonly accountNumber: string;
   /** Registered account holder name. */
-  readonly accountName?: string;
+  readonly accountName: string;
   /** URL of a static QR image for scanning. */
   readonly qrImageUrl?: string;
   /** Deep link to open the payment app directly. Example: `"momo://..."`. */
   readonly qrDeeplink?: string;
   /** Additional instructions shown to buyer. */
   readonly note?: string;
-  readonly active: boolean;
   /** Display order — lower values shown first. */
   readonly sortOrder?: number;
 };
@@ -263,12 +260,14 @@ export type StrapiTemplateDetail = {
 
 /** All possible order lifecycle statuses. Mirrors `OrderEvent.status` enum in Strapi. */
 export type StrapiOrderStatus =
-  | "pending"
-  | "payment_confirmed"
+  | "idle"
+  | "contact_provided"
+  | "contact_verified"
+  | "payment_received"
   | "delivered"
   | "expired"
   | "disputed"
-  | "used";
+  | "completed";
 
 /** Who triggered the order event. */
 export type StrapiOrderActor = "admin" | "system" | "buyer";
@@ -282,13 +281,8 @@ export type StrapiOrderActor = "admin" | "system" | "buyer";
  * `correction: true` is required for backward status transitions.
  */
 export type StrapiOrderEvent = {
-  readonly id: string;
   readonly status: StrapiOrderStatus;
   readonly occurredAt: string; // ISO 8601
-  readonly note?: string;
-  readonly actor: StrapiOrderActor;
-  /** True when this event reverses a previous status (admin correction). */
-  readonly correction: boolean;
 };
 
 // ---------------------------------------------------------------------------
@@ -306,8 +300,18 @@ export type StrapiCouponSnapshot = {
   readonly cap?: number;
 };
 
+export type StrapiBuyer = {
+  readonly email: string | null;
+  readonly name?: string | null;
+  readonly phone?: string | null;
+  readonly verified_at?: string;
+  readonly verify_expires_at?: string;
+  readonly verify_resend_at?: string;
+  readonly date_created: string;
+};
+
 /**
- * Order record returned by `GET /api/orders/:token`.
+ * Order record returned by `GET /api/order/:token`.
  * Snapshot fields (`snapshot*`) capture template state at purchase time and never change.
  * `status` is a read cache of the latest `OrderEvent.status` — never written directly.
  */
@@ -315,23 +319,22 @@ export type StrapiOrderDetail = {
   readonly token: string;
   readonly orderNumber: string;
   /** Read cache of latest OrderEvent.status. Never write directly. */
-  readonly status: StrapiOrderStatus;
   readonly createdAt: string; // ISO 8601
   /** Payment deadline. Assigned at order creation, always present. */
-  readonly deadlineAt: string; // ISO 8601
+  readonly deadlineAt: string | null; // ISO 8601
 
-  readonly buyerEmail: string;
-  readonly buyerName?: string | null;
-  readonly buyerPhone?: string | null;
+  /** Null on draft orders (contact not yet submitted). */
+  readonly buyer: StrapiBuyer | null;
 
   /** Template name at purchase time. */
-  readonly snapshotName: string;
+  readonly templateName: string;
+  readonly templateSlug: string;
   /** Currency code at purchase time. Example: `"VND"`. */
-  readonly snapshotCurrency: string;
+  readonly currency: string;
   /** Category emoji at purchase time. */
-  readonly snapshotEmoji: string;
+  readonly thumbnail: StrapiGalleryTab;
   /** Category name at purchase time. */
-  readonly snapshotCategoryName: string;
+  readonly category: StrapiCategory;
 
   readonly subtotal: number;
   readonly discount: number;
@@ -339,12 +342,6 @@ export type StrapiOrderDetail = {
 
   /** Applied coupon snapshot. Null if no coupon was used. */
   readonly coupon?: StrapiCouponSnapshot | null;
-  readonly timeline: StrapiOrderEvent[];
-
-  /** CMS-editable copy shown when status is `pending`. Falls back to hardcoded strings if null. */
-  readonly orderPendingDesc?: RichText | null;
-  /** CMS-editable copy shown when status is `delivered`. Falls back to hardcoded strings if null. */
-  readonly orderDeliveredDesc?: RichText | null;
 };
 
 // ---------------------------------------------------------------------------

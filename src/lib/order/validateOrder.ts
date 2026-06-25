@@ -1,4 +1,4 @@
-import type { OrderFormData } from "@/components/template-detail/OrderDialog";
+import type { ContactFormData } from "@/lib/order/types";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^[+\d\s\-().]{7,20}$/;
@@ -34,11 +34,11 @@ export function getOrderErrorMessage(code: OrderErrorCode): string {
 }
 
 export interface ValidationError {
-  field: keyof OrderFormData;
+  field: keyof ContactFormData;
   code: OrderErrorCode;
 }
 
-export function validateOrder(data: OrderFormData): ValidationError[] {
+export function validateOrder(data: ContactFormData): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.email || !data.email.trim()) {

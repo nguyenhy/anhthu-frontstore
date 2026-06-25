@@ -2,11 +2,14 @@ import clsx from "clsx";
 import { useState } from "react";
 import { PricingRow, SummaryPricingRows } from "./useOrderDetail";
 import { RawAppliedCoupon } from "@/lib/order/types";
+import { StrapiCategory, StrapiGalleryTab } from "@/types/strapi";
+import Link from "next/link";
 
 type Props = {
-	snapshotName: string;
-	snapshotEmoji: string;
-	snapshotCategoryName: string;
+	templateName: string;
+	templateSlug: string
+	thumbnail: StrapiGalleryTab;
+	category: StrapiCategory;
 	pricingRows: SummaryPricingRows;
 	appliedCoupon: RawAppliedCoupon | null;
 	couponApplying: boolean;
@@ -25,7 +28,7 @@ export function PricingRowItem(props: { row: PricingRow }) {
 }
 
 export function OrderSummary({
-	snapshotName, snapshotEmoji, snapshotCategoryName,
+	templateName, templateSlug, thumbnail, category,
 	pricingRows, appliedCoupon, couponApplying, couponError,
 	onApplyCoupon,
 }: Props) {
@@ -41,10 +44,21 @@ export function OrderSummary({
 			<p className="card-title">Your order</p>
 
 			<div className="product-row">
-				<div className="product-thumb">{snapshotEmoji}</div>
+				<div className="product-thumb">
+					<img
+						src={thumbnail.url}
+						alt={thumbnail.ariaLabel}
+						width={thumbnail.width}
+						height={thumbnail.width}
+					/>
+				</div>
 				<div>
-					<p className="product-name">{snapshotName}</p>
-					<p className="product-meta">{snapshotCategoryName}</p>
+					<p className="product-name">
+						<Link href={`/template/${templateSlug}`}>{templateName}</Link>
+					</p>
+					<p className="product-meta">
+						<Link href={`/category/${category.slug}`}>{category.name}</Link>
+					</p>
 				</div>
 			</div>
 

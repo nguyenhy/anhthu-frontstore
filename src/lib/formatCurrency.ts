@@ -16,10 +16,7 @@ const currencyLocales = {
 
 export type SupportedCurrency = keyof typeof currencyLocales;
 
-export function currencyParts(
-  amount: number,
-  currency: string,
-): CurrencyParts {
+export function currencyParts(amount: number, currency: string): CurrencyParts {
   if (
     currency !== "VND" &&
     currency !== "USD" &&

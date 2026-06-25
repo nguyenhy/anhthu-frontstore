@@ -74,7 +74,7 @@ export type PaymentMethodPanelProps = {
 
 function buildAccountFields(method: StrapiPaymentMethod, total: number, currency: string, reference: string): BankField[] {
 	return [
-		{ label: "Bank / Provider", value: method.displayName },
+		{ label: "Bank / Provider", value: method.name },
 		...(method.accountNumber ? [{ label: "Account number", value: method.accountNumber, copyId: "accNum" }] : []),
 		...(method.accountName ? [{ label: "Account name", value: method.accountName }] : []),
 		{ label: "Amount", value: formatMoney(total, currency), copyId: "payAmount" },

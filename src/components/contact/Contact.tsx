@@ -78,7 +78,7 @@ export default function Contact({ content, preset }: ContactProp) {
 		}
 	}, []);
 
-	// Re-validate while email is focused (mirrors OrderDialog flow)
+	// Re-validate while email is focused
 	useEffect(() => {
 		if (emailFocused) {
 			const errors = validateContact(getForm());

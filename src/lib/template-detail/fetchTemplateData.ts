@@ -23,7 +23,7 @@ export async function fetchTemplateDetail(
     "meta_list",
 
     "product.price",
-    "product.currency.code",
+    "product.currency",
 
     "galleries.directus_files_id.filename_disk",
     "galleries.directus_files_id.filename_download",
@@ -54,7 +54,7 @@ export async function fetchTemplateDetail(
     "early_offer.notes",
     "early_offer.coupon.type",
     "early_offer.coupon.amount",
-    "early_offer.coupon.currency.code",
+    "early_offer.coupon.currency",
     "early_offer.coupon.cap_value",
     "early_offer.coupon.can_expired",
     "early_offer.coupon.expires_at",
@@ -69,16 +69,19 @@ export async function fetchTemplateDetail(
 
   const res = await fetchFromBff(`/items/template?${search.toString()}`);
 
+  if (res.status === 404) {
+    return null;
+  }
+
   if (!res.ok) {
     throw new Error(`fetch failed: ${res.status}`);
   }
 
   const json = await res.json();
   const raw = json?.data?.[0];
-  console.log(raw);
 
   if (!raw) {
-    throw new Error(`template not found slug="${slug}"`);
+    return null;
   }
 
   const galleries = raw.galleries ?? [];
@@ -90,7 +93,11 @@ export async function fetchTemplateDetail(
     try {
       url = await getImagePresignedUrl(file.filename_disk);
     } catch (error) {
-      console.error(new Date().toISOString(), "fetchTemplateDetail", String(error));
+      console.error(
+        new Date().toISOString(),
+        "fetchTemplateDetail",
+        String(error),
+      );
     }
 
     const tab: StrapiGalleryTab = {
@@ -116,7 +123,7 @@ export async function fetchTemplateDetail(
     },
     tagline: raw.tagline,
     price: raw.product.price,
-    currency: raw.product.currency.code,
+    currency: raw.product.currency,
     priceSub: raw.price_sub,
     deliveryNote: raw.delivery_note,
     compatNote: raw.compat_note,

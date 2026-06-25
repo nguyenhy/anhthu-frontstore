@@ -1,4 +1,4 @@
-import type { OrderFormData } from "@/components/template-detail/OrderDialog";
+import type { ContactFormData } from "@/lib/order/types";
 import { OrderError } from "./OrderError";
 import { fetchFromBff } from "../fetch";
 
@@ -19,7 +19,7 @@ export type CreateOrderResult = CreateOrderSuccess | CreateOrderError;
  * - error body: { errorId, message }
  * - success body: { token }
  */
-async function postOrder(data: OrderFormData): Promise<{ token: string }> {
+async function postOrder(data: ContactFormData): Promise<{ token: string }> {
   const res = await fetchFromBff(`/api/orders`, {
     method: "POST",
     body: JSON.stringify({
@@ -42,7 +42,7 @@ async function postOrder(data: OrderFormData): Promise<{ token: string }> {
 }
 
 export async function createOrder(
-  data: OrderFormData,
+  data: ContactFormData,
 ): Promise<CreateOrderResult> {
   try {
     const { token } = await postOrder(data);

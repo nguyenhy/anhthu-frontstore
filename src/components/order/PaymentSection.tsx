@@ -30,19 +30,17 @@ export function PaymentSection({
 	reference, deadlineAt,
 }: Props) {
 	const active = paymentMethods
-		.filter((m) => m.active)
 		.toSorted((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
 
-	const firstSlug = active[0]?.slug ?? "";
-	const [activeTab, setActiveTab] = useState("");
+	const [activeTab, setActiveTab] = useState(1);
 
 	useEffect(() => {
-		if (!activeTab && firstSlug) {
-			setActiveTab(firstSlug);
+		if (!activeTab) {
+			setActiveTab(1);
 		}
-	}, [activeTab, firstSlug]);
+	}, [activeTab]);
 
-	const current = active.find((m) => m.slug === activeTab) ?? active[0];
+	const current = active.find((_, index) => index + 1 === activeTab) ?? active[0];
 
 	if (active.length === 0) {
 		return (
@@ -61,13 +59,13 @@ export function PaymentSection({
 
 			{active.length > 1 && (
 				<div className="payment-method-tabs">
-					{active.map((m) => (
+					{active.map((m, index) => (
 						<div
-							key={m.slug}
-							className={clsx("pm-tab", activeTab === m.slug && "active")}
-							onClick={() => setActiveTab(m.slug)}
+							key={index}
+							className={clsx("pm-tab", activeTab === index + 1 && "active")}
+							onClick={() => setActiveTab(index + 1)}
 						>
-							{m.displayName}
+							{m.name}
 						</div>
 					))}
 				</div>

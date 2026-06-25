@@ -11,6 +11,6 @@ export default function Error({
 	unstable_retry: () => void
 }) {
 	return (
-		<ErrorPage info={parseErrorConfig(error, 500)} reset={unstable_retry} />
+		<ErrorPage info={parseErrorConfig(error, 500)} />
 	)
 }
