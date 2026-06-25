@@ -3,7 +3,7 @@
 import './OrderDetail.css';
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import type { OrderPageData, ContactFormData, StrapiOrderStatus, StrapiOrderEvent } from "@/lib/order/types";
+import type { OrderPageData, ContactFormData } from "@/lib/order/types";
 import { submitContact } from "@/lib/order/submitContact";
 import { useOrderDetail } from "./useOrderDetail";
 import { ORDER_PRICING_LABELS } from "@/locales/en/orderPricing";
@@ -80,6 +80,11 @@ export default function OrderDetail({ data }: OrderDetailProps) {
 						!!order.buyer?.email &&
 						!!order.buyer?.verified_at &&
 						!!isAmountDueValid
+						&& !!(
+							status === 'idle'
+							|| status === 'contact_provided'
+							|| status === 'contact_verified'
+						)
 						&& !!paymentMethods && (
 							<PaymentSection
 								paymentMethods={paymentMethods}
