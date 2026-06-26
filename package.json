@@ -7,12 +7,16 @@
     "test": "tsc --noEmit",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1071.0",
     "@aws-sdk/s3-request-presigner": "3.1071.0",
     "@directus/visual-editing": "2.1.0",
+    "@opennextjs/cloudflare": "1.20.1",
     "@strapi/blocks-react-renderer": "^1.0.2",
     "clsx": "^2.1.1",
     "fakeout": "1.0.42",
@@ -30,11 +34,16 @@
     "eslint-config-next": "16.2.7",
     "husky": "^9.1.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "4.105.0"
   },
   "allowScripts": {
     "@strapi/blocks-react-renderer@1.0.2": true,
     "sharp@0.34.5": true,
-    "unrs-resolver@1.12.2": true
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.25.4": true,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "workerd@1.20260625.1": true
   }
 }

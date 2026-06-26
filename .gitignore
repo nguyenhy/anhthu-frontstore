@@ -219,3 +219,6 @@ dist
 ### Vercel ###
 
 # End of https://www.toptal.com/developers/gitignore/api/nextjs,vercel,node
+
+.open-next
+.wrangler
