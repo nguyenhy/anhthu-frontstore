@@ -10,12 +10,13 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 		<body className="min-h-full flex flex-col">
 			<header className="nav">
 				<div className="nav-inner">
-					<Link href="/" className="nav-logo"><span className="nav-logo-badge">T</span>Simpla</Link>
+					<Link href="/" className="nav-logo">
+						<span className="nav-logo-badge">S</span>SimplaKit
+					</Link>
 					<nav aria-label="Main navigation">
 						<ul className="nav-links">
-							<li><Link href="#">Templates</Link></li>
-							<li><Link href="#">How it works</Link></li>
-							<li><Link href="contact">Support</Link></li>
+							<li><Link href="/templates">Templates</Link></li>
+							<li><Link href="/contact">Support</Link></li>
 						</ul>
 					</nav>
 					{headerSlotRight}
@@ -34,17 +35,15 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 						<div className="footer-col">
 							<p className="footer-col-title">Templates</p>
 							<ul>
-								<li><Link href="#">Finance &amp; Invoicing</Link></li>
-								<li><Link href="#">Project Tracking</Link></li>
-								<li><Link href="#">Client Management</Link></li>
+								<li><Link href="/template/finance-invoicing">Finance &amp; Invoicing</Link></li>
+								<li><Link href="/template/project-tracking">Project Tracking</Link></li>
+								<li><Link href="/template/client-management">Client Management</Link></li>
 							</ul>
 						</div>
 						<div className="footer-col">
 							<p className="footer-col-title">Support</p>
 							<ul>
-								<li><Link href="contact">Contact us</Link></li>
-								<li><Link href="#">Order status</Link></li>
-								<li><Link href="#">How delivery works</Link></li>
+								<li><Link href="/contact">Contact us</Link></li>
 							</ul>
 						</div>
 						<div className="footer-col">
