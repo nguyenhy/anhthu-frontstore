@@ -28,7 +28,7 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 			<footer className="footer">
 				<div className="footer-inner">
 					<div>
-						<Link className="footer-logo" href="/"><span className="footer-logo-badge">T</span>Simpla</Link>
+						<Link className="footer-logo" href="/"><span className="footer-logo-badge">S</span>SimplaKit</Link>
 						<p className="footer-tagline">Google Sheets templates for independent workers.</p>
 					</div>
 					<div className="footer-links">
@@ -56,8 +56,7 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 					</div>
 				</div>
 				<div className="footer-bottom">
-					<span>© 2024 Templa. All rights reserved.</span>
-					<span>Made for Google Sheets · Delivered within 24 hours</span>
+					<span>© 2024 SimplaKit. All rights reserved.</span>
 				</div>
 			</footer>
 		</body>

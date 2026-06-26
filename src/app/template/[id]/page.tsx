@@ -33,7 +33,7 @@ export async function generateMetadata(
   }
 
   return {
-    title: data.name ? `${data.name} | Simpla` : parentTitle,
+    title: data.name ? `${data.name} | SimplaKit` : parentTitle,
     description: data.tagline || parentDescription,
   };
 }
