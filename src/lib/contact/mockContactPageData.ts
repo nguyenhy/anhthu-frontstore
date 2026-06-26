@@ -68,8 +68,8 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
                 { type: "text", text: "Write to " },
                 {
                   type: "link",
-                  url: "mailto:support@templa.co",
-                  children: [{ type: "text", text: "support@templa.co" }],
+                  url: "mailto:support@simplakit.com",
+                  children: [{ type: "text", text: "support@simplakit.com" }],
                 },
               ],
             },

@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Simpla Kit — Premium Productivity Templates · Launching July 5th</title>
+	<meta name="description" content="Done-for-you Google Sheets systems. Stop building from scratch — start working smarter. Join the waitlist for early bird pricing." />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+	<style>
+		/* Hide body initially to prevent flash/jump */
+		body {
+			visibility: hidden;
+			opacity: 0;
+		}
+	</style>
+
+	<style>
+		:root {
+			--primary: #9fe870;
+			--primary-active: #cdffad;
+			--primary-pale: #e2f6d5;
+			--canvas: #ffffff;
+			--canvas-soft: #e8ebe6;
+			--ink: #0e0f0c;
+			--ink-deep: #163300;
+			--body: #454745;
+			--mute: #868685;
+			--positive: #2ead4b;
+			--negative: #d03238;
+			--r-sm: 8px;
+			--r-md: 12px;
+			--r-xl: 24px;
+			--r-pill: 9999px;
+			--sp-xs: 4px;
+			--sp-sm: 8px;
+			--sp-md: 12px;
+			--sp-lg: 16px;
+			--sp-xl: 24px;
+			--sp-2xl: 32px;
+			--sp-3xl: 48px;
+			--max: 860px;
+			--font: 'Inter', -apple-system, system-ui, sans-serif;
+		}
+
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0
+		}
+
+		html {
+			scroll-behavior: smooth
+		}
+
+		body {
+			font-family: var(--font);
+			font-size: 16px;
+			line-height: 1.5;
+			color: var(--ink);
+			background: var(--canvas);
+			-webkit-font-smoothing: antialiased
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none
+		}
+
+		button,
+		input {
+			font-family: var(--font)
+		}
+
+		/* Nav */
+		.nav {
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			background: var(--canvas);
+			border-bottom: 1px solid rgba(14, 15, 12, .08)
+		}
+
+		.nav-inner {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 var(--sp-xl);
+			height: 64px;
+			display: flex;
+			align-items: center;
+			justify-content: center
+		}
+
+		.nav-logo {
+			font-size: 20px;
+			font-weight: 900;
+			letter-spacing: -.03em;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			color: var(--ink)
+		}
+
+		.nav-logo-badge {
+			width: 30px;
+			height: 30px;
+			background: var(--primary);
+			border-radius: var(--r-sm);
+			display: grid;
+			place-items: center;
+			font-size: 15px;
+			font-weight: 900;
+			color: var(--ink)
+		}
+
+		/* Hero */
+		.hero {
+			background: var(--canvas-soft);
+			min-height: calc(100vh - 64px);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 60px var(--sp-xl) 80px
+		}
+
+		.hero-inner {
+			width: 100%;
+			max-width: var(--max)
+		}
+
+		.launch-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			background: var(--canvas);
+			color: var(--ink-deep);
+			font-size: 12px;
+			font-weight: 600;
+			letter-spacing: .12em;
+			text-transform: uppercase;
+			padding: 6px 14px;
+			border-radius: var(--r-pill);
+			margin-bottom: 28px;
+			border: 1px solid rgba(14, 15, 12, .12)
+		}
+
+		.launch-badge-dot {
+			width: 6px;
+			height: 6px;
+			background: var(--positive);
+			border-radius: 50%;
+			animation: pulse 1.8s ease-in-out infinite
+		}
+
+		@keyframes pulse {
+
+			0%,
+			100% {
+				opacity: 1;
+				transform: scale(1)
+			}
+
+			50% {
+				opacity: .5;
+				transform: scale(.7)
+			}
+		}
+
+		.hero h1 {
+			font-size: clamp(40px, 6vw, 72px);
+			font-weight: 900;
+			line-height: 1.04;
+			letter-spacing: -.03em;
+			color: var(--ink);
+			margin-bottom: 20px;
+			margin-inline: auto
+		}
+
+		.hero-sub {
+			font-size: clamp(16px, 2vw, 19px);
+			line-height: 1.65;
+			color: var(--body);
+			max-width: 480px;
+			margin: 0 auto 48px
+		}
+
+		/* Countdown */
+		.countdown {
+			display: flex;
+			align-items: flex-start;
+			justify-content: center;
+			gap: var(--sp-lg);
+			margin-bottom: 52px;
+			flex-wrap: wrap
+		}
+
+		.cd-block {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: var(--sp-sm)
+		}
+
+		.cd-num {
+			font-size: clamp(52px, 8vw, 96px);
+			font-weight: 900;
+			line-height: 1;
+			letter-spacing: -.04em;
+			color: var(--ink);
+			font-variant-numeric: tabular-nums;
+			min-width: 2ch;
+			text-align: center
+		}
+
+		.cd-label {
+			font-size: 11px;
+			font-weight: 600;
+			letter-spacing: .18em;
+			text-transform: uppercase;
+			color: var(--mute)
+		}
+
+		.cd-sep {
+			font-size: clamp(40px, 6vw, 76px);
+			font-weight: 300;
+			color: rgba(14, 15, 12, .2);
+			line-height: 1;
+			align-self: flex-start;
+			margin-top: 4px;
+			padding-bottom: 24px
+		}
+
+		/* Forms */
+		.email-form {
+			width: 100%;
+			max-width: 480px;
+			margin: 0 auto;
+			display: flex;
+			gap: var(--sp-sm);
+			flex-wrap: wrap
+		}
+
+		.email-input {
+			flex: 1;
+			min-width: 220px;
+			background: var(--canvas);
+			color: var(--ink);
+			font-size: 15px;
+			padding: 13px var(--sp-lg);
+			border: 1px solid var(--ink);
+			border-radius: var(--r-md);
+			outline: none;
+			transition: box-shadow .15s
+		}
+
+		.email-input::placeholder {
+			color: var(--mute)
+		}
+
+		.email-input:focus {
+			box-shadow: 0 0 0 3px var(--primary-pale)
+		}
+
+		.btn-primary {
+			background: var(--primary);
+			color: var(--ink);
+			font-size: 15px;
+			font-weight: 600;
+			padding: 13px var(--sp-xl);
+			border: none;
+			border-radius: var(--r-xl);
+			cursor: pointer;
+			white-space: nowrap;
+			transition: background .15s
+		}
+
+		.btn-primary:hover {
+			background: var(--primary-active)
+		}
+
+		.form-note {
+			margin-top: var(--sp-md);
+			font-size: 12px;
+			color: var(--mute);
+			width: 100%
+		}
+
+		.form-success {
+			margin-top: var(--sp-md);
+			font-size: 13px;
+			font-weight: 600;
+			color: var(--ink-deep);
+			width: 100%;
+			display: none
+		}
+
+		/* CTA band */
+		.cta-band {
+			background: var(--ink);
+			padding: 72px var(--sp-xl)
+		}
+
+		.cta-band-inner {
+			max-width: var(--max);
+			margin: 0 auto;
+			text-align: center
+		}
+
+		.cta-band h2 {
+			font-size: clamp(28px, 4vw, 44px);
+			font-weight: 900;
+			letter-spacing: -.025em;
+			color: var(--primary);
+			margin-bottom: 20px
+		}
+
+		.cta-bullets {
+			list-style: none;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 36px
+		}
+
+		.cta-bullets li {
+			font-size: 15px;
+			color: rgba(232, 235, 230, .8);
+			display: flex;
+			align-items: center;
+			gap: 10px
+		}
+
+		.cta-check {
+			width: 20px;
+			height: 20px;
+			background: var(--primary);
+			border-radius: 50%;
+			display: grid;
+			place-items: center;
+			flex-shrink: 0;
+			font-size: 10px;
+			color: var(--ink);
+			font-weight: 700
+		}
+
+		.cta-band .email-form {
+			max-width: 440px
+		}
+
+		.cta-band .email-input {
+			background: rgba(232, 235, 230, .95);
+			border-color: transparent;
+			color: var(--ink)
+		}
+
+		.cta-band .email-input:focus {
+			box-shadow: 0 0 0 3px rgba(159, 232, 112, .25)
+		}
+
+		.cta-band .btn-primary {
+			background: var(--primary);
+			color: var(--ink)
+		}
+
+		.cta-band .btn-primary:hover {
+			background: var(--primary-active)
+		}
+
+		.cta-band .form-note {
+			color: rgba(232, 235, 230, .4)
+		}
+
+		.cta-band .form-success {
+			color: var(--primary)
+		}
+
+		/* FAQ */
+		.faq {
+			padding: 80px var(--sp-xl);
+			background: var(--canvas)
+		}
+
+		.faq-inner {
+			max-width: var(--max);
+			margin: 0 auto
+		}
+
+		.section-eyebrow {
+			font-size: 11px;
+			font-weight: 600;
+			letter-spacing: .18em;
+			text-transform: uppercase;
+			color: var(--mute);
+			margin-bottom: var(--sp-md)
+		}
+
+		.section-heading {
+			font-size: clamp(26px, 3.5vw, 38px);
+			font-weight: 900;
+			letter-spacing: -.025em;
+			color: var(--ink);
+			margin-bottom: 40px
+		}
+
+		.faq-list {
+			display: flex;
+			flex-direction: column;
+			gap: var(--sp-sm)
+		}
+
+		.faq-item {
+			border: 1px solid rgba(14, 15, 12, .14);
+			border-radius: var(--r-xl);
+			overflow: hidden;
+			transition: border-color .2s
+		}
+
+		.faq-item.open {
+			border-color: var(--ink)
+		}
+
+		.faq-trigger {
+			width: 100%;
+			background: none;
+			border: none;
+			padding: var(--sp-xl);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--sp-lg);
+			text-align: left;
+			cursor: pointer
+		}
+
+		.faq-trigger:hover {
+			background: rgba(232, 235, 230, .5)
+		}
+
+		.faq-q {
+			font-size: 15px;
+			font-weight: 600;
+			color: var(--ink);
+			line-height: 1.4
+		}
+
+		.faq-icon {
+			flex-shrink: 0;
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			background: var(--canvas-soft);
+			display: grid;
+			place-items: center;
+			font-size: 18px;
+			font-weight: 300;
+			color: var(--ink);
+			transition: background .2s, transform .25s
+		}
+
+		.faq-item.open .faq-icon {
+			background: var(--primary);
+			transform: rotate(45deg)
+		}
+
+		.faq-body {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height .3s ease
+		}
+
+		.faq-body-inner {
+			padding: 0 var(--sp-xl) var(--sp-xl);
+			font-size: 15px;
+			line-height: 1.7;
+			color: var(--body)
+		}
+
+		/* Footer */
+		.footer {
+			background: var(--ink);
+			padding: var(--sp-3xl) var(--sp-xl)
+		}
+
+		.footer-inner {
+			max-width: var(--max);
+			margin: 0 auto;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: var(--sp-lg)
+		}
+
+		.footer-logo {
+			font-size: 16px;
+			font-weight: 900;
+			letter-spacing: -.02em;
+			color: var(--canvas-soft);
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 4px
+		}
+
+		.footer-logo-badge {
+			width: 22px;
+			height: 22px;
+			background: var(--primary);
+			border-radius: var(--r-sm);
+			display: grid;
+			place-items: center;
+			font-size: 11px;
+			font-weight: 900;
+			color: var(--ink)
+		}
+
+		.footer-tagline {
+			font-size: 12px;
+			color: var(--mute)
+		}
+
+		.footer-links {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			flex-wrap: wrap
+		}
+
+		.footer-links a {
+			font-size: 13px;
+			color: rgba(232, 235, 230, .5);
+			transition: color .15s
+		}
+
+		.footer-links a:hover {
+			color: var(--canvas-soft)
+		}
+
+		.footer-copy {
+			font-size: 12px;
+			color: var(--mute)
+		}
+
+		@media(max-width:600px) {
+			.countdown {
+				gap: 10px
+			}
+
+			.cd-sep {
+				display: none
+			}
+
+			.email-form {
+				flex-direction: column
+			}
+
+			.email-input,
+			.btn-primary {
+				width: 100%
+			}
+
+			.footer-inner {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 20px
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<header class="nav">
+		<div class="nav-inner">
+			<div class="nav-logo"><span class="nav-logo-badge">S</span>SimplaKit</div>
+		</div>
+	</header>
+
+	<section class="hero">
+		<div class="hero-inner">
+			<div class="launch-badge"><span class="launch-badge-dot"></span>Launching July 5th</div>
+			<h1>Ready-To-Use Productivity Templates</h1>
+			<p class="hero-sub">Skip the setup. Boost your output instantly.</p>
+
+			<div class="countdown">
+				<div class="cd-block"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Days</span></div>
+				<div class="cd-sep">:</div>
+				<div class="cd-block"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Hours</span></div>
+				<div class="cd-sep">:</div>
+				<div class="cd-block"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Minutes</span></div>
+				<div class="cd-sep">:</div>
+				<div class="cd-block"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Seconds</span></div>
+			</div>
+
+			<form class="email-form" id="hero-form" novalidate>
+				<input class="email-input" type="email" id="hero-email" placeholder="Your email address" autocomplete="email" required />
+				<button class="btn-primary" type="submit">Join the waitlist</button>
+				<p class="form-note">No spam. One email at launch.</p>
+				<p class="form-success" id="hero-success">✓ You're on the list! We'll email you July 5th.</p>
+			</form>
+		</div>
+	</section>
+
+	<section class="cta-band">
+		<div class="cta-band-inner">
+			<h2>Be first. Get early bird pricing.</h2>
+			<ul class="cta-bullets">
+				<li><span class="cta-check">✓</span>Exclusive launch discount for waitlist members</li>
+				<li><span class="cta-check">✓</span>First access when doors open July 5th</li>
+				<li><span class="cta-check">✓</span>No spam. One email at launch.</li>
+			</ul>
+			<form class="email-form" id="band-form" style="margin:0 auto" novalidate>
+				<input class="email-input" type="email" id="band-email" placeholder="Your email address" autocomplete="email" required />
+				<button class="btn-primary" type="submit">Notify me at launch</button>
+				<p class="form-note">Join others already on the list.</p>
+				<p class="form-success" id="band-success">✓ You're on the list! We'll email you July 5th.</p>
+			</form>
+		</div>
+	</section>
+
+	<section class="faq">
+		<div class="faq-inner">
+			<p class="section-eyebrow">FAQ</p>
+			<h2 class="section-heading">Common questions</h2>
+			<ul class="faq-list" role="list">
+				<li class="faq-item">
+					<button class="faq-trigger" aria-expanded="false">
+						<span class="faq-q">What exactly is Simpla Kit?</span>
+						<span class="faq-icon" aria-hidden="true">+</span>
+					</button>
+					<div class="faq-body" role="region">
+						<div class="faq-body-inner">Productivity template kits built in Google Sheets. Ready to use, no setup needed. Download, make a copy, and start working immediately.</div>
+					</div>
+				</li>
+				<li class="faq-item">
+					<button class="faq-trigger" aria-expanded="false">
+						<span class="faq-q">Do I need a Google account?</span>
+						<span class="faq-icon" aria-hidden="true">+</span>
+					</button>
+					<div class="faq-body" role="region">
+						<div class="faq-body-inner">Yes — a free Google account is all you need. No paid tools, no subscriptions, no installs.</div>
+					</div>
+				</li>
+				<li class="faq-item">
+					<button class="faq-trigger" aria-expanded="false">
+						<span class="faq-q">Is this a subscription?</span>
+						<span class="faq-icon" aria-hidden="true">+</span>
+					</button>
+					<div class="faq-body" role="region">
+						<div class="faq-body-inner">One-time purchase. The template is yours forever, including future updates to that kit.</div>
+					</div>
+				</li>
+				<li class="faq-item">
+					<button class="faq-trigger" aria-expanded="false">
+						<span class="faq-q">When can I buy it?</span>
+						<span class="faq-icon" aria-hidden="true">+</span>
+					</button>
+					<div class="faq-body" role="region">
+						<div class="faq-body-inner">July 5th, 2026. Join the waitlist above to get notified the moment we launch — plus an exclusive early bird discount.</div>
+					</div>
+				</li>
+				<li class="faq-item">
+					<button class="faq-trigger" aria-expanded="false">
+						<span class="faq-q">What if it doesn't work for me?</span>
+						<span class="faq-icon" aria-hidden="true">+</span>
+					</button>
+					<div class="faq-body" role="region">
+						<div class="faq-body-inner">Your satisfaction is guaranteed. If you run into any issue with your template, reach out and we'll make it right.</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<footer class="footer">
+		<div class="footer-inner">
+			<div>
+				<div class="footer-logo"><span class="footer-logo-badge">S</span>SimplaKit</div>
+				<div class="footer-tagline">Premium productivity templates</div>
+			</div>
+			<nav class="footer-links" aria-label="Footer links">
+				<a href="contact.html">Contact</a>
+				<a href="#">Privacy Policy</a>
+			</nav>
+			<div class="footer-copy">© 2026 Simpla Kit</div>
+		</div>
+	</footer>
+
+
+	<script>
+		window.onload = function () {
+			// Scroll to top on load/reload
+			window.scrollTo(0, 0);
+
+			// Fade/show content smoothly after a brief delay
+			document.body.style.visibility = 'visible';
+			document.body.style.transition = 'opacity 0.2s ease';
+			document.body.style.opacity = '1';
+		};
+	</script>
+	<script>
+		(function () {
+			var target = new Date('2026-07-05T00:00:00');
+			function pad(n) { return String(n).padStart(2, '0') }
+			function tick() {
+				var diff = Math.max(0, target - new Date());
+				document.getElementById('cd-days').textContent = pad(Math.floor(diff / 864e5));
+				document.getElementById('cd-hours').textContent = pad(Math.floor((diff % 864e5) / 36e5));
+				document.getElementById('cd-mins').textContent = pad(Math.floor((diff % 36e5) / 6e4));
+				document.getElementById('cd-secs').textContent = pad(Math.floor((diff % 6e4) / 1e3));
+			}
+			tick(); setInterval(tick, 1000);
+		})();
+
+		function setupForm(formId, inputId, successId) {
+			var form = document.getElementById(formId);
+			var inp = document.getElementById(inputId);
+			var ok = document.getElementById(successId);
+			if (!form) return;
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				if (!inp.value || !inp.value.includes('@')) { inp.style.borderColor = '#c0392b'; inp.focus(); return; }
+				inp.style.borderColor = '';
+				form.querySelector('button').disabled = true;
+				inp.disabled = true;
+				ok.style.display = 'block';
+			});
+			inp.addEventListener('input', function () { inp.style.borderColor = ''; });
+		}
+		setupForm('hero-form', 'hero-email', 'hero-success');
+		setupForm('band-form', 'band-email', 'band-success');
+
+		document.querySelectorAll('.faq-trigger').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var item = btn.closest('.faq-item');
+				var body = item.querySelector('.faq-body');
+				var open = item.classList.contains('open');
+				document.querySelectorAll('.faq-item.open').forEach(function (el) {
+					el.classList.remove('open');
+					el.querySelector('.faq-body').style.maxHeight = '0';
+					el.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+				});
+				if (!open) {
+					item.classList.add('open');
+					body.style.maxHeight = body.scrollHeight + 'px';
+					btn.setAttribute('aria-expanded', 'true');
+				}
+			});
+		});
+	</script>
+
+</body>
+
+</html>
