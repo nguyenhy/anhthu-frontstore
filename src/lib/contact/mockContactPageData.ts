@@ -68,7 +68,7 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
               children: [
                 {
                   type: "text",
-                  text: "We typically reply within 1–2 business days, Monday–Friday.",
+                  text: "Our support team will review your request and get back to you as soon as possible.",
                 },
               ],
             },
