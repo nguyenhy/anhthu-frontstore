@@ -6,12 +6,28 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
       sectionTitle: "Send a message",
       subjects: [
         { value: "pre-sale", label: "I have a question before buying" },
-        { value: "refund", label: "I'd like a refund" },
+        {
+          value: "installation",
+          label: "I need help with installation or setup",
+        },
         { value: "not-working", label: "The template isn't working" },
+        { value: "bug-report", label: "I found a bug" },
+        { value: "feature-request", label: "I'd like to request a feature" },
+        {
+          value: "customization",
+          label: "I need help customizing the template",
+        },
+        { value: "refund", label: "I'd like to request a refund" },
+        { value: "update", label: "I have a question about updates" },
+        {
+          value: "documentation",
+          label: "I couldn't find the answer in the documentation",
+        },
         { value: "other", label: "Other" },
       ],
       confirmationTitle: "Message received",
-      confirmationText: "We'll reply within 1–2 business days, Monday–Friday.",
+      confirmationText:
+        "Thanks for contacting us! Your request has been received and assigned ticket **#{TICKET_ID}**.\n\nYou can view and track your ticket [**here**]({URL}) at anytime.\n\nOur support team will respond within 1–2 business days (Monday–Friday).",
     },
     faq: [
       {
@@ -52,7 +68,7 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
               children: [
                 {
                   type: "text",
-                  text: "We typically reply within 1–2 business days, Monday–Friday.",
+                  text: "Our support team will review your request and get back to you as soon as possible.",
                 },
               ],
             },
@@ -68,8 +84,8 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
                 { type: "text", text: "Write to " },
                 {
                   type: "link",
-                  url: "mailto:support@simplakit.com",
-                  children: [{ type: "text", text: "support@simplakit.com" }],
+                  url: "mailto:support@support.simplakit.com",
+                  children: [{ type: "text", text: "support@support.simplakit.com" }],
                 },
               ],
             },

@@ -9,6 +9,8 @@ import {
 import { createContact } from "@/lib/contact/createContact";
 import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
+import ReactMarkdown from 'react-markdown'
+import MarkdownRenderer from "../MarkdownRenderer";
 
 export type ContactPreset = {
 	subject?: string;
@@ -43,7 +45,7 @@ export default function Contact({ content, preset }: ContactProp) {
 	const [message, setMessage] = useState(preset?.message ?? '');
 
 	const [emailFocused, setEmailFocused] = useState(false);
-	const [submitted, setSubmitted] = useState(false);
+	const [submitResult, setSubmitResult] = useState<{ id: string, slug: string } | null>(null);
 	const [submitting, setSubmitting] = useState(false);
 
 	const [subjectError, setSubjectError] = useState('');
@@ -110,7 +112,7 @@ export default function Contact({ content, preset }: ContactProp) {
 			setSubmitting(false);
 
 			if (result.status === 'success') {
-				setSubmitted(true);
+				setSubmitResult(result.data);
 			} else {
 				setGlobalError(result.message
 					? result.message
@@ -141,7 +143,7 @@ export default function Contact({ content, preset }: ContactProp) {
 			<div
 				className="form-card"
 				id="form-card"
-				style={{ display: submitted ? 'none' : undefined }}
+				style={{ display: submitResult ? 'none' : undefined }}
 			>
 				<form id="contact-form" onSubmit={handleSubmit} noValidate>
 
@@ -269,24 +271,32 @@ export default function Contact({ content, preset }: ContactProp) {
 				</form>
 			</div>
 
-			<div
-				className={clsx('confirm-card', submitted && 'visible')}
-				id="confirm-card"
-				role="alert"
-				tabIndex={-1}
-			>
-				<div className="confirm-icon" aria-hidden="true">
-					✓
-				</div>
+			{
+				!!submitResult && (
 
-				<p className="confirm-title">
-					{content.confirmationTitle}
-				</p>
+					<div
+						className={clsx('confirm-card', 'visible')}
+						id="confirm-card"
+						role="alert"
+						tabIndex={-1}
+					>
+						<div className="confirm-icon" aria-hidden="true">
+							✓
+						</div>
 
-				<p className="confirm-text">
-					{content.confirmationText}
-				</p>
-			</div>
+						<p className="confirm-title">{content.confirmationTitle}</p>
+
+						<p className="confirm-text">
+							<MarkdownRenderer content={
+								content.confirmationText
+									.replace('{TICKET_ID}', submitResult.id)
+									.replace('{URL}', `/ticket/${submitResult.slug}`)
+							} />
+						</p>
+					</div>
+
+				)
+			}
 		</div>
 	);
 }
