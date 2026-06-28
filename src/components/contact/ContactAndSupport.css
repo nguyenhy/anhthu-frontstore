@@ -221,6 +221,10 @@ a[href^="mailto:"] {
   line-height: 1.65;
 }
 
+.confirm-text a {
+  text-decoration: underline;
+}
+
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .content-grid {

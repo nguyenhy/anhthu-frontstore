@@ -11,7 +11,8 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
         { value: "other", label: "Other" },
       ],
       confirmationTitle: "Message received",
-      confirmationText: "We'll reply within 1–2 business days, Monday–Friday.",
+      confirmationText:
+        "Thanks for contacting us! Your request has been received and assigned ticket **#{TICKET_ID}**.\n\nYou can view and track your ticket [**here**]({URL}) at anytime.\n\nOur support team will respond within 1–2 business days (Monday–Friday).",
     },
     faq: [
       {
