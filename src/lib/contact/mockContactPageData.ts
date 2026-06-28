@@ -6,8 +6,23 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
       sectionTitle: "Send a message",
       subjects: [
         { value: "pre-sale", label: "I have a question before buying" },
-        { value: "refund", label: "I'd like a refund" },
+        {
+          value: "installation",
+          label: "I need help with installation or setup",
+        },
         { value: "not-working", label: "The template isn't working" },
+        { value: "bug-report", label: "I found a bug" },
+        { value: "feature-request", label: "I'd like to request a feature" },
+        {
+          value: "customization",
+          label: "I need help customizing the template",
+        },
+        { value: "refund", label: "I'd like to request a refund" },
+        { value: "update", label: "I have a question about updates" },
+        {
+          value: "documentation",
+          label: "I couldn't find the answer in the documentation",
+        },
         { value: "other", label: "Other" },
       ],
       confirmationTitle: "Message received",
