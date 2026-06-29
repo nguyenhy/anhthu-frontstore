@@ -7,7 +7,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export default function BaseLayout({ children, headerSlotRight }: Props) {
 	return (
-		<body className="min-h-full flex flex-col">
+		<body>
 			<header className="nav">
 				<div className="nav-inner">
 					<Link href="/" className="nav-logo">
@@ -49,14 +49,15 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 						<div className="footer-col">
 							<p className="footer-col-title">Legal</p>
 							<ul>
-								<li><Link href="#">Terms</Link></li>
-								<li><Link href="#">Refund policy</Link></li>
+								<li><Link href="/terms">Terms of Service</Link></li>
+								<li><Link href="/privacy">Privacy Policy</Link></li>
+								<li><Link href="/refund">Refund Policy</Link></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<div className="footer-bottom">
-					<span>© 2024 SimplaKit. All rights reserved.</span>
+					<span>© {new Date().getFullYear()} SimplaKit. All rights reserved.</span>
 				</div>
 			</footer>
 		</body>

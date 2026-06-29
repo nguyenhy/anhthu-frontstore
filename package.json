@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "test": "tsc --noEmit",
+    "prebuild": "node scripts/compile-md.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -23,17 +24,16 @@
     "next": "16.2.7",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-markdown": "10.1.0"
+    "react-markdown": "10.1.0",
+    "remark-gfm": "4.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "husky": "^9.1.7",
-    "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "4.105.0"
   },
