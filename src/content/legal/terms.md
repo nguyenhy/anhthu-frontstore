@@ -33,7 +33,15 @@ Product links are sent to your **verified email address** after payment confirma
 
 We are not responsible for delivery failure to an unconfirmed or incorrectly entered email address.
 
-Estimated delivery: automated within 2 hours of payment confirmation. If not received, contact us.
+**Delivery timeline:** Automated within 2 hours of payment confirmation. If not received within 2 hours, contact us with your order ID.
+
+**How delivery works:** After you submit your order, you will receive a verification email. Once you confirm your email and your payment is matched to your order, the product link is sent automatically. Payment is matched using the order ID you include in your bank transfer note.
+
+**Your responsibilities:**
+- Provide a valid, accessible email address
+- Verify your email before completing payment
+- Include your order ID in the bank transfer payment note
+- Ensure your email inbox can receive messages from us
 
 ## 6. Google Account Requirement
 
