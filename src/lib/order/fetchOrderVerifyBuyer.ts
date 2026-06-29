@@ -17,54 +17,31 @@ export async function fetchOrderVerifyBuyer(
   slug: string,
   version?: string,
 ): Promise<OrderVerifyBuyerData | null> {
-  const fields = [
-    //
-    "id",
-    "slug",
-
-    "buyer.id",
-    "buyer.verify_code",
-    "buyer.verified_at",
-    "buyer.verify_expires_at",
-    "buyer.verify_resend_at",
-  ];
   const search = new URLSearchParams();
-  if (version) {
-    search.append("version", version);
-  }
-  search.append("filter[slug][_eq]", slug);
-  search.append("limit", "1");
-  search.append("fields", fields.join(","));
+  if (version) search.append("version", version);
 
-  const res = await fetchFromBff(`/items/order?${search.toString()}`);
+  const query = search.toString();
+  const res = await fetchFromBff(
+    `/frontstore/order/${slug}/verify-buyer${query ? `?${query}` : ""}`,
+  );
 
-  if (res.status === 404) {
-    return null;
-  }
-
-  if (!res.ok) {
-    console.log(new Date().toISOString(), "fetchOrderBuyer", await res.json());
-    throw new Error(`fetch failed: ${res.status}`);
-  }
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
 
   const json = await res.json();
-  const raw = json?.data?.[0];
-
-  if (!raw) {
-    return null;
-  }
+  if (!json) return null;
 
   return {
-    id: raw.id,
-    slug: raw.slug,
-    buyer: raw.buyer
+    id: json.id,
+    slug: json.slug,
+    buyer: json.buyer
       ? {
-          id: raw.buyer.id || "",
-          verify_code: raw.buyer.verify_code || "",
-          verified_at: raw.buyer.verified_at || "",
-          verify_expires_at: raw.buyer.verify_expires_at || "",
-          verify_resend_at: raw.buyer.verify_resend_at || null,
+          id: json.buyer.id,
+          verify_code: json.buyer.verify_code,
+          verified_at: json.buyer.verified_at ?? null,
+          verify_expires_at: json.buyer.verify_expires_at ?? null,
+          verify_resend_at: json.buyer.verify_resend_at ?? null,
         }
       : null,
-  };
+  } satisfies OrderVerifyBuyerData;
 }
