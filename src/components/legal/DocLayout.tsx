@@ -16,15 +16,6 @@ export default function DocLayout({ title, lastUpdated, content }: Props) {
           <p className="doc-meta">Last updated: {lastUpdated}</p>
         </header>
         <MarkdownRenderer content={content} className="doc-body" />
-        <footer className="doc-footer">
-          <p>
-            Portions of this document adapted from{' '}
-            <a href="https://github.com/basecamp/policies" target="_blank" rel="noopener noreferrer">
-              Basecamp Policies
-            </a>{' '}
-            (CC BY 4.0).
-          </p>
-        </footer>
       </div>
     </main>
   )
