@@ -1,4 +1,9 @@
-export const createLogger = (_uid?: number) => {
+export interface Logger {
+  uid: number;
+  info: (...args: unknown[]) => void;
+  error: (...args: unknown[]) => void;
+}
+export const createLogger = (_uid?: number): Logger => {
   const uid = _uid || Math.floor(Math.random() * 10000000) + Date.now();
 
   const infoLogger = (...args: unknown[]) => {
@@ -22,6 +27,7 @@ export const createLogger = (_uid?: number) => {
   };
 
   return {
+    uid,
     info: infoLogger,
     error: errorLogger,
   };

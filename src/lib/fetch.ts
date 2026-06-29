@@ -1,16 +1,22 @@
 import { AppError } from "./error";
-import { createLogger } from "./logger";
+import { createLogger, Logger } from "./logger";
 
 export const BFF_API_ENDPOINT = process.env.BFF_API_ENDPOINT ?? "";
 export const BFF_API_TOKEN = process.env.BFF_API_TOKEN ?? "";
 
-export const fetchFromBff = async (input: string, init: RequestInit = {}) => {
+export const fetchFromBff = async (
+  input: string,
+  init: RequestInit = {},
+  options?: {
+    logger?: Logger;
+  },
+) => {
   if (!BFF_API_ENDPOINT) {
     throw new AppError("api not configured");
   }
 
-  const uid = Math.floor(Math.random() * 10000000) + Date.now();
-  const logger = createLogger(uid);
+  const logger = options?.logger || createLogger();
+  const uid = logger.uid;
   const url = parseBffEndpoint(input);
   url.searchParams.set("rid", uid.toString());
 
