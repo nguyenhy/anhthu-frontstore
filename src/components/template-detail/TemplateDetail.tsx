@@ -48,7 +48,9 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 					<div className="col-info">
 						<div className="category-pill">{data.category.emoji} {data.category.name}</div>
 						<h1 className="product-h1">{data.name}</h1>
-						<p className="product-tagline">{data.tagline}</p>
+						<div className="product-tagline" dangerouslySetInnerHTML={{
+							__html: data.tagline
+						}}></div>
 
 						<div className="rating-row">
 							<span className="stars" aria-label="5 stars">★★★★★</span>
