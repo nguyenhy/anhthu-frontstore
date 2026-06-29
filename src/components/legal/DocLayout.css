@@ -1,0 +1,35 @@
+.doc-page { padding: 48px 24px 80px; }
+.doc-container { max-width: 720px; margin: 0 auto; }
+.doc-header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.doc-title { font-size: clamp(28px, 4vw, 40px); font-weight: 900; letter-spacing: -.025em; color: var(--ink); line-height: 1.1; margin-bottom: 10px; }
+.doc-meta { font-size: 14px; color: var(--mute); }
+
+.doc-body { color: var(--body); font-size: 16px; line-height: 1.75; }
+.doc-body h1, .doc-body h2, .doc-body h3, .doc-body h4 { color: var(--ink); font-weight: 900; letter-spacing: -.02em; margin-top: 2em; margin-bottom: .5em; line-height: 1.2; }
+.doc-body h1 { font-size: 28px; }
+.doc-body h2 { font-size: 22px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.doc-body h3 { font-size: 18px; }
+.doc-body h4 { font-size: 16px; }
+.doc-body p { margin-bottom: 1.1em; }
+.doc-body ul, .doc-body ol { margin: 0 0 1.1em 1.5em; }
+.doc-body li { margin-bottom: .4em; }
+.doc-body blockquote { border-left: 3px solid var(--primary); margin: 1.5em 0; padding: 12px 20px; background: var(--canvas-soft); border-radius: 0 var(--r-md) var(--r-md) 0; color: var(--body); }
+.doc-body code { background: var(--canvas-soft); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; font-size: .9em; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink); }
+.doc-body pre { background: var(--ink); border-radius: var(--r-md); padding: 20px; overflow-x: auto; margin: 1.5em 0; }
+.doc-body pre code { background: none; border: none; padding: 0; color: var(--canvas-soft); font-size: 14px; }
+.doc-body strong { font-weight: 600; color: var(--ink); }
+.doc-body em { font-style: italic; }
+.doc-body hr { border: none; border-top: 1px solid var(--border); margin: 2em 0; }
+.doc-body a { color: var(--ink); }
+.doc-body table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 15px; }
+.doc-body th { background: var(--canvas-soft); text-align: left; font-weight: 600; color: var(--ink); padding: 10px 14px; border: 1px solid var(--border); }
+.doc-body td { padding: 10px 14px; border: 1px solid var(--border); vertical-align: top; }
+.doc-body tr:hover td { background: rgba(232,235,230,.4); }
+
+.doc-footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--mute); }
+.doc-footer a { color: var(--mute); }
+
+.empty-state { text-align: center; padding: 80px 24px; color: var(--mute); }
+.empty-state h2 { font-size: 20px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+
+@media (max-width: 600px) { .doc-page { padding: 32px 16px 60px; } }
