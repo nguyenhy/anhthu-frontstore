@@ -187,12 +187,14 @@ img {
   flex-direction: column;
   gap: var(--sp-sm);
 }
-.footer-col a {
+.footer-col a,
+.footer-col button {
   font-size: 13px;
   color: rgba(232, 235, 230, 0.6);
   transition: color 0.15s;
 }
-.footer-col a:hover {
+.footer-col a:hover,
+.footer-col button:hover {
   color: var(--canvas-soft);
 }
 .footer-bottom {
