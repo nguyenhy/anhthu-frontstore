@@ -193,6 +193,9 @@ img {
   color: rgba(232, 235, 230, 0.6);
   transition: color 0.15s;
 }
+.footer-col button {
+  background-color: unset;
+}
 .footer-col a:hover,
 .footer-col button:hover {
   color: var(--canvas-soft);

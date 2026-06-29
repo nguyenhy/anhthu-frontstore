@@ -52,7 +52,10 @@ export default function CookieConsent() {
 
   useEffect(() => {
     const stored = loadConsent()
-    const isLegalPage = location.pathname.includes('/privacy') || location.pathname.includes('/terms')
+    const isLegalPage =
+      location.pathname.includes('/privacy')
+      || location.pathname.includes('/terms')
+      || location.pathname.includes('/refund')
     if ((!stored || stored.version !== VERSION) && !isLegalPage) setVisible(true)
 
     function onReset() { setVisible(true); setPanelOpen(false) }
