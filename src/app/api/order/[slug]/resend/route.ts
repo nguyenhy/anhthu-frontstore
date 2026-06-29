@@ -37,37 +37,27 @@ export async function PATCH(
       rawVersion && isString(rawVersion) ? rawVersion : undefined,
     );
   } catch (error) {
-    console.error(
-      new Date().toISOString(),
-      "order_resend.fetchOrderBuyer",
-      String(error),
-    );
+    logger.error("order_resend.fetchOrderBuyer", String(error));
     return NextResponse.json(null, { status: 500 });
   }
 
   if (!order) {
-    console.error(new Date().toISOString(), "order_resend.order_not_found");
+    logger.error("order_resend.order_not_found");
     return NextResponse.json(null, { status: 404 });
   }
 
   if (!order.id) {
-    console.error(new Date().toISOString(), "order_resend.order_invalid_id");
+    logger.error("order_resend.order_invalid_id");
     return NextResponse.json(null, { status: 400 });
   }
 
   if (!order.buyer) {
-    console.error(
-      new Date().toISOString(),
-      "order_resend.order_buyer_not_exist",
-    );
+    logger.error("order_resend.order_buyer_not_exist");
     return NextResponse.json(null, { status: 404 });
   }
 
   if (order.buyer.verified_at) {
-    console.error(
-      new Date().toISOString(),
-      "order_resend.order_buyer_code_mismatch",
-    );
+    logger.info("order_resend.already_verified");
     return NextResponse.json(null, { status: 409 });
   }
 
@@ -76,20 +66,10 @@ export async function PATCH(
   if (order.buyer.verify_resend_at) {
     const date = new Date(order.buyer.verify_resend_at);
     if (!isNaN(date.valueOf())) {
-      console.error(
-        new Date().toISOString(),
-        "order_resend.order_buyer_resend_invalid",
-      );
-
       const timePassed = Date.now() - date.getTime();
       if (timePassed < COOLDOWN_MS) {
         const secondsRemaining = Math.ceil((COOLDOWN_MS - timePassed) / 1000);
-        console.error(
-          new Date().toISOString(),
-          "order_resend.order_buyer_rate_limited",
-          date.toISOString(),
-          order.buyer,
-        );
+        logger.info("order_resend.rate_limited", secondsRemaining);
         return NextResponse.json(null, {
           status: 429,
           headers: { "Retry-After": String(secondsRemaining) },
@@ -105,11 +85,7 @@ export async function PATCH(
       headers: { "Retry-After": String(COOLDOWN_MS / 1000) },
     });
   } catch (error) {
-    console.error(
-      new Date().toISOString(),
-      "order_resend.update_error",
-      String(error),
-    );
+    logger.error("order_resend.update_error", String(error));
     return NextResponse.json(null, { status: 500 });
   }
 }
