@@ -47,6 +47,7 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 							<p className="footer-col-title">Support</p>
 							<ul>
 								<li><Link href="/contact">Contact us</Link></li>
+								<li><Link href="/sitemap.xml">Site Map</Link></li>
 							</ul>
 						</div>
 						<div className="footer-col">
