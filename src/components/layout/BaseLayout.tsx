@@ -1,6 +1,7 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import Link from "next/link";
-import CookieConsent, { resetConsent } from "@/components/cookie/CookieConsent";
+import CookieConsent from "@/components/cookie/CookieConsent";
+import { CookieSettingsButton } from "./CookieSettingsButton";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
 	headerSlotRight?: ReactNode;
@@ -56,7 +57,7 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 								<li><Link href="/terms">Terms of Service</Link></li>
 								<li><Link href="/privacy">Privacy Policy</Link></li>
 								<li><Link href="/refund">Refund Policy</Link></li>
-								<li><button onClick={resetConsent}>Cookie Settings</button></li>
+								<li><CookieSettingsButton /></li>
 							</ul>
 						</div>
 					</div>

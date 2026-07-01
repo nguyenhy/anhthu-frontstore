@@ -93,71 +93,71 @@ export default function CookieConsent() {
   if (!visible) return null
 
   return (
-    <div id="cookie-banner" role="region" aria-label="Cookie consent">
-      <div className="cb-row">
-        <p className="cb-text">
+    <div id="pref-notice" role="region" aria-label="Cookie consent">
+      <div className="pn-row">
+        <p className="pn-text">
           We use cookies for analytics and advertising.{' '}
           <Link href="/privacy">Learn more</Link>.
         </p>
-        <div className="cb-actions">
-          <button className="cb-btn-accept" onClick={() => accept(true, true)}>Accept All</button>
+        <div className="pn-actions">
+          <button className="pn-btn-accept" onClick={() => accept(true, true)}>Accept All</button>
           <button
-            className="cb-btn-customize"
+            className="pn-btn-customize"
             ref={customizeRef}
             aria-expanded={panelOpen}
-            aria-controls="cb-panel"
+            aria-controls="pn-panel"
             onClick={() => setPanelOpen(p => !p)}
           >
             Customize
           </button>
-          <button className="cb-btn-decline" onClick={() => accept(false, false)}>Decline All</button>
+          <button className="pn-btn-decline" onClick={() => accept(false, false)}>Decline All</button>
         </div>
       </div>
 
       <div
-        id="cb-panel"
-        className={`cb-panel${panelOpen ? ' open' : ''}`}
+        id="pn-panel"
+        className={`pn-panel${panelOpen ? ' open' : ''}`}
         role="dialog"
         aria-label="Cookie preferences"
         aria-hidden={!panelOpen}
         ref={panelRef}
       >
-        <div className="cb-panel-inner">
-          <div className="cb-category">
-            <div className="cb-cat-info">
-              <span className="cb-cat-name">Necessary</span>
-              <span className="cb-cat-desc">Required for the site to work</span>
+        <div className="pn-panel-inner">
+          <div className="pn-category">
+            <div className="pn-cat-info">
+              <span className="pn-cat-name">Necessary</span>
+              <span className="pn-cat-desc">Required for the site to work</span>
             </div>
-            <label className="cb-toggle">
+            <label className="pn-toggle">
               <input type="checkbox" defaultChecked disabled aria-label="Necessary cookies — always on" />
-              <span className="cb-toggle-track" />
-              <span className="cb-toggle-thumb" />
+              <span className="pn-toggle-track" />
+              <span className="pn-toggle-thumb" />
             </label>
           </div>
-          <div className="cb-category">
-            <div className="cb-cat-info">
-              <span className="cb-cat-name">Analytics</span>
-              <span className="cb-cat-desc">Measure site usage</span>
+          <div className="pn-category">
+            <div className="pn-cat-info">
+              <span className="pn-cat-name">Analytics</span>
+              <span className="pn-cat-desc">Measure site usage</span>
             </div>
-            <label className="cb-toggle">
+            <label className="pn-toggle">
               <input type="checkbox" checked={analytics} onChange={e => setAnalytics(e.target.checked)} aria-label="Analytics cookies" />
-              <span className="cb-toggle-track" />
-              <span className="cb-toggle-thumb" />
+              <span className="pn-toggle-track" />
+              <span className="pn-toggle-thumb" />
             </label>
           </div>
-          <div className="cb-category">
-            <div className="cb-cat-info">
-              <span className="cb-cat-name">Marketing</span>
-              <span className="cb-cat-desc">Relevant ads</span>
+          <div className="pn-category">
+            <div className="pn-cat-info">
+              <span className="pn-cat-name">Marketing</span>
+              <span className="pn-cat-desc">Relevant ads</span>
             </div>
-            <label className="cb-toggle">
+            <label className="pn-toggle">
               <input type="checkbox" checked={marketing} onChange={e => setMarketing(e.target.checked)} aria-label="Marketing cookies" />
-              <span className="cb-toggle-track" />
-              <span className="cb-toggle-thumb" />
+              <span className="pn-toggle-track" />
+              <span className="pn-toggle-thumb" />
             </label>
           </div>
-          <div className="cb-panel-footer">
-            <button className="cb-btn-save" onClick={() => accept(analytics, marketing)}>Save preferences</button>
+          <div className="pn-panel-footer">
+            <button className="pn-btn-save" onClick={() => accept(analytics, marketing)}>Save preferences</button>
           </div>
         </div>
       </div>
