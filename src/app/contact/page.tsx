@@ -6,7 +6,25 @@ import { StrapiContactPage } from "@/lib/contact/types";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return {};
+  return {
+    title: "Contact & Support",
+    description: "Get help with your Simpla Kit order or template. Reach our support team for order issues, delivery questions, and general inquiries.",
+    alternates: {
+      canonical: "/contact",
+    },
+    openGraph: {
+      title: "Contact & Support | Simpla Kit",
+      description: "Get help with your Simpla Kit order or template. Reach our support team for order issues, delivery questions, and general inquiries.",
+      url: "https://simplakit.com/contact",
+      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Contact & Support | Simpla Kit",
+      description: "Get help with your Simpla Kit order or template. Reach our support team for order issues, delivery questions, and general inquiries.",
+      images: ["/og-image.png"],
+    },
+  };
 }
 
 export default async function Contact() {

@@ -23,9 +23,6 @@ export const metadata: Metadata = {
   description: "Done-for-you Google Sheets productivity templates. Stop building workflows from scratch. Join the waitlist for early bird pricing - launching July 5th, 2026.",
   keywords: ["google sheets templates", "productivity templates", "workflow templates", "spreadsheet templates", "google sheets systems"],
   metadataBase: new URL("https://simplakit.com"),
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     url: "https://simplakit.com",

@@ -6,6 +6,17 @@ export const metadata: Metadata = {
   title: 'Refund Policy',
   description: 'SimplaKit Refund Policy — digital goods policy and what we offer instead of refunds.',
   robots: { index: true, follow: true },
+  alternates: { canonical: '/refund' },
+  openGraph: {
+    title: 'Refund Policy | Simpla Kit',
+    description: 'SimplaKit Refund Policy — digital goods policy and what we offer instead of refunds.',
+    url: 'https://simplakit.com/refund',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Refund Policy | Simpla Kit',
+    description: 'SimplaKit Refund Policy — digital goods policy and what we offer instead of refunds.',
+  },
 }
 
 export default function RefundPage() {
