@@ -32,9 +32,36 @@ export async function generateMetadata(
     return {}
   }
 
+  const firstImg = data.galleryTabs.find(item => item.type.includes('image/'))
+
   return {
     title: data.name ? `${data.name} | SimplaKit` : parentTitle,
     description: data.tagline || parentDescription,
+    alternates: {
+      canonical: `/template/${params.id}`,
+    },
+    openGraph: {
+      title: data.name ?? undefined,
+      description: data.tagline ?? undefined,
+      url: `https://simplakit.com/template/${params.id}`,
+      images: firstImg ? [{
+        url: firstImg.url,
+        width: Number(firstImg.width) || undefined,
+        height: Number(firstImg.height) || undefined,
+        alt: data.name ?? undefined,
+      }] : undefined,
+    },
+    twitter: {
+      card: 'summary',
+      title: data.name ?? undefined,
+      description: data.tagline ?? undefined,
+      images: firstImg ? [{
+        url: firstImg.url,
+        width: Number(firstImg.width) || undefined,
+        height: Number(firstImg.height) || undefined,
+        alt: data.name ?? undefined,
+      }] : undefined,
+    },
   };
 }
 

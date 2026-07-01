@@ -26,9 +26,6 @@
 .doc-body td { padding: 10px 14px; border: 1px solid var(--border); vertical-align: top; }
 .doc-body tr:hover td { background: rgba(232,235,230,.4); }
 
-.doc-footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--mute); }
-.doc-footer a { color: var(--mute); }
-
 .empty-state { text-align: center; padding: 80px 24px; color: var(--mute); }
 .empty-state h2 { font-size: 20px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
 

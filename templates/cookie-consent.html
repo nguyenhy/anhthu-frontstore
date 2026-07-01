@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cookie Consent — Component Demo</title>
+  <style>
+    :root{--primary:#9fe870;--primary-active:#cdffad;--canvas:#ffffff;--canvas-soft:#e8ebe6;--ink:#0e0f0c;--body:#454745;--mute:#868685;--r-md:12px;--r-xl:24px;--r-pill:9999px;--font:'Inter',-apple-system,system-ui,sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--canvas-soft);min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+    .demo-note{text-align:center;color:var(--mute);font-size:14px}
+    .demo-note button{margin-top:12px;background:var(--ink);color:var(--canvas);border:none;font-family:var(--font);font-size:14px;font-weight:600;padding:8px 20px;border-radius:var(--r-pill);cursor:pointer}
+
+    /* ── Cookie Banner ── */
+    #cookie-banner{
+      position:fixed;bottom:0;left:0;right:0;
+      background:var(--canvas);
+      border-top:1px solid rgba(14,15,12,.12);
+      z-index:199;
+      font-family:var(--font);
+      font-size:14px;
+      color:var(--ink);
+    }
+    #cookie-banner[hidden]{display:none}
+    .cb-row{
+      max-width:1200px;margin:0 auto;
+      padding:0 24px;
+      height:52px;
+      display:flex;align-items:center;gap:16px;
+    }
+    .cb-text{flex:1;color:var(--body)}
+    .cb-text a{color:var(--ink);font-weight:600;border-bottom:1px solid currentColor}
+    .cb-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .cb-btn-accept{background:var(--primary);color:var(--ink);border:none;font-family:var(--font);font-size:13px;font-weight:600;padding:7px 16px;border-radius:var(--r-pill);cursor:pointer;white-space:nowrap}
+    .cb-btn-accept:hover{background:var(--primary-active)}
+    .cb-btn-customize{background:none;border:1px solid rgba(14,15,12,.2);color:var(--ink);font-family:var(--font);font-size:13px;font-weight:600;padding:7px 16px;border-radius:var(--r-pill);cursor:pointer;white-space:nowrap}
+    .cb-btn-customize:hover{border-color:var(--ink)}
+    .cb-btn-decline{background:none;border:none;color:var(--body);font-family:var(--font);font-size:13px;font-weight:600;padding:7px 12px;border-radius:var(--r-pill);cursor:pointer;white-space:nowrap}
+    .cb-btn-decline:hover{color:var(--ink)}
+
+    /* Customize panel */
+    .cb-panel{display:none;max-width:1200px;margin:0 auto;padding:0 24px 20px}
+    .cb-panel.open{display:block}
+    .cb-panel-inner{border-top:1px solid rgba(14,15,12,.08);padding-top:16px}
+    .cb-category{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(14,15,12,.06)}
+    .cb-category:last-of-type{border-bottom:none}
+    .cb-cat-info{display:flex;flex-direction:column;gap:2px}
+    .cb-cat-name{font-size:14px;font-weight:600;color:var(--ink)}
+    .cb-cat-desc{font-size:13px;color:var(--body)}
+    .cb-toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+    .cb-toggle input{opacity:0;width:0;height:0;position:absolute}
+    .cb-toggle-track{position:absolute;inset:0;background:rgba(14,15,12,.15);border-radius:var(--r-pill);cursor:pointer;transition:background .2s}
+    .cb-toggle input:checked+.cb-toggle-track{background:var(--primary)}
+    .cb-toggle input:disabled+.cb-toggle-track{opacity:.5;cursor:not-allowed}
+    .cb-toggle-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s;pointer-events:none}
+    .cb-toggle input:checked~.cb-toggle-thumb{transform:translateX(18px)}
+    .cb-panel-footer{display:flex;justify-content:flex-end;margin-top:14px}
+    .cb-btn-save{background:var(--ink);color:var(--canvas);border:none;font-family:var(--font);font-size:13px;font-weight:600;padding:9px 20px;border-radius:var(--r-pill);cursor:pointer}
+    .cb-btn-save:hover{background:#2a2a28}
+
+    @media(max-width:640px){
+      .cb-row{height:auto;flex-wrap:wrap;padding:12px 16px;gap:10px}
+      .cb-text{flex-basis:100%}
+      .cb-actions{flex-wrap:wrap;width:100%;gap:8px}
+      .cb-btn-accept,.cb-btn-customize,.cb-btn-decline{flex:1;text-align:center}
+      .cb-panel{padding:0 16px 16px}
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-note">
+    <p>Cookie consent banner demo.</p>
+    <button onclick="CookieConsent.reset()">Reset consent &amp; show banner</button>
+  </div>
+
+  <div id="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+    <div class="cb-row">
+      <p class="cb-text">We use cookies for analytics and advertising. <a href="doc.html?title=Privacy+Policy#cookies">Learn more</a>.</p>
+      <div class="cb-actions">
+        <button class="cb-btn-accept" id="cb-accept">Accept All</button>
+        <button class="cb-btn-customize" id="cb-customize" aria-expanded="false" aria-controls="cb-panel">Customize</button>
+        <button class="cb-btn-decline" id="cb-decline">Decline All</button>
+      </div>
+    </div>
+
+    <div class="cb-panel" id="cb-panel" role="dialog" aria-label="Cookie preferences" aria-hidden="true">
+      <div class="cb-panel-inner">
+        <div class="cb-category">
+          <div class="cb-cat-info">
+            <span class="cb-cat-name">Necessary</span>
+            <span class="cb-cat-desc">Required for the site to work</span>
+          </div>
+          <label class="cb-toggle">
+            <input type="checkbox" checked disabled aria-label="Necessary cookies — always on" />
+            <span class="cb-toggle-track"></span>
+            <span class="cb-toggle-thumb"></span>
+          </label>
+        </div>
+        <div class="cb-category">
+          <div class="cb-cat-info">
+            <span class="cb-cat-name">Analytics</span>
+            <span class="cb-cat-desc">Measure site usage</span>
+          </div>
+          <label class="cb-toggle">
+            <input type="checkbox" id="cb-analytics" aria-label="Analytics cookies" />
+            <span class="cb-toggle-track"></span>
+            <span class="cb-toggle-thumb"></span>
+          </label>
+        </div>
+        <div class="cb-category">
+          <div class="cb-cat-info">
+            <span class="cb-cat-name">Marketing</span>
+            <span class="cb-cat-desc">Relevant ads</span>
+          </div>
+          <label class="cb-toggle">
+            <input type="checkbox" id="cb-marketing" aria-label="Marketing cookies" />
+            <span class="cb-toggle-track"></span>
+            <span class="cb-toggle-thumb"></span>
+          </label>
+        </div>
+        <div class="cb-panel-footer">
+          <button class="cb-btn-save" id="cb-save">Save preferences</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var CookieConsent = (function () {
+      var STORE_KEY = 'cookie_consent';
+      var VERSION = '1';
+      var banner = document.getElementById('cookie-banner');
+      var panel = document.getElementById('cb-panel');
+      var btnCustomize = document.getElementById('cb-customize');
+      var analyticsToggle = document.getElementById('cb-analytics');
+      var marketingToggle = document.getElementById('cb-marketing');
+      var panelOpen = false;
+      var _trapHandler = null;
+
+      function load() {
+        try { return JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (_) { return null; }
+      }
+      function save(data) {
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (_) {}
+      }
+
+      function show() { banner.removeAttribute('hidden'); }
+      function hide() { banner.setAttribute('hidden', ''); closePanel(); }
+
+      function openPanel() {
+        panelOpen = true;
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+        btnCustomize.setAttribute('aria-expanded', 'true');
+        // focus first interactive in panel
+        var first = panel.querySelector('input:not([disabled]),button');
+        if (first) first.focus();
+        _trapHandler = function (e) {
+          var focusable = Array.prototype.slice.call(
+            panel.querySelectorAll('button:not([disabled]),input:not([disabled])')
+          );
+          var first = focusable[0], last = focusable[focusable.length - 1];
+          if (e.key === 'Tab') {
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+          if (e.key === 'Escape') { closePanel(); btnCustomize.focus(); }
+        };
+        document.addEventListener('keydown', _trapHandler);
+      }
+
+      function closePanel() {
+        panelOpen = false;
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+        btnCustomize.setAttribute('aria-expanded', 'false');
+        if (_trapHandler) { document.removeEventListener('keydown', _trapHandler); _trapHandler = null; }
+      }
+
+      function accept(analytics, marketing) {
+        save({ version: VERSION, necessary: true, analytics: !!analytics, marketing: !!marketing, ts: Date.now() });
+        hide();
+      }
+
+      function init() {
+        var stored = load();
+        if (!stored || stored.version !== VERSION) { show(); return; }
+        var path = location.pathname;
+        if (path.indexOf('/privacy') !== -1 || path.indexOf('/terms') !== -1) return;
+        // valid consent — stay hidden
+      }
+
+      document.getElementById('cb-accept').addEventListener('click', function () { accept(true, true); });
+      document.getElementById('cb-decline').addEventListener('click', function () { accept(false, false); });
+      btnCustomize.addEventListener('click', function () { panelOpen ? closePanel() : openPanel(); });
+      document.getElementById('cb-save').addEventListener('click', function () {
+        accept(analyticsToggle.checked, marketingToggle.checked);
+      });
+
+      init();
+
+      return {
+        show: show,
+        reset: function () { try { localStorage.removeItem(STORE_KEY); } catch (_) {} show(); }
+      };
+    })();
+  </script>
+</body>
+</html>

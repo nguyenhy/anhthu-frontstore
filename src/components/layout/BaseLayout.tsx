@@ -1,5 +1,7 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import Link from "next/link";
+import CookieConsent from "@/components/cookie/CookieConsent";
+import { CookieSettingsButton } from "./CookieSettingsButton";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
 	headerSlotRight?: ReactNode;
@@ -25,6 +27,8 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 
 			{children}
 
+			<CookieConsent />
+
 			<footer className="footer">
 				<div className="footer-inner">
 					<div>
@@ -44,6 +48,7 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 							<p className="footer-col-title">Support</p>
 							<ul>
 								<li><Link href="/contact">Contact us</Link></li>
+								<li><Link href="/sitemap.xml">Site Map</Link></li>
 							</ul>
 						</div>
 						<div className="footer-col">
@@ -52,6 +57,7 @@ export default function BaseLayout({ children, headerSlotRight }: Props) {
 								<li><Link href="/terms">Terms of Service</Link></li>
 								<li><Link href="/privacy">Privacy Policy</Link></li>
 								<li><Link href="/refund">Refund Policy</Link></li>
+								<li><CookieSettingsButton /></li>
 							</ul>
 						</div>
 					</div>
