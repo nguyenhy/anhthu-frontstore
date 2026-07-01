@@ -40,66 +40,45 @@ export async function PATCH(
       rawVersion && isString(rawVersion) ? rawVersion : undefined,
     );
   } catch (error) {
-    console.error(
-      new Date().toISOString(),
-      "order_verify.fetchOrderBuyer",
-      String(error),
-    );
+    logger.error("order_verify.fetchOrderBuyer", String(error));
     return NextResponse.json(null, { status: 500 });
   }
 
   if (!order) {
-    console.error(new Date().toISOString(), "order_verify.order_not_found");
+    logger.error("order_verify.order_not_found");
     return NextResponse.json(null, { status: 404 });
   }
 
   if (!order.id) {
-    console.error(new Date().toISOString(), "order_verify.order_invalid_id");
+    logger.error("order_verify.order_invalid_id");
     return NextResponse.json(null, { status: 400 });
   }
 
   if (!order.buyer) {
-    console.error(
-      new Date().toISOString(),
-      "order_verify.order_buyer_not_exist",
-    );
+    logger.error("order_verify.order_buyer_not_exist");
     return NextResponse.json(null, { status: 410 });
   }
 
   if (order.buyer.verified_at) {
-    console.error(
-      new Date().toISOString(),
-      "order_verify.order_buyer_verified",
-    );
+    logger.info("order_verify.already_verified");
     return NextResponse.json(null, { status: 201 });
   }
 
   if (order.buyer.verify_expires_at) {
     const date = new Date(order.buyer.verify_expires_at);
     if (isNaN(date.valueOf())) {
-      console.error(
-        new Date().toISOString(),
-        "order_verify.order_buyer_expires_invalid",
-      );
+      logger.error("order_verify.expires_invalid");
       return NextResponse.json(null, { status: 410 });
     }
 
     if (Date.now() >= date.valueOf()) {
-      console.error(
-        new Date().toISOString(),
-        "order_verify.order_buyer_expired",
-        order.buyer.verify_expires_at,
-        new Date().toISOString(),
-      );
+      logger.info("order_verify.expired", order.buyer.verify_expires_at);
       return NextResponse.json(null, { status: 410 });
     }
   }
 
   if (order.buyer.verify_code !== rawCode) {
-    console.error(
-      new Date().toISOString(),
-      "order_verify.order_buyer_code_mismatch",
-    );
+    logger.info("order_verify.code_mismatch");
     return NextResponse.json(null, { status: 201 });
   }
 
@@ -107,11 +86,7 @@ export async function PATCH(
     await updateBuyerAsVerified(order.buyer.id);
     return NextResponse.json({}, { status: 200 });
   } catch (error) {
-    console.error(
-      new Date().toISOString(),
-      "order_verify.update_error",
-      String(error),
-    );
+    logger.error("order_verify.update_error", String(error));
     return NextResponse.json(null, { status: 500 });
   }
 }

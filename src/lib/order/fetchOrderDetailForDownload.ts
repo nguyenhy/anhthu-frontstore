@@ -15,32 +15,24 @@ export async function fetchOrderDetailForDownload(
   slug: string,
   version?: string,
 ): Promise<OrderDetailForDownload | null> {
-  const fields = ["template.product.url", "order_fulfillment.date_created"];
   const search = new URLSearchParams();
-  if (version) {
-    search.append("version", version);
-  }
-  search.append("filter[slug][_eq]", slug);
-  search.append("limit", "1");
-  search.append("fields", fields.join(","));
+  if (version) search.append("version", version);
 
-  const res = await fetchFromBff(`/items/order?${search.toString()}`);
+  const query = search.toString();
+  const res = await fetchFromBff(
+    `/frontstore/order/${slug}/download${query ? `?${query}` : ""}`,
+  );
 
-  if (res.status === 404) {
-    return null;
-  }
-
-  if (!res.ok) {
-    console.log(new Date().toISOString(), "fetchOrderDetail", await res.json());
-    throw new Error(`fetch failed: ${res.status}`);
-  }
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
 
   const json = await res.json();
-  const raw = json?.data?.[0];
+  if (!json) return null;
 
-  if (!raw) {
-    return null;
-  }
-
-  return raw;
+  return {
+    template: json.template
+      ? { product: json.template.product ? { url: json.template.product.url } : undefined }
+      : undefined,
+    order_fulfillment: json.order_fulfillment ?? undefined,
+  } satisfies OrderDetailForDownload;
 }

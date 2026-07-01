@@ -16,52 +16,25 @@ export async function fetchOrderBuyer(
   slug: string,
   version?: string,
 ): Promise<OrderBuyerData | null> {
-  const fields = [
-    //
-    "id",
-    "slug",
-
-    "buyer.id",
-    "buyer.email",
-    "buyer.name",
-    "buyer.phone",
-  ];
   const search = new URLSearchParams();
-  if (version) {
-    search.append("version", version);
-  }
-  search.append("filter[slug][_eq]", slug);
-  search.append("limit", "1");
-  search.append("fields", fields.join(","));
+  if (version) search.append("version", version);
 
-  const res = await fetchFromBff(`/items/order?${search.toString()}`);
+  const query = search.toString();
+  const res = await fetchFromBff(
+    `/frontstore/order/${slug}/buyer${query ? `?${query}` : ""}`,
+  );
 
-  if (res.status === 404) {
-    return null;
-  }
-
-  if (!res.ok) {
-    console.log(new Date().toISOString(), "fetchOrderBuyer", await res.json());
-    throw new Error(`fetch failed: ${res.status}`);
-  }
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
 
   const json = await res.json();
-  const raw = json?.data?.[0];
-
-  if (!raw) {
-    return null;
-  }
+  if (!json) return null;
 
   return {
-    id: raw.id,
-    slug: raw.slug,
-    buyer: raw.buyer
-      ? {
-          id: raw.buyer.id || "",
-          email: raw.buyer.email || "",
-          name: raw.buyer.name || "",
-          phone: raw.buyer.phone || "",
-        }
+    id: json.id,
+    slug: json.slug,
+    buyer: json.buyer
+      ? { id: json.buyer.id, email: json.buyer.email, name: json.buyer.name ?? null, phone: json.buyer.phone ?? null }
       : null,
-  };
+  } satisfies OrderBuyerData;
 }

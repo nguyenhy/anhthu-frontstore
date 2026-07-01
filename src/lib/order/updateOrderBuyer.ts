@@ -1,13 +1,8 @@
-import { randomInt } from "node:crypto";
 import { fetchFromBff } from "../fetch";
 import { isString, isUsableNumber } from "../validate/extract";
 
 export type UpdateOrderBuyerData = {
   readonly id: string;
-};
-
-export const createVerifyCode = () => {
-  return randomInt(100000, 999999).toString();
 };
 
 export const isValidVerifyCode = (code: unknown) => {
@@ -20,34 +15,25 @@ export const isValidVerifyCode = (code: unknown) => {
 };
 
 export async function updateOrderBuyer(
-  id: string,
+  slug: string,
   buyer: {
     email: string;
     name?: string;
     phone?: string;
   },
-): Promise<void> {
-  const code = randomInt(100000, 999999).toString();
-  const res = await fetchFromBff(`/items/order?fields=id`, {
+): Promise<{ status: number }> {
+  const res = await fetchFromBff(`/frontstore/order/${slug}/contact`, {
     method: "PATCH",
     body: JSON.stringify({
-      keys: [id],
-      data: {
-        buyer: {
-          email: buyer.email,
-          name: buyer.name,
-          phone: buyer.phone,
-          verify_code: code,
-          verify_expires_at: new Date(
-            Date.now() + 15 * 60 * 1000,
-          ).toISOString(),
-        },
-      },
+      email: buyer.email,
+      name: buyer.name,
+      phone: buyer.phone,
     }),
   });
 
-  if (!res.ok) {
-    console.log(new Date().toISOString(), "updateOrderBuyer", await res.json());
-    throw new Error(`fetch failed: ${res.status}`);
+  if (res.status === 404 || res.status === 201 || res.status === 200) {
+    return { status: res.status };
   }
+
+  throw new Error(`fetch failed: ${res.status}`);
 }
