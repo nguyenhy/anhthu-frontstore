@@ -26,9 +26,7 @@ export async function fetchOrderDetail(
     ? getImageAssets(t.disk, { width: 100, height: 100 })
     : "";
 
-  const paymentMethods: StrapiPaymentMethod[] = (
-    json.paymentMethods ?? []
-  ).map(
+  const paymentMethods: StrapiPaymentMethod[] = (json.paymentMethods ?? []).map(
     (pm: {
       name: string;
       type: string;
@@ -60,8 +58,8 @@ export async function fetchOrderDetail(
         width: t?.width ?? null,
         height: t?.height ?? null,
         type: t?.type ?? null,
-        key: null,
-        label: null,
+        key: "",
+        label: "",
         ariaLabel: t?.ariaLabel ?? null,
       },
       category: json.category,
