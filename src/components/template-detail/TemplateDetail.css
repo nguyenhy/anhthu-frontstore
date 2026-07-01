@@ -343,7 +343,7 @@
   padding: var(--sp-xl);
 }
 .persona-icon {
-  font-size: 28px;
+  --icon-size: 28px;
   margin-bottom: var(--sp-md);
 }
 .persona-title {
@@ -370,9 +370,9 @@
   line-height: 1.55;
 }
 .exclusion-icon {
-  color: var(--primary);
+  --icon-color: var(--primary);
+  --icon-size: 16px;
   flex-shrink: 0;
-  font-size: 16px;
   margin-top: 1px;
 }
 
@@ -400,7 +400,7 @@
   border-radius: var(--r-md);
   display: grid;
   place-items: center;
-  font-size: 18px;
+  --icon-size: 18px;
 }
 .included-name {
   font-size: 15px;

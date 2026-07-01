@@ -108,7 +108,9 @@ export function StrapiIncludedSectionBlockElement({ block }: {
 				{block.item.cards.map((card, i) => (
 					<div key={i} className="included-card">
 						<div className="included-card-head">
-							<MaterialIcon className="included-icon" icon={card.icon} />
+							<div className="included-icon">
+								<MaterialIcon icon={card.icon} />
+							</div>
 							<div className="included-name">{card.title}</div>
 						</div>
 						<MarkdownRenderer className="included-desc" content={card.content} />
