@@ -11,7 +11,10 @@ type Props = {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-	return {};
+	return {
+		title: "Order Details",
+		robots: { index: false, follow: false },
+	};
 }
 
 export default async function Order(props: Props) {
