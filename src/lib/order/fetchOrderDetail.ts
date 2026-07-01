@@ -1,6 +1,5 @@
 import { StrapiPaymentMethod } from "@/types/strapi";
 import { fetchFromBff } from "../fetch";
-import { getImageAssets } from "../image/storage";
 import { OrderPageData } from "./types";
 
 export async function fetchOrderDetail(
@@ -21,28 +20,7 @@ export async function fetchOrderDetail(
   const json = await res.json();
   if (!json) return null;
 
-  const t = json.thumbnail;
-  const thumbnailUrl = t?.disk
-    ? getImageAssets(t.disk, { width: 100, height: 100 })
-    : "";
-
-  const paymentMethods: StrapiPaymentMethod[] = (json.paymentMethods ?? []).map(
-    (pm: {
-      name: string;
-      type: string;
-      logoDisk: string | null;
-      accountName: string;
-      accountNumber: string;
-      note: string | null;
-    }) => ({
-      name: pm.name,
-      type: pm.type,
-      logo: pm.logoDisk ? getImageAssets(pm.logoDisk, { height: 400 }) : null,
-      accountName: pm.accountName,
-      accountNumber: pm.accountNumber,
-      note: pm.note ?? undefined,
-    }),
-  );
+  const paymentMethods: StrapiPaymentMethod[] = json.paymentMethods ?? [];
 
   return {
     order: {
@@ -53,15 +31,7 @@ export async function fetchOrderDetail(
       buyer: json.buyer,
       templateName: json.templateName,
       templateSlug: json.templateSlug,
-      thumbnail: {
-        url: thumbnailUrl,
-        width: t?.width ?? null,
-        height: t?.height ?? null,
-        type: t?.type ?? null,
-        key: "",
-        label: "",
-        ariaLabel: t?.ariaLabel ?? null,
-      },
+      thumbnail: json.thumbnail,
       category: json.category,
       currency: json.currency,
       subtotal: json.subtotal,
