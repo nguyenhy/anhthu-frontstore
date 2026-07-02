@@ -32,7 +32,7 @@ export async function generateMetadata(
     return {}
   }
 
-  const firstImg = data.galleryTabs.find(item => item.type.includes('image/'))
+  const firstImg = data.thumbnail || data.galleryTabs.find(item => item.type.includes('image/'))
 
   return {
     title: data.name ? `${data.name} | SimplaKit` : parentTitle,

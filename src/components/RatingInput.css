@@ -1,0 +1,10 @@
+.rating-input {
+  display: inline-flex;
+  align-items: center;
+  color: #f5a623;
+}
+
+.rating-input-star {
+  display: inline-flex;
+  cursor: pointer;
+}

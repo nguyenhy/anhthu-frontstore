@@ -46,8 +46,13 @@ export async function fetchTemplateDetail(
     deliveryNote: json.deliveryNote ?? "",
     compatNote: json.compatNote ?? "",
     metaList: json.metaList ?? [],
+    thumbnail: json.thumbnail ?? null,
     galleryTabs: json.galleryTabs ?? [],
     description: json.description ?? [],
     earlyOffer: json.earlyOffer ?? null,
+    rating: json.rating || null,
+    description_html: json.description_html || null,
+    features: json.features || null,
+    faqs: json.faqs || null,
   } satisfies StrapiTemplateDetail;
 }
