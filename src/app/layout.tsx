@@ -39,14 +39,6 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
-  icons: {
-    other: [
-      {
-        rel: "stylesheet",
-        url: "https://fonts.googleapis.com/icon?family=Material+Icons",
-      },
-    ],
-  },
 };
 
 export default function RootLayout({
