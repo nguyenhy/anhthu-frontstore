@@ -62,45 +62,16 @@ export async function fetchContactPageData(): Promise<StrapiContactPage | null> 
         {
           icon: "🕐",
           title: "Response time",
-          content: [
-            {
-              type: "paragraph",
-              children: [
-                {
-                  type: "text",
-                  text: "Our support team will review your request and get back to you as soon as possible.",
-                },
-              ],
-            },
-          ],
+          content:
+            "Our support team will review your request and get back to you as soon as possible.",
         },
         {
           icon: "✉️",
           title: "Email us directly",
-          content: [
-            {
-              type: "paragraph",
-              children: [
-                { type: "text", text: "Write to " },
-                {
-                  type: "link",
-                  url: "mailto:support@support.simplakit.com",
-                  children: [{ type: "text", text: "support@support.simplakit.com" }],
-                },
-              ],
-            },
-          ],
-          footnote: [
-            {
-              type: "paragraph",
-              children: [
-                {
-                  type: "text",
-                  text: "Lost your order link? Email us with your name and we'll recover it for you.",
-                },
-              ],
-            },
-          ],
+          content:
+            "Write to [support@support.simplakit.com](mailto:support@support.simplakit.com)",
+          footnote:
+            "Lost your order link? Email us with your name and we'll recover it for you.",
         },
       ],
     },

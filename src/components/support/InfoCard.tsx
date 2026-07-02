@@ -1,6 +1,6 @@
 "use client"
-import RichTextRender from "@/components/RichTextRender"
 import { StrapiSupportInfoCard } from "@/lib/contact/types"
+import MarkdownRenderer from "../MarkdownRenderer"
 
 export type SupportInfoCardProps = {
 	cards: StrapiSupportInfoCard[]
@@ -16,21 +16,15 @@ export default function InfoCard(props: SupportInfoCardProps) {
 						<div>
 							<p className="info-card-title">{item.title}</p>
 
-							<RichTextRender content={item.content} blocks={{
-								paragraph: ({ children }) => (
-									<p className="info-card-text">{children}</p>
-								)
-							}} />
+							<div className="info-card-text">
+								<MarkdownRenderer content={item.content} />
+							</div>
 							{
 								!!item.footnote &&
 								(
-									<RichTextRender content={item.footnote}
-										blocks={{
-											paragraph: ({ children }) => (
-												<p className="info-card-note">{children}</p>
-											)
-										}}
-									/>
+									<div className="info-card-note">
+										<MarkdownRenderer content={item.footnote} />
+									</div>
 								)
 							}
 						</div>

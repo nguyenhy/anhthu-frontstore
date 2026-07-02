@@ -1,10 +1,15 @@
-import { BlocksContent, BlocksRenderer } from "@strapi/blocks-react-renderer";
+import { type HTMLAttributes } from "react";
 
-export type RichText = BlocksContent;
-export type RichTextRenderProps = Parameters<typeof BlocksRenderer>[0]
+export type HTMLString = string;
+export interface RichTextRenderProps extends HTMLAttributes<HTMLDivElement> {
+	content: HTMLString
+}
 
 export default function RichTextRender(props: RichTextRenderProps) {
+	const { content, dangerouslySetInnerHTML: _dangerouslySetInnerHTML, ...args } = props
 	return (
-		<BlocksRenderer {...props} />
+		<div {...args} dangerouslySetInnerHTML={{
+			__html: content
+		}}></div>
 	)
 }

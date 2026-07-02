@@ -5,8 +5,7 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
   slug: "freelancer-invoice-tracker",
 
   name: "Freelancer Invoice Tracker — Google Sheets Template",
-  tagline:
-    "Track every invoice, payment due date, and outstanding balance in one clean sheet. No formulas to set up — just copy and start billing.",
+  tagline: "Track every invoice, payment due date, and outstanding balance in one clean sheet. No formulas to set up — just copy and start billing.",
   category: {
     slug: "finance-invoicing",
     name: "Finance & Invoicing",
@@ -15,10 +14,8 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
   price: 19,
   currency: "USD",
   priceSub: "One-time payment · Yours forever",
-  deliveryNote:
-    "Complete your payment — we'll send your Google Sheets link within 24 hours.",
-  compatNote:
-    "Built and tested in Google Sheets (free). Works in any browser — no Excel required.",
+  deliveryNote: "Complete your payment — we'll send your Google Sheets link within 24 hours.",
+  compatNote: "Built and tested in Google Sheets (free). Works in any browser — no Excel required.",
 
   metaList: [
     { key: "Format", value: "Google Sheets" },
@@ -37,13 +34,11 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
         desc: "Most invoice spreadsheets start clean and go messy fast. This one doesn't. Every row is an invoice: client, amount, due date, status. Totals and overdue counts update automatically as you mark invoices paid. The formula tab shows every calculation in plain language so you understand what's happening — no black-box functions, no locked cells. Sample data comes pre-filled so you can see exactly how the tracker works before you clear it and make it yours. Takes about five minutes to set up for real.",
         features: [
           {
-            label:
-              "Auto-calculates total billed, total paid, and outstanding balance",
+            label: "Auto-calculates total billed, total paid, and outstanding balance",
           },
           { label: "Flags overdue invoices automatically based on due date" },
           {
-            label:
-              "Tracks multiple clients in one sheet with per-client subtotals",
+            label: "Tracks multiple clients in one sheet with per-client subtotals",
           },
           { label: "Currency-agnostic — works in any currency, any locale" },
           { label: "Monthly income summary tab for tax time" },
@@ -65,26 +60,22 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
           {
             icon: "💻",
             title: "Freelance developers & designers",
-            content:
-              "You send 5–30 invoices a month across several clients and need to know at a glance what's paid and what's overdue.",
+            content: "You send 5–30 invoices a month across several clients and need to know at a glance what's paid and what's overdue.",
           },
           {
             icon: "📝",
             title: "Consultants & coaches",
-            content:
-              "You bill by project or retainer, want a clean paper trail, and don't need a full invoicing app with a monthly fee.",
+            content: "You bill by project or retainer, want a clean paper trail, and don't need a full invoicing app with a monthly fee.",
           },
           {
             icon: "📸",
             title: "Photographers & creatives",
-            content:
-              "You invoice for gigs, events, and packages. You want something simple that doesn't make tax season a nightmare.",
+            content: "You invoice for gigs, events, and packages. You want something simple that doesn't make tax season a nightmare.",
           },
           {
             icon: "🏪",
             title: "Solo operators & side hustlers",
-            content:
-              "You run a lean operation and need to track money in without paying for software you'll only use once a week.",
+            content: "You run a lean operation and need to track money in without paying for software you'll only use once a week.",
           },
         ],
         note: "you need to generate and send invoice PDFs directly from your tracker — this is a tracking tool, not an invoice generator.",
@@ -104,47 +95,17 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
         {
           icon: "📋",
           title: "Invoice Log",
-          description: [
-            {
-              type: "paragraph",
-              children: [
-                {
-                  type: "text",
-                  text: "One row per invoice. Client name, invoice number, issue date, due date, amount, and payment status. Conditional formatting highlights overdue rows automatically.",
-                },
-              ],
-            },
-          ],
+          description: "One row per invoice. Client name, invoice number, issue date, due date, amount, and payment status. Conditional formatting highlights overdue rows automatically.",
         },
         {
           icon: "📊",
           title: "Monthly Summary",
-          description: [
-            {
-              type: "paragraph",
-              children: [
-                {
-                  type: "text",
-                  text: "Pulls from the Invoice Log to show total billed, collected, and outstanding per calendar month. Print this for your accountant at tax time.",
-                },
-              ],
-            },
-          ],
+          description: "Pulls from the Invoice Log to show total billed, collected, and outstanding per calendar month. Print this for your accountant at tax time.",
         },
         {
           icon: "🔣",
           title: "Formula Reference",
-          description: [
-            {
-              type: "paragraph",
-              children: [
-                {
-                  type: "text",
-                  text: "Every formula used in the template documented in plain English. Understand what's happening before you edit anything. 18 formulas total.",
-                },
-              ],
-            },
-          ],
+          description: "Every formula used in the template documented in plain English. Understand what's happening before you edit anything. 18 formulas total.",
         },
       ],
     },
@@ -161,18 +122,15 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
         faqs: [
           {
             question: "How will I receive the template?",
-            answer:
-              "After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. Click the link, choose **File → Make a copy** and it lands in your own Drive. You own it permanently — no subscription, no expiry.",
+            answer: "After we confirm your payment, we'll send a Google Drive link to your email within 24 hours. Click the link, choose **File → Make a copy** and it lands in your own Drive. You own it permanently — no subscription, no expiry.",
           },
           {
             question: "Does this work with Microsoft Excel?",
-            answer:
-              "The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas — like ARRAYFORMULA and conditional date rules — may not transfer perfectly. For the best experience, use Google Sheets (free with any Google account).",
+            answer: "The template is built and tested in Google Sheets. You can export it to Excel (.xlsx), but some formatting and Google-specific formulas — like ARRAYFORMULA and conditional date rules — may not transfer perfectly. For the best experience, use Google Sheets (free with any Google account).",
           },
           {
             question: "Can I get a refund?",
-            answer:
-              "Because digital files are delivered after purchase, we don't offer refunds. If anything in your file doesn't work as described — a broken formula, a missing tab — contact us and we'll fix it same day.",
+            answer: "Because digital files are delivered after purchase, we don't offer refunds. If anything in your file doesn't work as described — a broken formula, a missing tab — contact us and we'll fix it same day.",
           },
         ],
       },
@@ -185,8 +143,8 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
     desc: "Buy now, use the template, and send us your honest review. We'll send a 20% discount code for your next purchase — no minimum, no expiry.",
     note: "We'll email your Drive link within 24 hours. One review request. Unsubscribe anytime.",
     item: {
-      submittedMessage: [],
-      note: [],
+      submittedMessage: "",
+      note: "",
       coupon: {
         code: "DCA129ZW3",
         type: "percent",
