@@ -178,10 +178,6 @@ export const template1_freelancer_invoice_tracker: StrapiTemplateDetail = {
       type: "image/jpeg",
     },
   ],
-  rating: null,
-  description_html: null,
-  features: null,
-  faqs: null
 };
 
 export const maps: Record<string, StrapiTemplateDetail> = {
