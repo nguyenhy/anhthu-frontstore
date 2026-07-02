@@ -216,9 +216,9 @@ export type StrapiDescriptionBlock =
 
 /** Single image tab in the template gallery. */
 export type StrapiGalleryTab = {
-  readonly key: string;
-  readonly label: string;
-  readonly ariaLabel: string;
+  readonly key?: string;
+  readonly label?: string;
+  readonly ariaLabel?: string;
   // readonly filename_disk: string;
   // readonly filename_download: string;
   readonly url: string;
@@ -236,20 +236,33 @@ export type StrapiTemplateDetail = {
   readonly slug: string;
   readonly name: string;
   readonly category: StrapiCategory;
-  readonly tagline: string;
+  readonly tagline?: string | null;
   readonly price: number;
   readonly currency: string;
   /** Pricing subtitle shown below the price. */
-  readonly priceSub: string;
+  readonly priceSub?: string | null;
   /** Delivery expectation copy shown on the template page. */
-  readonly deliveryNote: string;
+  readonly deliveryNote?: string | null;
   /** Compatibility note shown on the template page. */
-  readonly compatNote: string;
+  readonly compatNote?: string | null;
   readonly metaList: StrapiMetaItem[];
+  readonly thumbnail?: StrapiGalleryTab | null;
   readonly galleryTabs: StrapiGalleryTab[];
-  readonly description: StrapiDescriptionBlock[];
+  readonly description?: StrapiDescriptionBlock[];
   /** Promotional offer widget. Null if no active offer. */
-  readonly earlyOffer: StrapiEarlyOffer | null;
+  readonly earlyOffer?: StrapiEarlyOffer | null;
+
+  rating: number | null;
+  description_html: string | null;
+  features:
+    | {
+        label: string;
+        icon?: string | null;
+        highlight?: boolean | null;
+        desc?: string | null;
+      }[]
+    | null;
+  faqs: { question: string; answer: string }[] | null;
 };
 
 // ---------------------------------------------------------------------------

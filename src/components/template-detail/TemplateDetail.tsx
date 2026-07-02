@@ -3,9 +3,12 @@ import { GetTemplateBtn } from '@/components/template-detail/GetTemplateBtn';
 import Gallery from '@/components/template-detail/Gallery';
 import EarlyOffer from '@/components/template-detail/EarlyOffer';
 import { StrapiTemplateDetail } from '@/lib/template-detail/types';
-import TemplateDetailDescription from './TemplateDetailDescription';
 import FormatCurrency from '../FormatCurrency';
 import { setAttr } from '@directus/visual-editing'
+import RichTextRender from '../RichTextRender';
+import Faq from './Faq';
+import MaterialIcon from '../MaterialIcon';
+import RatingInput from '../RatingInput';
 
 export interface TemplateDetailProps {
 	data: StrapiTemplateDetail
@@ -48,14 +51,24 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 					<div className="col-info">
 						<div className="category-pill">{data.category.emoji} {data.category.name}</div>
 						<h1 className="product-h1">{data.name}</h1>
-						<div className="product-tagline" dangerouslySetInnerHTML={{
-							__html: data.tagline
-						}}></div>
+						{
+							!!data.tagline &&
+							<div className="product-tagline" dangerouslySetInnerHTML={{
+								__html: data.tagline
+							}}></div>
+						}
 
 						<div className="rating-row">
-							<span className="stars" aria-label="5 stars">★★★★★</span>
-							<span className="rating-label">New</span>
-							<span className="early-label">Be the first to review</span>
+							{
+								typeof data.rating === 'number'
+									? <RatingInput value={data.rating} />
+									:
+									<>
+										<span className="rating-label">New</span>
+										<span className="early-label">Be the first to review</span>
+									</>
+
+							}
 						</div>
 
 						<div className="price-row">
@@ -64,29 +77,45 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 								priceClass='price'
 							/>
 						</div>
-						<p className="price-sub">{data.priceSub}</p>
+						{
+							!!data.priceSub &&
+							<p className="price-sub">{data.priceSub}</p>
+						}
 
 						<div id="order">
 							<GetTemplateBtn className="btn-cta" templateId={data.id} />
-							<div className="delivery-note" dangerouslySetInnerHTML={{
-								__html: data.deliveryNote
-							}}></div>
+							{
+								!!data.deliveryNote &&
+								<div className="delivery-note" dangerouslySetInnerHTML={{
+									__html: data.deliveryNote
+								}}></div>
+							}
 						</div>
 
-						<div className="divider"></div>
 
-						<ul className="meta-list">
-							{data.metaList.map((item) => (
-								<li key={item.key} className="meta-item">
-									<span className="meta-key">{item.key}</span>
-									<span className="meta-val">{item.value}</span>
-								</li>
-							))}
-						</ul>
+						{
+							!!data.metaList.length &&
+							(
+								<>
+									<div className="divider"></div>
+									<ul className="meta-list">
+										{data.metaList.map((item) => (
+											<li key={item.key} className="meta-item">
+												<span className="meta-key">{item.key}</span>
+												<span className="meta-val">{item.value}</span>
+											</li>
+										))}
+									</ul>
+								</>
+							)
+						}
 
-						<div className="compat-note" dangerouslySetInnerHTML={{
-							__html: data.compatNote
-						}}></div>
+						{
+							!!data.compatNote &&
+							<div className="compat-note" dangerouslySetInnerHTML={{
+								__html: data.compatNote
+							}}></div>
+						}
 					</div>
 
 					<div className="col-gallery">
@@ -99,7 +128,59 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 			<div className="below">
 				<div className="below-inner">
 
-					<TemplateDetailDescription blocks={data.description} />
+					{
+						!!data.description_html
+						&& (
+							<>
+								<div className="section-divider"></div>
+								<p className="section-label">Specifications</p>
+								<h2 className="section-title">Document and Explanation</h2>
+								<RichTextRender content={data.description_html} />
+
+								<div className="section-divider"></div>
+								<h2 className="section-title">Features Highlight</h2>
+								{
+									!!data.features?.length
+									&& (
+										<div className="feature-grid" aria-label="Key features">
+											{
+												data.features.map((item, index) => (
+													<div key={index} className="feature-card" >
+														{
+															!!item.icon && (
+																<div className="feature-icon" aria-hidden="true">
+																	<MaterialIcon icon={item.icon} color={'#2ead4b'} />
+																</div>
+															)
+														}
+														{
+															!!item.label &&
+															<div className="feature-label">{item.label}</div>
+														}
+														{
+															!!item.desc &&
+															<p className="feature-desc">{item.desc}</p>
+														}
+													</div>
+												))
+											}
+										</div>
+									)
+								}
+							</>
+						)
+					}
+
+					{
+						!!data.faqs?.length && (
+							<>
+								<div className="section-divider"></div>
+								<p className="section-label">Frequently asked</p>
+								<h2 className="section-title">Good questions, real answers</h2>
+								<Faq items={data.faqs} />
+							</>
+						)
+					}
 
 					{
 						!!data.earlyOffer &&
@@ -112,7 +193,7 @@ export default async function TemplateDetail(props: TemplateDetailProps) {
 					}
 
 				</div>
-			</div>
+			</div >
 
 			<div className="sticky-bar" id="sticky-bar" role="complementary" aria-label="Purchase">
 				<div>
