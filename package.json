@@ -18,7 +18,6 @@
     "@aws-sdk/s3-request-presigner": "3.1071.0",
     "@directus/visual-editing": "2.1.0",
     "@opennextjs/cloudflare": "1.20.1",
-    "@strapi/blocks-react-renderer": "^1.0.2",
     "clsx": "^2.1.1",
     "fakeout": "1.0.42",
     "next": "16.2.7",
@@ -38,7 +37,6 @@
     "wrangler": "4.105.0"
   },
   "allowScripts": {
-    "@strapi/blocks-react-renderer@1.0.2": true,
     "sharp@0.34.5": true,
     "unrs-resolver@1.12.2": true,
     "esbuild@0.25.4": true,

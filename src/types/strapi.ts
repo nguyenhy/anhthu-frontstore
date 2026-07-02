@@ -12,14 +12,12 @@
  * - Fields are readonly — never mutate a Strapi response
  */
 
-import type { RichText } from "@/components/RichTextRender";
+import { MarkdownString } from "@/components/MarkdownRenderer";
+import { HTMLString } from "@/components/RichTextRender";
 
 // ---------------------------------------------------------------------------
 // Shared primitives
 // ---------------------------------------------------------------------------
-
-type HTMLString = string;
-type MarkdownString = string;
 
 /** `{ key, value }` pair used in template meta lists. */
 export type StrapiMetaItem = {
@@ -36,7 +34,7 @@ export type StrapiFeatureItem = {
 export type StrapiIncludedCard = {
   readonly icon: string;
   readonly title: string;
-  readonly description: RichText;
+  readonly description: MarkdownString;
 };
 
 /** Single FAQ entry — shared across template and contact pages. */
@@ -80,7 +78,7 @@ export type StrapiPersona = {
 /** Standalone FAQ entry. `shared: true` = site-wide; `false` = template-specific. */
 export type StrapiFaq = {
   readonly label: string;
-  readonly content: RichText;
+  readonly content: MarkdownString;
   readonly shared: boolean;
 };
 
@@ -115,8 +113,8 @@ export type StrapiEarlyOffer = {
   readonly note: MarkdownString;
   readonly item: {
     /** Message shown after buyer submits the early offer form. */
-    readonly submittedMessage: RichText;
-    readonly note: RichText;
+    readonly submittedMessage: MarkdownString;
+    readonly note: MarkdownString;
     readonly coupon: StrapiCoupon;
   };
 };
@@ -191,7 +189,7 @@ export type StrapiIncludedSectionBlock = {
 export type StrapiRichTextBlock = {
   readonly collection: "blocks.rich-text";
   readonly sectionTitle: string;
-  readonly content: RichText;
+  readonly content: MarkdownString;
 };
 
 export type StrapiFaqBlock = {
@@ -379,8 +377,8 @@ export type StrapiSupportHero = {
 export type StrapiSupportInfoCard = {
   readonly icon: string;
   readonly title: string;
-  readonly content: RichText;
-  readonly footnote?: RichText;
+  readonly content: MarkdownString;
+  readonly footnote?: MarkdownString;
 };
 
 /** Support single type — drives the support page UI. */
